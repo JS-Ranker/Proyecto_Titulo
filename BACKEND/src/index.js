@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 import duenosRoutes from './routes/duenos.routes.js';
+import mascotasRoutes from './routes/mascotas.routes.js';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/duenos', duenosRoutes);
+app.use('/api/mascotas', mascotasRoutes);
 
 app.get('/', (req, res) => {
   res.send('API de Clínica Veterinaria funcionando!');

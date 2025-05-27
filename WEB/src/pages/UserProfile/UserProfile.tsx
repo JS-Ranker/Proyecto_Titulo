@@ -1,4 +1,4 @@
-// WEB/src/pages/UserProfile/UserProfile.tsx
+
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaIdCard, FaEnvelope, FaPhone, FaLock, FaEdit, FaSave, FaTimes, FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -7,33 +7,33 @@ import { apiService } from '../../services/duenos';
 import styles from './UserProfile.module.css';
 
 interface UserData {
-  rut: string;
-  nombre: string;
-  apellido: string;
-  email: string;
-  telefono: string | null;
-  password: string;
-  pets?: Pet[];
+rut: string;
+nombre: string;
+apellido: string;
+email: string;
+telefono: string | null;
+password: string;
+pets?: Pet[];
 }
 
 interface Pet {
-  id: number;
-  name: string;
-  type: string;
-  age: number;
+id: number;
+name: string;
+type: string;
+age: number;
 }
 
 const UserProfile: React.FC = () => {
-  const { getCurrentUserRut, logout } = useAuth();
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editForm, setEditForm] = useState<UserData | null>(null);
-  const [updating, setUpdating] = useState<boolean>(false);
-  const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
+const { getCurrentUserRut, logout } = useAuth();
+const [userData, setUserData] = useState<UserData | null>(null);
+const [loading, setLoading] = useState<boolean>(true);
+const [error, setError] = useState<string>('');
+const [isEditing, setIsEditing] = useState<boolean>(false);
+const [editForm, setEditForm] = useState<UserData | null>(null);
+const [updating, setUpdating] = useState<boolean>(false);
+const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
 
-  useEffect(() => {
+useEffect(() => {
     loadUserData();
   }, []);
 
@@ -59,9 +59,9 @@ const UserProfile: React.FC = () => {
   const handleEdit = () => {
     setIsEditing(true);
     setUpdateSuccess(false);
-  };
+};
 
-  const handleCancelEdit = () => {
+const handleCancelEdit = () => {
     setIsEditing(false);
     setEditForm(userData);
   };
