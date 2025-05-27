@@ -1,15 +1,13 @@
-
-
 .pageContainer {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2FB8C6 0%, #A9E5BB 100%);
   padding: 2rem 1rem;
 }
 
 .profileContainer {
   max-width: 800px;
   margin: 0 auto;
-  background: white;
+  background: #FAFAF9;
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -55,9 +53,9 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.2);
+  background: #FF8C70;
   color: white;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid #FF8C70;
   padding: 0.75rem 1.5rem;
   border-radius: 10px;
   font-weight: 600;
@@ -66,7 +64,8 @@
 }
 
 .editButton:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: #ff7a5a;
+  border-color: #ff7a5a;
   transform: translateY(-2px);
 }
 
@@ -94,6 +93,7 @@
 
 .profileCard {
   padding: 2rem;
+  background: #FAFAF9;
 }
 
 .userInfo {
@@ -120,27 +120,28 @@
 
 .fieldHeader label {
   font-weight: 600;
-  color: #333;
+  color: #333333;
   font-size: 1rem;
 }
 
 .fieldValue {
   padding: 1rem;
-  background: #f8f9fa;
+  background: #FAFAF9;
   border-radius: 10px;
   font-size: 1rem;
-  color: #555;
-  border: 2px solid transparent;
+  color: #666666;
+  border: 2px solid #e8e8e7;
   transition: all 0.3s ease;
 }
 
 .editInput {
   padding: 1rem;
-  border: 2px solid #e1e5e9;
+  border: 2px solid #e8e8e7;
   border-radius: 10px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: white;
+  background: #FAFAF9;
+  color: #333333;
 }
 
 .editInput:focus {
@@ -186,14 +187,15 @@
 }
 
 .cancelButton {
-  background: #f8f9fa;
-  color: #666;
-  border: 2px solid #e1e5e9;
+  background: #FAFAF9;
+  color: #666666;
+  border: 2px solid #e8e8e7;
 }
 
 .cancelButton:hover:not(:disabled) {
-  background: #e9ecef;
+  background: #f0f0ef;
   transform: translateY(-2px);
+  border-color: #d0d0cf;
 }
 
 .buttonSpinner {
@@ -213,12 +215,13 @@
 .petsSection {
   margin-top: 2rem;
   padding: 2rem;
-  border-top: 1px solid #e1e5e9;
+  border-top: 1px solid #e8e8e7;
+  background: #FAFAF9;
 }
 
 .petsSection h2 {
   margin: 0 0 1.5rem 0;
-  color: #333;
+  color: #333333;
   font-size: 1.5rem;
 }
 
@@ -235,10 +238,12 @@
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .petCard:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(47, 184, 198, 0.2);
 }
 
 .petCard h3 {
@@ -286,18 +291,19 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.2);
+  background: #FF8C70;
   color: white;
   text-decoration: none;
   padding: 1rem 2rem;
   border-radius: 10px;
   font-weight: 600;
   transition: all 0.3s ease;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid #FF8C70;
 }
 
 .backButton:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: #ff7a5a;
+  border-color: #ff7a5a;
   transform: translateY(-2px);
 }
 
