@@ -9,7 +9,7 @@ import Footer from "./components/common/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-import User from "./pages/User/User";
+import UserProfile from './pages/UserProfile/UserProfile';
 import AddPet from "./pages/AddPet/AddPet";
 import Shop from "./pages/Shop/Shop";
 import EspecialidadesPage from "./pages/EspecialidadesPage/EspecialidadesPage";
@@ -42,7 +42,7 @@ const AppContent = () => {
         <Route path="/endocrinologia" element={<Endocrinologia />} />
         <Route path="/gastroenterologia" element={<Gastroenterologia />} />
         <Route path="/oncologia" element={<Oncologia />} />
-        <Route path="/user" element={<ProtectedRoute><User /></ProtectedRoute>} />
+        <Route path="/userProfile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
         <Route path="/add-pet" element={<ProtectedRoute><AddPet /></ProtectedRoute>} />
       </Routes>
       <Footer />
