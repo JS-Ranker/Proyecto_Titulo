@@ -1,58 +1,63 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+// WEB/src/utils/AuthContext.tsx
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+interface User {
+  rut: string;
+}
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  user: { rut: string } | null;
-  login: (userData: { rut: string }) => void;
+  user: User | null;
+  login: (userData: User) => void;
   logout: () => void;
+  getCurrentUserRut: () => string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
-
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [user, setUser] = useState<{ rut: string } | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
-  // Verificar estado de autenticación al cargar la aplicación
+  // Verificar si hay una sesión guardada al cargar la app
   useEffect(() => {
-    const storedRut = localStorage.getItem("rut");
-    if (storedRut) {
-      setIsLoggedIn(true);
-      setUser({ rut: storedRut });
+    const savedUser = localStorage.getItem('happypet_user');
+    if (savedUser) {
+      try {
+        const userData = JSON.parse(savedUser);
+        setUser(userData);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error('Error parsing saved user data:', error);
+        localStorage.removeItem('happypet_user');
+      }
     }
   }, []);
 
-  const login = (userData: { rut: string }) => {
-    localStorage.setItem("rut", userData.rut);
-    setIsLoggedIn(true);
+  const login = (userData: User) => {
     setUser(userData);
+    setIsLoggedIn(true);
+    // Guardar en localStorage
+    localStorage.setItem('happypet_user', JSON.stringify(userData));
   };
 
   const logout = () => {
-    localStorage.removeItem("rut");
-    localStorage.removeItem("token"); 
-    localStorage.removeItem("currentUser"); 
-    setIsLoggedIn(false);
     setUser(null);
+    setIsLoggedIn(false);
+    // Limpiar localStorage
+    localStorage.removeItem('happypet_user');
   };
 
-  const value = {
+  const getCurrentUserRut = (): string | null => {
+    return user?.rut || null;
+  };
+
+  const value: AuthContextType = {
     isLoggedIn,
     user,
     login,
     logout,
+    getCurrentUserRut
   };
 
   return (
@@ -60,4 +65,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };

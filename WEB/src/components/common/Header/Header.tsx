@@ -92,7 +92,7 @@ const Header = () => {
                   <>
                     <li className={styles.navItem}>
                     <NavLink
-                      to="/user"
+                      to="/UserProfile"
                       className={({ isActive }) =>
                         isActive? `${styles.navLink} ${styles.activeNavLink}`: styles.navLink} 
                     onClick={closeMenu}>
