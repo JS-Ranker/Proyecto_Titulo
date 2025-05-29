@@ -3,6 +3,7 @@ import { FaUser, FaIdCard, FaEnvelope, FaPhone, FaLock, FaEdit, FaSave, FaTimes,
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../utils/AuthContext';
 import { apiService } from '../../services/duenos';
+import { mascotasService } from '../../services/mascotas'; // Asegúrate de importar el servicio
 import styles from './UserProfile.module.css';
 
 // Tipos
@@ -500,20 +501,26 @@ const PasswordField: React.FC<{
 };
 
 // Componente de sección de mascotas con botón
-const PetsSection: React.FC<{ pets: Pet[] }> = ({ pets }) => (
+const PetsSection: React.FC<{ pets: any[] }> = ({ pets }) => (
   <div className={styles.petsSection}>
     <div className={styles.petsSectionHeader}>
       <h2>🐾 Mis Mascotas</h2>
       <Link to="/mascotas" className={styles.viewAllPetsButton}>
-        <FaPaw /> Ver todas mis mascotas
+        <FaPaw /> Ver y gestionar mascotas
       </Link>
     </div>
     <div className={styles.petsGrid}>
-      {pets.map((pet) => (
+      {pets.map(pet => (
         <div key={pet.id} className={styles.petCard}>
-          <h3>🐕 {pet.name}</h3>
-          <p><strong>Tipo:</strong> {pet.type}</p>
-          <p><strong>Edad:</strong> {pet.age} años</p>
+          {pet.url_imagen_mascota && (
+            <img
+              src={pet.url_imagen_mascota}
+              alt={pet.nombre}
+              className={styles.petImage}
+              style={{ width: '100%', height: 140, objectFit: 'cover', borderRadius: 12, marginBottom: 12 }}
+            />
+          )}
+          <h3>{pet.nombre}</h3>
         </div>
       ))}
     </div>
@@ -523,6 +530,10 @@ const PetsSection: React.FC<{ pets: Pet[] }> = ({ pets }) => (
 // Componente principal
 const UserProfile: React.FC = () => {
   const { userData, setUserData, loading, error } = useUserData();
+  // Nuevo estado para las mascotas
+  const [mascotas, setMascotas] = useState<any[]>([]);
+  const [loadingMascotas, setLoadingMascotas] = useState(false);
+
   const {
     emailState,
     telefonoState,
@@ -536,106 +547,123 @@ const UserProfile: React.FC = () => {
     togglePasswordVisibility,
   } = useEditableFields(userData);
 
-// Función corregida para guardar campos
-const handleSaveField = useCallback(async (field: EditableField) => {
-  if (!userData) return;
+  // Función corregida para guardar campos
+  const handleSaveField = useCallback(async (field: EditableField) => {
+    if (!userData) return;
 
-  const setUpdating = (isUpdating: boolean) => {
-    switch (field) {
-      case 'email':
-        setEmailState(prev => ({ ...prev, isUpdating }));
-        break;
-      case 'telefono':
-        setTelefonoState(prev => ({ ...prev, isUpdating }));
-        break;
-      case 'password':
-        setPasswordState(prev => ({ ...prev, isUpdating }));
-        break;
-    }
-  };
-
-  const showSuccess = () => {
-    switch (field) {
-      case 'email':
-        setEmailState(prev => ({ ...prev, showSuccess: true, isEditing: false }));
-        setTimeout(() => setEmailState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
-        break;
-      case 'telefono':
-        setTelefonoState(prev => ({ ...prev, showSuccess: true, isEditing: false }));
-        setTimeout(() => setTelefonoState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
-        break;
-      case 'password':
-        setPasswordState(prev => ({ 
-          ...prev, 
-          showSuccess: true, 
-          isEditing: false,
-          value: '',
-          confirmPassword: '',
-          currentPassword: '',
-        }));
-        setTimeout(() => setPasswordState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
-        break;
-    }
-  };
-
-  // Validaciones específicas
-  if (field === 'password') {
-    if (!passwordState.currentPassword) {
-      alert(ERROR_MESSAGES.PASSWORD_REQUIRED);
-      return;
-    }
-    if (passwordState.value.length < 6) {
-      alert(ERROR_MESSAGES.PASSWORD_TOO_SHORT);
-      return;
-    }
-    if (passwordState.value !== passwordState.confirmPassword) {
-      alert(ERROR_MESSAGES.PASSWORD_MISMATCH);
-      return;
-    }
-  }
-
-  setUpdating(true);
-  try {
-    // CORRECCIÓN: Usar la contraseña actual del estado o una por defecto
-    const currentPassword = passwordState.currentPassword || userData.password || '';
-    
-    const updateData = {
-      nombre: userData.nombre,
-      apellido: userData.apellido,
-      email: userData.email,
-      telefono: userData.telefono,
-      password: currentPassword, // Usar contraseña actual por defecto
+    const setUpdating = (isUpdating: boolean) => {
+      switch (field) {
+        case 'email':
+          setEmailState(prev => ({ ...prev, isUpdating }));
+          break;
+        case 'telefono':
+          setTelefonoState(prev => ({ ...prev, isUpdating }));
+          break;
+        case 'password':
+          setPasswordState(prev => ({ ...prev, isUpdating }));
+          break;
+      }
     };
 
-    // Actualizar solo el campo específico
-    switch (field) {
-      case 'email':
-        updateData.email = emailState.value;
-        break;
-      case 'telefono':
-        updateData.telefono = telefonoState.value || '';
-        break;
-      case 'password':
-        // Para contraseña, usar la nueva contraseña
-        updateData.password = passwordState.value;
-        break;
+    const showSuccess = () => {
+      switch (field) {
+        case 'email':
+          setEmailState(prev => ({ ...prev, showSuccess: true, isEditing: false }));
+          setTimeout(() => setEmailState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
+          break;
+        case 'telefono':
+          setTelefonoState(prev => ({ ...prev, showSuccess: true, isEditing: false }));
+          setTimeout(() => setTelefonoState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
+          break;
+        case 'password':
+          setPasswordState(prev => ({ 
+            ...prev, 
+            showSuccess: true, 
+            isEditing: false,
+            value: '',
+            confirmPassword: '',
+            currentPassword: '',
+          }));
+          setTimeout(() => setPasswordState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
+          break;
+      }
+    };
+
+    // Validaciones específicas
+    if (field === 'password') {
+      if (!passwordState.currentPassword) {
+        alert(ERROR_MESSAGES.PASSWORD_REQUIRED);
+        return;
+      }
+      if (passwordState.value.length < 6) {
+        alert(ERROR_MESSAGES.PASSWORD_TOO_SHORT);
+        return;
+      }
+      if (passwordState.value !== passwordState.confirmPassword) {
+        alert(ERROR_MESSAGES.PASSWORD_MISMATCH);
+        return;
+      }
     }
 
-    console.log('Enviando datos:', updateData); // Para debug
+    setUpdating(true);
+    try {
+      // CORRECCIÓN: Usar la contraseña actual del estado o una por defecto
+      const currentPassword = passwordState.currentPassword || userData.password || '';
+      
+      const updateData = {
+        nombre: userData.nombre,
+        apellido: userData.apellido,
+        email: userData.email,
+        telefono: userData.telefono,
+        password: currentPassword, // Usar contraseña actual por defecto
+      };
 
-    await apiService.actualizarDueno(userData.rut, updateData);
+      // Actualizar solo el campo específico
+      switch (field) {
+        case 'email':
+          updateData.email = emailState.value;
+          break;
+        case 'telefono':
+          updateData.telefono = telefonoState.value || '';
+          break;
+        case 'password':
+          // Para contraseña, usar la nueva contraseña
+          updateData.password = passwordState.value;
+          break;
+      }
 
-    // Actualizar userData local
-    setUserData({ ...userData, ...updateData });
-    showSuccess();
-  } catch (err: any) {
-    console.error(`Error updating ${field}:`, err);
-    alert(err?.response?.data?.error || ERROR_MESSAGES.UPDATE_ERROR);
-  } finally {
-    setUpdating(false);
-  }
-}, [userData, setUserData, emailState, telefonoState, passwordState, setEmailState, setTelefonoState, setPasswordState]);
+      console.log('Enviando datos:', updateData); // Para debug
+
+      await apiService.actualizarDueno(userData.rut, updateData);
+
+      // Actualizar userData local
+      setUserData({ ...userData, ...updateData });
+      showSuccess();
+    } catch (err: any) {
+      console.error(`Error updating ${field}:`, err);
+      alert(err?.response?.data?.error || ERROR_MESSAGES.UPDATE_ERROR);
+    } finally {
+      setUpdating(false);
+    }
+  }, [userData, setUserData, emailState, telefonoState, passwordState, setEmailState, setTelefonoState, setPasswordState]);
   
+  // Cargar mascotas del usuario logueado
+  useEffect(() => {
+    const fetchMascotas = async () => {
+      if (!userData?.rut) return;
+      setLoadingMascotas(true);
+      try {
+        const response = await mascotasService.obtenerMascotasPorDueno(userData.rut);
+        setMascotas(response.data);
+      } catch (err) {
+        setMascotas([]);
+      } finally {
+        setLoadingMascotas(false);
+      }
+    };
+    fetchMascotas();
+  }, [userData?.rut]);
+
   // Memoizar datos computados
   const userName = useMemo(() => 
     userData ? `${userData.nombre} ${userData.apellido}` : 'Usuario',
@@ -715,8 +743,14 @@ const handleSaveField = useCallback(async (field: EditableField) => {
         </div>
 
         {/* Sección de mascotas con botón siempre visible */}
-        {hasPets ? (
-          <PetsSection pets={userData.pets!} />
+        {loadingMascotas ? (
+          <div style={{ textAlign: 'center', margin: '2rem' }}>Cargando mascotas...</div>
+        ) : mascotas.length > 0 ? (
+          <PetsSection pets={mascotas.map(m => ({
+  id: m.id_mascota,
+  nombre: m.nombre_mascota,
+  url_imagen_mascota: m.url_imagen_mascota,
+}))} />
         ) : (
           <div className={styles.petsSection}>
             <div className={styles.petsSectionHeader}>
@@ -736,5 +770,17 @@ const handleSaveField = useCallback(async (field: EditableField) => {
     </div>
   );
 };
+
+// Función auxiliar para calcular la edad desde la fecha de nacimiento
+function calcularEdad(fechaNac: string) {
+  const nacimiento = new Date(fechaNac);
+  const hoy = new Date();
+  let edad = hoy.getFullYear() - nacimiento.getFullYear();
+  const m = hoy.getMonth() - nacimiento.getMonth();
+  if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+    edad--;
+  }
+  return edad;
+}
 
 export default UserProfile;
