@@ -530,101 +530,105 @@ const UserProfile: React.FC = () => {
     togglePasswordVisibility,
   } = useEditableFields(userData);
 
-  // Función para validar y guardar cada campo
-  const handleSaveField = useCallback(async (field: EditableField) => {
-    if (!userData) return;
+// Función corregida para guardar campos
+const handleSaveField = useCallback(async (field: EditableField) => {
+  if (!userData) return;
 
-    const setUpdating = (isUpdating: boolean) => {
-      switch (field) {
-        case 'email':
-          setEmailState(prev => ({ ...prev, isUpdating }));
-          break;
-        case 'telefono':
-          setTelefonoState(prev => ({ ...prev, isUpdating }));
-          break;
-        case 'password':
-          setPasswordState(prev => ({ ...prev, isUpdating }));
-          break;
-      }
+  const setUpdating = (isUpdating: boolean) => {
+    switch (field) {
+      case 'email':
+        setEmailState(prev => ({ ...prev, isUpdating }));
+        break;
+      case 'telefono':
+        setTelefonoState(prev => ({ ...prev, isUpdating }));
+        break;
+      case 'password':
+        setPasswordState(prev => ({ ...prev, isUpdating }));
+        break;
+    }
+  };
+
+  const showSuccess = () => {
+    switch (field) {
+      case 'email':
+        setEmailState(prev => ({ ...prev, showSuccess: true, isEditing: false }));
+        setTimeout(() => setEmailState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
+        break;
+      case 'telefono':
+        setTelefonoState(prev => ({ ...prev, showSuccess: true, isEditing: false }));
+        setTimeout(() => setTelefonoState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
+        break;
+      case 'password':
+        setPasswordState(prev => ({ 
+          ...prev, 
+          showSuccess: true, 
+          isEditing: false,
+          value: '',
+          confirmPassword: '',
+          currentPassword: '',
+        }));
+        setTimeout(() => setPasswordState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
+        break;
+    }
+  };
+
+  // Validaciones específicas
+  if (field === 'password') {
+    if (!passwordState.currentPassword) {
+      alert(ERROR_MESSAGES.PASSWORD_REQUIRED);
+      return;
+    }
+    if (passwordState.value.length < 6) {
+      alert(ERROR_MESSAGES.PASSWORD_TOO_SHORT);
+      return;
+    }
+    if (passwordState.value !== passwordState.confirmPassword) {
+      alert(ERROR_MESSAGES.PASSWORD_MISMATCH);
+      return;
+    }
+  }
+
+  setUpdating(true);
+  try {
+    // CORRECCIÓN: Usar la contraseña actual del estado o una por defecto
+    const currentPassword = passwordState.currentPassword || userData.password || '';
+    
+    const updateData = {
+      nombre: userData.nombre,
+      apellido: userData.apellido,
+      email: userData.email,
+      telefono: userData.telefono,
+      password: currentPassword, // Usar contraseña actual por defecto
     };
 
-    const showSuccess = () => {
-      switch (field) {
-        case 'email':
-          setEmailState(prev => ({ ...prev, showSuccess: true, isEditing: false }));
-          setTimeout(() => setEmailState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
-          break;
-        case 'telefono':
-          setTelefonoState(prev => ({ ...prev, showSuccess: true, isEditing: false }));
-          setTimeout(() => setTelefonoState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
-          break;
-        case 'password':
-          setPasswordState(prev => ({ 
-            ...prev, 
-            showSuccess: true, 
-            isEditing: false,
-            value: '',
-            confirmPassword: '',
-            currentPassword: '',
-          }));
-          setTimeout(() => setPasswordState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
-          break;
-      }
-    };
-
-    // Validaciones específicas
-    if (field === 'password') {
-      if (!passwordState.currentPassword) {
-        alert(ERROR_MESSAGES.PASSWORD_REQUIRED);
-        return;
-      }
-      if (passwordState.value.length < 6) {
-        alert(ERROR_MESSAGES.PASSWORD_TOO_SHORT);
-        return;
-      }
-      if (passwordState.value !== passwordState.confirmPassword) {
-        alert(ERROR_MESSAGES.PASSWORD_MISMATCH);
-        return;
-      }
+    // Actualizar solo el campo específico
+    switch (field) {
+      case 'email':
+        updateData.email = emailState.value;
+        break;
+      case 'telefono':
+        updateData.telefono = telefonoState.value || '';
+        break;
+      case 'password':
+        // Para contraseña, usar la nueva contraseña
+        updateData.password = passwordState.value;
+        break;
     }
 
-    setUpdating(true);
-    try {
-      const updateData = {
-        nombre: userData.nombre,
-        apellido: userData.apellido,
-        email: userData.email,
-        telefono: userData.telefono,
-        password: userData.password,
-      };
+    console.log('Enviando datos:', updateData); // Para debug
 
-      // Actualizar solo el campo específico
-      switch (field) {
-        case 'email':
-          updateData.email = emailState.value;
-          break;
-        case 'telefono':
-          updateData.telefono = telefonoState.value || null;
-          break;
-        case 'password':
-          // Aquí podrías verificar la contraseña actual con el backend
-          updateData.password = passwordState.value;
-          break;
-      }
+    await apiService.actualizarDueno(userData.rut, updateData);
 
-      await apiService.actualizarDueno(userData.rut, updateData);
-
-      // Actualizar userData local
-      setUserData({ ...userData, ...updateData });
-      showSuccess();
-    } catch (err: any) {
-      console.error(`Error updating ${field}:`, err);
-      alert(err?.response?.data?.error || ERROR_MESSAGES.UPDATE_ERROR);
-    } finally {
-      setUpdating(false);
-    }
-  }, [userData, setUserData, emailState, telefonoState, passwordState, setEmailState, setTelefonoState, setPasswordState]);
-
+    // Actualizar userData local
+    setUserData({ ...userData, ...updateData });
+    showSuccess();
+  } catch (err: any) {
+    console.error(`Error updating ${field}:`, err);
+    alert(err?.response?.data?.error || ERROR_MESSAGES.UPDATE_ERROR);
+  } finally {
+    setUpdating(false);
+  }
+}, [userData, setUserData, emailState, telefonoState, passwordState, setEmailState, setTelefonoState, setPasswordState]);
   // Memoizar datos computados
   const userName = useMemo(() => 
     userData ? `${userData.nombre} ${userData.apellido}` : 'Usuario',
