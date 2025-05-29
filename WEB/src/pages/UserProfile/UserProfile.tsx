@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { FaUser, FaIdCard, FaEnvelope, FaPhone, FaLock, FaEdit, FaSave, FaTimes, FaArrowLeft } from 'react-icons/fa';
+import { FaUser, FaIdCard, FaEnvelope, FaPhone, FaLock, FaEdit, FaSave, FaTimes, FaArrowLeft, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../utils/AuthContext';
 import { apiService } from '../../services/duenos';
 import styles from './UserProfile.module.css';
 
-// Tipos más específicos y mejor organizados
+// Tipos
 interface Pet {
   id: number;
   name: string;
@@ -23,13 +23,22 @@ interface UserData {
   pets?: Pet[];
 }
 
-// Coincidir exactamente con UpdateDuenoData del backend
-interface EditableUserData {
-  nombre: string;
-  apellido: string;
-  email: string;
-  telefono: string | null;
-  password: string;
+// Tipos para campos editables individualmente
+type EditableField = 'email' | 'telefono' | 'password';
+
+interface FieldState {
+  isEditing: boolean;
+  value: string;
+  isUpdating: boolean;
+  showSuccess: boolean;
+}
+
+interface PasswordState extends FieldState {
+  showPassword: boolean;
+  showConfirmPassword: boolean;
+  confirmPassword: string;
+  currentPassword: string;
+  showCurrentPassword: boolean;
 }
 
 // Constantes
@@ -38,9 +47,12 @@ const ERROR_MESSAGES = {
   NO_USER: 'No se encontró información del usuario',
   LOAD_ERROR: 'Error al cargar los datos del usuario',
   UPDATE_ERROR: 'Error al actualizar los datos',
+  PASSWORD_MISMATCH: 'Las contraseñas no coinciden',
+  PASSWORD_REQUIRED: 'La contraseña actual es requerida',
+  PASSWORD_TOO_SHORT: 'La contraseña debe tener al menos 6 caracteres',
 } as const;
 
-// Custom hooks para separar lógica
+// Custom hook para manejar datos de usuario
 const useUserData = () => {
   const { getCurrentUserRut } = useAuth();
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -72,60 +84,141 @@ const useUserData = () => {
     loadUserData();
   }, [loadUserData]);
 
-  return { userData, setUserData, loading, error, loadUserData };
+  return { userData, setUserData, loading, error };
 };
 
-const useEditMode = (userData: UserData | null) => {
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editForm, setEditForm] = useState<EditableUserData | null>(null);
-  const [updating, setUpdating] = useState<boolean>(false);
-  const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
+// Custom hook para manejar campos editables
+const useEditableFields = (userData: UserData | null) => {
+  const [emailState, setEmailState] = useState<FieldState>({
+    isEditing: false,
+    value: '',
+    isUpdating: false,
+    showSuccess: false,
+  });
 
-  // Inicializar formulario cuando userData cambie
+  const [telefonoState, setTelefonoState] = useState<FieldState>({
+    isEditing: false,
+    value: '',
+    isUpdating: false,
+    showSuccess: false,
+  });
+
+  const [passwordState, setPasswordState] = useState<PasswordState>({
+    isEditing: false,
+    value: '',
+    isUpdating: false,
+    showSuccess: false,
+    showPassword: false,
+    showConfirmPassword: false,
+    confirmPassword: '',
+    currentPassword: '',
+    showCurrentPassword: false,
+  });
+
+  // Inicializar valores cuando userData cambie
   useEffect(() => {
     if (userData) {
-      const { rut, pets, ...editableData } = userData;
-      setEditForm(editableData);
+      setEmailState(prev => ({ ...prev, value: userData.email }));
+      setTelefonoState(prev => ({ ...prev, value: userData.telefono || '' }));
     }
   }, [userData]);
 
-  const startEditing = useCallback(() => {
-    setIsEditing(true);
-    setUpdateSuccess(false);
+  const startEditing = useCallback((field: EditableField) => {
+    switch (field) {
+      case 'email':
+        setEmailState(prev => ({ ...prev, isEditing: true, showSuccess: false }));
+        break;
+      case 'telefono':
+        setTelefonoState(prev => ({ ...prev, isEditing: true, showSuccess: false }));
+        break;
+      case 'password':
+        setPasswordState(prev => ({
+          ...prev,
+          isEditing: true,
+          showSuccess: false,
+          value: '',
+          confirmPassword: '',
+          currentPassword: '',
+        }));
+        break;
+    }
   }, []);
 
-  const cancelEditing = useCallback(() => {
-    setIsEditing(false);
-    if (userData) {
-      const { rut, pets, ...editableData } = userData;
-      setEditForm(editableData);
+  const cancelEditing = useCallback((field: EditableField) => {
+    switch (field) {
+      case 'email':
+        setEmailState(prev => ({
+          ...prev,
+          isEditing: false,
+          value: userData?.email || '',
+        }));
+        break;
+      case 'telefono':
+        setTelefonoState(prev => ({
+          ...prev,
+          isEditing: false,
+          value: userData?.telefono || '',
+        }));
+        break;
+      case 'password':
+        setPasswordState(prev => ({
+          ...prev,
+          isEditing: false,
+          value: '',
+          confirmPassword: '',
+          currentPassword: '',
+          showPassword: false,
+          showConfirmPassword: false,
+          showCurrentPassword: false,
+        }));
+        break;
     }
   }, [userData]);
 
-  const stopEditing = useCallback(() => {
-    setIsEditing(false);
+  const updateFieldValue = useCallback((field: EditableField, value: string, extraField?: string) => {
+    switch (field) {
+      case 'email':
+        setEmailState(prev => ({ ...prev, value }));
+        break;
+      case 'telefono':
+        setTelefonoState(prev => ({ ...prev, value }));
+        break;
+      case 'password':
+        if (extraField === 'confirm') {
+          setPasswordState(prev => ({ ...prev, confirmPassword: value }));
+        } else if (extraField === 'current') {
+          setPasswordState(prev => ({ ...prev, currentPassword: value }));
+        } else {
+          setPasswordState(prev => ({ ...prev, value }));
+        }
+        break;
+    }
   }, []);
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setEditForm(prev => prev ? { ...prev, [name]: value } : null);
+  const togglePasswordVisibility = useCallback((type: 'new' | 'confirm' | 'current') => {
+    setPasswordState(prev => ({
+      ...prev,
+      ...(type === 'new' && { showPassword: !prev.showPassword }),
+      ...(type === 'confirm' && { showConfirmPassword: !prev.showConfirmPassword }),
+      ...(type === 'current' && { showCurrentPassword: !prev.showCurrentPassword }),
+    }));
   }, []);
 
   return {
-    isEditing,
-    editForm,
-    updating,
-    updateSuccess,
-    setUpdating,
-    setUpdateSuccess,
+    emailState,
+    telefonoState,
+    passwordState,
+    setEmailState,
+    setTelefonoState,
+    setPasswordState,
     startEditing,
     cancelEditing,
-    stopEditing,
-    handleInputChange,
+    updateFieldValue,
+    togglePasswordVisibility,
   };
 };
 
-// Componentes separados para mejor organización
+// Componentes
 const LoadingSpinner: React.FC = () => (
   <div className={styles.pageContainer}>
     <div className={styles.loadingContainer}>
@@ -147,17 +240,7 @@ const ErrorDisplay: React.FC<{ error: string }> = ({ error }) => (
   </div>
 );
 
-const SuccessMessage: React.FC = () => (
-  <div className={styles.successMessage}>
-    ¡Perfil actualizado exitosamente!
-  </div>
-);
-
-const ProfileHeader: React.FC<{ 
-  isEditing: boolean; 
-  onEdit: () => void; 
-  userName: string;
-}> = ({ isEditing, onEdit, userName }) => (
+const ProfileHeader: React.FC<{ userName: string }> = ({ userName }) => (
   <div className={styles.header}>
     <Link to="/" className={styles.backLink}>
       <FaArrowLeft /> Volver al inicio
@@ -170,88 +253,245 @@ const ProfileHeader: React.FC<{
         Gestiona tu información personal
       </p>
     </div>
-    {!isEditing && (
-      <button onClick={onEdit} className={styles.editButton}>
-        <FaEdit /> Editar
-      </button>
-    )}
   </div>
 );
 
-interface ProfileFieldProps {
+// Componente para campos no editables
+const ReadOnlyField: React.FC<{
   icon: React.ComponentType<{ className?: string }>;
   label: string;
   value: string;
-  isEditing: boolean;
-  name?: string;
-  type?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  editValue?: string;
-}
-
-const ProfileField: React.FC<ProfileFieldProps> = ({
-  icon: Icon,
-  label,
-  value,
-  isEditing,
-  name,
-  type = 'text',
-  onChange,
-  editValue,
-}) => (
+}> = ({ icon: Icon, label, value }) => (
   <div className={styles.field}>
     <div className={styles.fieldHeader}>
       <Icon className={styles.fieldIcon} />
       <label>{label}</label>
     </div>
-    {isEditing && name && onChange ? (
-      <input
-        type={type}
-        name={name}
-        value={editValue || ''}
-        onChange={onChange}
-        className={styles.editInput}
-        placeholder={`Ingresa tu ${label.toLowerCase()}`}
-      />
-    ) : (
-      <div className={styles.fieldValue}>
-        {value}
-      </div>
-    )}
+    <div className={styles.fieldValue}>
+      {value}
+    </div>
   </div>
 );
 
-const EditActions: React.FC<{
-  onSave: () => void;
-  onCancel: () => void;
-  updating: boolean;
-}> = ({ onSave, onCancel, updating }) => (
-  <div className={styles.editActions}>
-    <button 
-      onClick={onSave} 
-      className={styles.saveButton}
-      disabled={updating}
-    >
-      {updating ? (
-        <>
-          <div className={styles.buttonSpinner}></div>
-          Guardando...
-        </>
-      ) : (
-        <>
-          <FaSave /> Guardar Cambios
-        </>
+// Componente para campos editables individualmente
+const EditableField: React.FC<{
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string;
+  fieldState: FieldState;
+  fieldType: EditableField;
+  inputType?: string;
+  onEdit: (field: EditableField) => void;
+  onCancel: (field: EditableField) => void;
+  onSave: (field: EditableField) => Promise<void>;
+  onChange: (field: EditableField, value: string) => void;
+}> = ({
+  icon: Icon,
+  label,
+  value,
+  fieldState,
+  fieldType,
+  inputType = 'text',
+  onEdit,
+  onCancel,
+  onSave,
+  onChange,
+}) => {
+  const handleSave = () => onSave(fieldType);
+  const handleCancel = () => onCancel(fieldType);
+  const handleEdit = () => onEdit(fieldType);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => 
+    onChange(fieldType, e.target.value);
+
+  return (
+    <div className={styles.field}>
+      <div className={styles.fieldHeader}>
+        <Icon className={styles.fieldIcon} />
+        <label>{label}</label>
+        {!fieldState.isEditing && (
+          <button
+            onClick={handleEdit}
+            className={styles.editFieldButton}
+            title={`Editar ${label.toLowerCase()}`}
+          >
+            <FaEdit />
+          </button>
+        )}
+      </div>
+
+      {fieldState.showSuccess && (
+        <div className={styles.fieldSuccess}>
+          ✓ {label} actualizado correctamente
+        </div>
       )}
-    </button>
-    <button 
-      onClick={onCancel} 
-      className={styles.cancelButton}
-      disabled={updating}
-    >
-      <FaTimes /> Cancelar
-    </button>
-  </div>
-);
+
+      {fieldState.isEditing ? (
+        <div className={styles.editFieldContainer}>
+          <input
+            type={inputType}
+            value={fieldState.value}
+            onChange={handleChange}
+            className={styles.editInput}
+            placeholder={`Nuevo ${label.toLowerCase()}`}
+            autoFocus
+          />
+          <div className={styles.fieldActions}>
+            <button
+              onClick={handleSave}
+              className={styles.saveFieldButton}
+              disabled={fieldState.isUpdating}
+            >
+              {fieldState.isUpdating ? (
+                <div className={styles.buttonSpinner}></div>
+              ) : (
+                <FaSave />
+              )}
+            </button>
+            <button
+              onClick={handleCancel}
+              className={styles.cancelFieldButton}
+              disabled={fieldState.isUpdating}
+            >
+              <FaTimes />
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.fieldValue}>
+          {inputType === 'password' ? '••••••••' : (value || 'No especificado')}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Componente especializado para contraseña
+const PasswordField: React.FC<{
+  passwordState: PasswordState;
+  onEdit: (field: EditableField) => void;
+  onCancel: (field: EditableField) => void;
+  onSave: (field: EditableField) => Promise<void>;
+  onChange: (field: EditableField, value: string, extra?: string) => void;
+  onToggleVisibility: (type: 'new' | 'confirm' | 'current') => void;
+}> = ({
+  passwordState,
+  onEdit,
+  onCancel,
+  onSave,
+  onChange,
+  onToggleVisibility,
+}) => {
+  const handleSave = () => onSave('password');
+  const handleCancel = () => onCancel('password');
+  const handleEdit = () => onEdit('password');
+
+  return (
+    <div className={styles.field}>
+      <div className={styles.fieldHeader}>
+        <FaLock className={styles.fieldIcon} />
+        <label>Contraseña</label>
+        {!passwordState.isEditing && (
+          <button
+            onClick={handleEdit}
+            className={styles.editFieldButton}
+            title="Cambiar contraseña"
+          >
+            <FaEdit />
+          </button>
+        )}
+      </div>
+
+      {passwordState.showSuccess && (
+        <div className={styles.fieldSuccess}>
+          ✓ Contraseña actualizada correctamente
+        </div>
+      )}
+
+      {passwordState.isEditing ? (
+        <div className={styles.passwordEditContainer}>
+          {/* Contraseña actual */}
+          <div className={styles.passwordInputGroup}>
+            <input
+              type={passwordState.showCurrentPassword ? 'text' : 'password'}
+              value={passwordState.currentPassword}
+              onChange={(e) => onChange('password', e.target.value, 'current')}
+              className={styles.editInput}
+              placeholder="Contraseña actual"
+            />
+            <button
+              type="button"
+              onClick={() => onToggleVisibility('current')}
+              className={styles.passwordToggle}
+            >
+              {passwordState.showCurrentPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+
+          {/* Nueva contraseña */}
+          <div className={styles.passwordInputGroup}>
+            <input
+              type={passwordState.showPassword ? 'text' : 'password'}
+              value={passwordState.value}
+              onChange={(e) => onChange('password', e.target.value)}
+              className={styles.editInput}
+              placeholder="Nueva contraseña"
+            />
+            <button
+              type="button"
+              onClick={() => onToggleVisibility('new')}
+              className={styles.passwordToggle}
+            >
+              {passwordState.showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+
+          {/* Confirmar contraseña */}
+          <div className={styles.passwordInputGroup}>
+            <input
+              type={passwordState.showConfirmPassword ? 'text' : 'password'}
+              value={passwordState.confirmPassword}
+              onChange={(e) => onChange('password', e.target.value, 'confirm')}
+              className={styles.editInput}
+              placeholder="Confirmar nueva contraseña"
+            />
+            <button
+              type="button"
+              onClick={() => onToggleVisibility('confirm')}
+              className={styles.passwordToggle}
+            >
+              {passwordState.showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+
+          <div className={styles.fieldActions}>
+            <button
+              onClick={handleSave}
+              className={styles.saveFieldButton}
+              disabled={passwordState.isUpdating}
+            >
+              {passwordState.isUpdating ? (
+                <div className={styles.buttonSpinner}></div>
+              ) : (
+                <FaSave />
+              )}
+            </button>
+            <button
+              onClick={handleCancel}
+              className={styles.cancelFieldButton}
+              disabled={passwordState.isUpdating}
+            >
+              <FaTimes />
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.fieldValue}>
+          ••••••••
+        </div>
+      )}
+    </div>
+  );
+};
 
 const PetsSection: React.FC<{ pets: Pet[] }> = ({ pets }) => (
   <div className={styles.petsSection}>
@@ -272,57 +512,122 @@ const PetsSection: React.FC<{ pets: Pet[] }> = ({ pets }) => (
 const UserProfile: React.FC = () => {
   const { userData, setUserData, loading, error } = useUserData();
   const {
-    isEditing,
-    editForm,
-    updating,
-    updateSuccess,
-    setUpdating,
-    setUpdateSuccess,
+    emailState,
+    telefonoState,
+    passwordState,
+    setEmailState,
+    setTelefonoState,
+    setPasswordState,
     startEditing,
     cancelEditing,
-    stopEditing,
-    handleInputChange,
-  } = useEditMode(userData);
+    updateFieldValue,
+    togglePasswordVisibility,
+  } = useEditableFields(userData);
 
-  const handleSave = useCallback(async () => {
-    if (!editForm || !userData) return;
+  // Función para validar y guardar cada campo
+  const handleSaveField = useCallback(async (field: EditableField) => {
+    if (!userData) return;
+
+    const setUpdating = (isUpdating: boolean) => {
+      switch (field) {
+        case 'email':
+          setEmailState(prev => ({ ...prev, isUpdating }));
+          break;
+        case 'telefono':
+          setTelefonoState(prev => ({ ...prev, isUpdating }));
+          break;
+        case 'password':
+          setPasswordState(prev => ({ ...prev, isUpdating }));
+          break;
+      }
+    };
+
+    const showSuccess = () => {
+      switch (field) {
+        case 'email':
+          setEmailState(prev => ({ ...prev, showSuccess: true, isEditing: false }));
+          setTimeout(() => setEmailState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
+          break;
+        case 'telefono':
+          setTelefonoState(prev => ({ ...prev, showSuccess: true, isEditing: false }));
+          setTimeout(() => setTelefonoState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
+          break;
+        case 'password':
+          setPasswordState(prev => ({ 
+            ...prev, 
+            showSuccess: true, 
+            isEditing: false,
+            value: '',
+            confirmPassword: '',
+            currentPassword: '',
+          }));
+          setTimeout(() => setPasswordState(prev => ({ ...prev, showSuccess: false })), SUCCESS_MESSAGE_DURATION);
+          break;
+      }
+    };
+
+    // Validaciones específicas
+    if (field === 'password') {
+      if (!passwordState.currentPassword) {
+        alert(ERROR_MESSAGES.PASSWORD_REQUIRED);
+        return;
+      }
+      if (passwordState.value.length < 6) {
+        alert(ERROR_MESSAGES.PASSWORD_TOO_SHORT);
+        return;
+      }
+      if (passwordState.value !== passwordState.confirmPassword) {
+        alert(ERROR_MESSAGES.PASSWORD_MISMATCH);
+        return;
+      }
+    }
 
     setUpdating(true);
     try {
-      await apiService.actualizarDueno(userData.rut, editForm);
+      let updateData: any = {
+        nombre: userData.nombre,
+        apellido: userData.apellido,
+        email: userData.email,
+        telefono: userData.telefono,
+        password: userData.password,
+      };
 
-      // Actualizar userData manteniendo pets
-      setUserData({ ...userData, ...editForm });
-      stopEditing();
-      setUpdateSuccess(true);
-      
-      // Ocultar mensaje de éxito después de tiempo especificado
-      setTimeout(() => {
-        setUpdateSuccess(false);
-      }, SUCCESS_MESSAGE_DURATION);
+      // Actualizar solo el campo específico
+      switch (field) {
+        case 'email':
+          updateData.email = emailState.value;
+          break;
+        case 'telefono':
+          updateData.telefono = telefonoState.value || null;
+          break;
+        case 'password':
+          // Aquí podrías verificar la contraseña actual con el backend
+          updateData.password = passwordState.value;
+          break;
+      }
+
+      await apiService.actualizarDueno(userData.rut, updateData);
+
+      // Actualizar userData local
+      setUserData({ ...userData, ...updateData });
+      showSuccess();
     } catch (err: any) {
-      console.error('Error updating user data:', err);
-      // En lugar de setError, podrías mostrar un toast o notificación
+      console.error(`Error updating ${field}:`, err);
       alert(err.response?.data?.error || ERROR_MESSAGES.UPDATE_ERROR);
     } finally {
       setUpdating(false);
     }
-  }, [editForm, userData, setUserData, stopEditing, setUpdating, setUpdateSuccess]);
+  }, [userData, setUserData, emailState, telefonoState, passwordState, setEmailState, setTelefonoState, setPasswordState]);
 
   // Memoizar datos computados
-  const displayPhone = useMemo(() => 
-    userData?.telefono || 'No especificado', 
-    [userData?.telefono]
+  const userName = useMemo(() => 
+    userData ? `${userData.nombre} ${userData.apellido}` : 'Usuario',
+    [userData?.nombre, userData?.apellido]
   );
 
   const hasPets = useMemo(() => 
     userData?.pets && userData.pets.length > 0, 
     [userData?.pets]
-  );
-
-  const userName = useMemo(() => 
-    userData ? `${userData.nombre} ${userData.apellido}` : 'Usuario',
-    [userData?.nombre, userData?.apellido]
   );
 
   // Estados de carga y error
@@ -333,84 +638,63 @@ const UserProfile: React.FC = () => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.profileContainer}>
-        <ProfileHeader 
-          isEditing={isEditing} 
-          onEdit={startEditing} 
-          userName={userName}
-        />
-
-        {updateSuccess && <SuccessMessage />}
+        <ProfileHeader userName={userName} />
 
         <div className={styles.profileCard}>
           <div className={styles.userInfo}>
-            <ProfileField
+            <ReadOnlyField
               icon={FaIdCard}
               label="RUT"
               value={userData.rut}
-              isEditing={false}
             />
 
-            <ProfileField
+            <ReadOnlyField
               icon={FaUser}
               label="Nombre"
               value={userData.nombre}
-              isEditing={isEditing}
-              name="nombre"
-              onChange={handleInputChange}
-              editValue={editForm?.nombre}
             />
 
-            <ProfileField
+            <ReadOnlyField
               icon={FaUser}
               label="Apellido"
               value={userData.apellido}
-              isEditing={isEditing}
-              name="apellido"
-              onChange={handleInputChange}
-              editValue={editForm?.apellido}
             />
 
-            <ProfileField
+            <EditableField
               icon={FaEnvelope}
               label="Email"
               value={userData.email}
-              isEditing={isEditing}
-              name="email"
-              type="email"
-              onChange={handleInputChange}
-              editValue={editForm?.email}
+              fieldState={emailState}
+              fieldType="email"
+              inputType="email"
+              onEdit={startEditing}
+              onCancel={cancelEditing}
+              onSave={handleSaveField}
+              onChange={updateFieldValue}
             />
 
-            <ProfileField
+            <EditableField
               icon={FaPhone}
               label="Teléfono"
-              value={displayPhone}
-              isEditing={isEditing}
-              name="telefono"
-              type="tel"
-              onChange={handleInputChange}
-              editValue={editForm?.telefono || ''}
+              value={userData.telefono || ''}
+              fieldState={telefonoState}
+              fieldType="telefono"
+              inputType="tel"
+              onEdit={startEditing}
+              onCancel={cancelEditing}
+              onSave={handleSaveField}
+              onChange={updateFieldValue}
             />
 
-            <ProfileField
-              icon={FaLock}
-              label="Contraseña"
-              value="••••••••"
-              isEditing={isEditing}
-              name="password"
-              type="password"
-              onChange={handleInputChange}
-              editValue={editForm?.password}
+            <PasswordField
+              passwordState={passwordState}
+              onEdit={startEditing}
+              onCancel={cancelEditing}
+              onSave={handleSaveField}
+              onChange={updateFieldValue}
+              onToggleVisibility={togglePasswordVisibility}
             />
           </div>
-
-          {isEditing && (
-            <EditActions
-              onSave={handleSave}
-              onCancel={cancelEditing}
-              updating={updating}
-            />
-          )}
         </div>
 
         {hasPets && <PetsSection pets={userData.pets!} />}
