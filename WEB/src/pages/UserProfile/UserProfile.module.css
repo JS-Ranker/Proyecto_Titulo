@@ -408,30 +408,63 @@
   backdrop-filter: blur(10px);
   border-radius: 20px;
   animation: cardSlideIn 0.8s ease 0.4s both;
+  box-shadow: 0 8px 24px rgba(47, 184, 198, 0.08);
+}
+
+.petsSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .petsSection h2 {
-  color: #333;
-  margin-bottom: 1.5rem;
+  color: #2FB8C6;
+  margin: 0;
   font-size: 1.8rem;
-  text-align: center;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(47, 184, 198, 0.08);
+}
+
+.viewAllPetsButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #2FB8C6, #A9E5BB);
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(47, 184, 198, 0.08);
+}
+
+.viewAllPetsButton:hover {
+  background: linear-gradient(135deg, #A9E5BB, #2FB8C6);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 24px rgba(47, 184, 198, 0.18);
 }
 
 .petsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.5rem;
 }
 
 .petCard {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 249, 255, 0.9));
-  border: 2px solid rgba(47, 184, 198, 0.2);
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,249,255,0.95));
+  border: 2px solid rgba(47, 184, 198, 0.15);
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 1.5rem 1rem;
   text-align: center;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 16px rgba(47, 184, 198, 0.06);
 }
 
 .petCard::before {
@@ -441,7 +474,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(47, 184, 198, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(47, 184, 198, 0.07) 0%, transparent 70%);
   transition: opacity 0.3s ease;
   opacity: 0;
 }
@@ -451,20 +484,22 @@
 }
 
 .petCard:hover {
-  transform: translateY(-5px) scale(1.02);
-  border-color: rgba(47, 184, 198, 0.4);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px) scale(1.03);
+  border-color: rgba(47, 184, 198, 0.3);
+  box-shadow: 0 15px 30px rgba(47, 184, 198, 0.13);
 }
 
 .petCard h3 {
   color: #2FB8C6;
   margin-bottom: 1rem;
   font-size: 1.3rem;
+  font-weight: 700;
 }
 
 .petCard p {
   color: #666;
   margin: 0.5rem 0;
+  font-size: 1rem;
   position: relative;
   z-index: 1;
 }
