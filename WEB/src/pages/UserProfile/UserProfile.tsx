@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { FaUser, FaIdCard, FaEnvelope, FaPhone, FaLock, FaEdit, FaSave, FaTimes, FaArrowLeft, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaUser, FaIdCard, FaEnvelope, FaPhone, FaLock, FaEdit, FaSave, FaTimes, FaArrowLeft, FaEye, FaEyeSlash, FaPaw } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../utils/AuthContext';
 import { apiService } from '../../services/duenos';
@@ -499,9 +499,15 @@ const PasswordField: React.FC<{
   );
 };
 
+// Componente de sección de mascotas con botón
 const PetsSection: React.FC<{ pets: Pet[] }> = ({ pets }) => (
   <div className={styles.petsSection}>
-    <h2>🐾 Mis Mascotas</h2>
+    <div className={styles.petsSectionHeader}>
+      <h2>🐾 Mis Mascotas</h2>
+      <Link to="/mascotas" className={styles.viewAllPetsButton}>
+        <FaPaw /> Ver todas mis mascotas
+      </Link>
+    </div>
     <div className={styles.petsGrid}>
       {pets.map((pet) => (
         <div key={pet.id} className={styles.petCard}>
@@ -629,6 +635,7 @@ const handleSaveField = useCallback(async (field: EditableField) => {
     setUpdating(false);
   }
 }, [userData, setUserData, emailState, telefonoState, passwordState, setEmailState, setTelefonoState, setPasswordState]);
+  
   // Memoizar datos computados
   const userName = useMemo(() => 
     userData ? `${userData.nombre} ${userData.apellido}` : 'Usuario',
@@ -707,7 +714,24 @@ const handleSaveField = useCallback(async (field: EditableField) => {
           </div>
         </div>
 
-        {hasPets && <PetsSection pets={userData.pets!} />}
+        {/* Sección de mascotas con botón siempre visible */}
+        {hasPets ? (
+          <PetsSection pets={userData.pets!} />
+        ) : (
+          <div className={styles.petsSection}>
+            <div className={styles.petsSectionHeader}>
+              <h2>🐾 Mis Mascotas</h2>
+            </div>
+            <p style={{ textAlign: 'center', color: '#666', marginBottom: '1.5rem' }}>
+              No tienes mascotas registradas aún
+            </p>
+            <div style={{ textAlign: 'center' }}>
+              <Link to="/mascotas" className={styles.viewAllPetsButton}>
+                <FaPaw /> Ver y gestionar mascotas
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
