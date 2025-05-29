@@ -153,15 +153,23 @@ const SuccessMessage: React.FC = () => (
   </div>
 );
 
-const ProfileHeader: React.FC<{ isEditing: boolean; onEdit: () => void }> = ({ 
-  isEditing, 
-  onEdit 
-}) => (
+const ProfileHeader: React.FC<{ 
+  isEditing: boolean; 
+  onEdit: () => void; 
+  userName: string;
+}> = ({ isEditing, onEdit, userName }) => (
   <div className={styles.header}>
     <Link to="/" className={styles.backLink}>
       <FaArrowLeft /> Volver al inicio
     </Link>
-    <h1>Mi Perfil</h1>
+    <div style={{ textAlign: 'center', flex: 1 }}>
+      <h1 className={styles.welcomeMessage}>
+        ¡Bienvenido, {userName}!
+      </h1>
+      <p className={styles.profileTitle}>
+        Gestiona tu información personal
+      </p>
+    </div>
     {!isEditing && (
       <button onClick={onEdit} className={styles.editButton}>
         <FaEdit /> Editar
@@ -203,6 +211,7 @@ const ProfileField: React.FC<ProfileFieldProps> = ({
         value={editValue || ''}
         onChange={onChange}
         className={styles.editInput}
+        placeholder={`Ingresa tu ${label.toLowerCase()}`}
       />
     ) : (
       <div className={styles.fieldValue}>
@@ -230,7 +239,7 @@ const EditActions: React.FC<{
         </>
       ) : (
         <>
-          <FaSave /> Guardar
+          <FaSave /> Guardar Cambios
         </>
       )}
     </button>
@@ -246,11 +255,11 @@ const EditActions: React.FC<{
 
 const PetsSection: React.FC<{ pets: Pet[] }> = ({ pets }) => (
   <div className={styles.petsSection}>
-    <h2>Mis Mascotas</h2>
+    <h2>🐾 Mis Mascotas</h2>
     <div className={styles.petsGrid}>
       {pets.map((pet) => (
         <div key={pet.id} className={styles.petCard}>
-          <h3>{pet.name}</h3>
+          <h3>🐕 {pet.name}</h3>
           <p><strong>Tipo:</strong> {pet.type}</p>
           <p><strong>Edad:</strong> {pet.age} años</p>
         </div>
@@ -311,6 +320,11 @@ const UserProfile: React.FC = () => {
     [userData?.pets]
   );
 
+  const userName = useMemo(() => 
+    userData ? `${userData.nombre} ${userData.apellido}` : 'Usuario',
+    [userData?.nombre, userData?.apellido]
+  );
+
   // Estados de carga y error
   if (loading) return <LoadingSpinner />;
   if (error && !userData) return <ErrorDisplay error={error} />;
@@ -319,7 +333,11 @@ const UserProfile: React.FC = () => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.profileContainer}>
-        <ProfileHeader isEditing={isEditing} onEdit={startEditing} />
+        <ProfileHeader 
+          isEditing={isEditing} 
+          onEdit={startEditing} 
+          userName={userName}
+        />
 
         {updateSuccess && <SuccessMessage />}
 
