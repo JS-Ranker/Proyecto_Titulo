@@ -74,7 +74,7 @@ const useUserData = () => {
       setError('');
     } catch (err: any) {
       console.error('Error loading user data:', err);
-      setError(err.response?.data?.error || ERROR_MESSAGES.LOAD_ERROR);
+      setError(err?.response?.data?.error || ERROR_MESSAGES.LOAD_ERROR);
     } finally {
       setLoading(false);
     }
@@ -118,7 +118,7 @@ const useEditableFields = (userData: UserData | null) => {
   // Inicializar valores cuando userData cambie
   useEffect(() => {
     if (userData) {
-      setEmailState(prev => ({ ...prev, value: userData.email }));
+      setEmailState(prev => ({ ...prev, value: userData.email || '' }));
       setTelefonoState(prev => ({ ...prev, value: userData.telefono || '' }));
     }
   }, [userData]);
@@ -313,6 +313,7 @@ const EditableField: React.FC<{
             onClick={handleEdit}
             className={styles.editFieldButton}
             title={`Editar ${label.toLowerCase()}`}
+            type="button"
           >
             <FaEdit />
           </button>
@@ -340,6 +341,7 @@ const EditableField: React.FC<{
               onClick={handleSave}
               className={styles.saveFieldButton}
               disabled={fieldState.isUpdating}
+              type="button"
             >
               {fieldState.isUpdating ? (
                 <div className={styles.buttonSpinner}></div>
@@ -351,6 +353,7 @@ const EditableField: React.FC<{
               onClick={handleCancel}
               className={styles.cancelFieldButton}
               disabled={fieldState.isUpdating}
+              type="button"
             >
               <FaTimes />
             </button>
@@ -395,6 +398,7 @@ const PasswordField: React.FC<{
             onClick={handleEdit}
             className={styles.editFieldButton}
             title="Cambiar contraseña"
+            type="button"
           >
             <FaEdit />
           </button>
@@ -468,6 +472,7 @@ const PasswordField: React.FC<{
               onClick={handleSave}
               className={styles.saveFieldButton}
               disabled={passwordState.isUpdating}
+              type="button"
             >
               {passwordState.isUpdating ? (
                 <div className={styles.buttonSpinner}></div>
@@ -479,6 +484,7 @@ const PasswordField: React.FC<{
               onClick={handleCancel}
               className={styles.cancelFieldButton}
               disabled={passwordState.isUpdating}
+              type="button"
             >
               <FaTimes />
             </button>
@@ -584,7 +590,7 @@ const UserProfile: React.FC = () => {
 
     setUpdating(true);
     try {
-      let updateData: any = {
+      const updateData = {
         nombre: userData.nombre,
         apellido: userData.apellido,
         email: userData.email,
@@ -613,7 +619,7 @@ const UserProfile: React.FC = () => {
       showSuccess();
     } catch (err: any) {
       console.error(`Error updating ${field}:`, err);
-      alert(err.response?.data?.error || ERROR_MESSAGES.UPDATE_ERROR);
+      alert(err?.response?.data?.error || ERROR_MESSAGES.UPDATE_ERROR);
     } finally {
       setUpdating(false);
     }
