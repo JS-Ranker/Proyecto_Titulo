@@ -514,10 +514,9 @@ const PetsSection: React.FC<{ pets: any[] }> = ({ pets }) => (
         <div key={pet.id} className={styles.petCard}>
           {pet.url_imagen_mascota && (
             <img
-              src={pet.url_imagen_mascota}
+              src={`http://localhost:3000/${pet.url_imagen_mascota}`}
               alt={pet.nombre}
               className={styles.petImage}
-              style={{ width: '100%', height: 140, objectFit: 'cover', borderRadius: 12, marginBottom: 12 }}
             />
           )}
           <h3>{pet.nombre}</h3>

@@ -130,7 +130,10 @@ const Login = () => {
       setTimeout(() => {
         // Usar el AuthContext para manejar el login
         login({ rut: response.data.rut });
-        
+
+        // Guarda el usuario en localStorage para el registro de mascotas
+        localStorage.setItem("currentUser", JSON.stringify({ rut: response.data.rut }));
+
         // Mostrar modal de éxito
         setLoadingSuccess(false);
         setSuccess(true);
