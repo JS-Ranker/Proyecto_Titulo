@@ -1,4 +1,5 @@
 import express from 'express';
+import multer from 'multer';
 import {
   traerMascotas,
   crearMascota,
@@ -11,8 +12,21 @@ import {
 
 const router = express.Router();
 
+// Configuración de Multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/mascotas/');
+  },
+  filename: function (req, file, cb) {
+    // Nombre único: fecha + nombre original
+    const uniqueSuffix = Date.now() + '-' + file.originalname.replace(/\s/g, '');
+    cb(null, uniqueSuffix);
+  }
+});
+const upload = multer({ storage });
+
 router.get('/', traerMascotas); // Obtener todas las mascotas activas
-router.post('/', crearMascota); // Crear nueva mascota
+router.post('/', upload.single('imagen'), crearMascota); // Crear nueva mascota con imagen
 router.put('/:id', actualizarMascota); // Actualizar mascota por id
 router.patch('/desactivar/:id', desactivarMascota); // Desactivar mascota (estado_activo=0)
 router.patch('/activar/:id', activarMascota); // Activar mascota (estado_activo=1)

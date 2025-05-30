@@ -11,6 +11,10 @@ const traerMascotas = (req, res) => {
 
 const crearMascota = (req, res) => {
   const datos = req.body;
+  // Si hay archivo, guarda la ruta relativa
+  if (req.file) {
+    datos.url_imagen_mascota = req.file.path.replace(/\\/g, '/'); // Para Windows/Linux
+  }
 
   if (!datos.id_dueno) {
     return res.status(400).json({ error: 'El dueño es obligatorio' });

@@ -1,0 +1,48 @@
+.petImage {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 12px auto;
+  display: block;
+  background: #f3f3f3;
+  box-shadow: 0 2px 8px rgba(47, 184, 198, 0.10);
+  border: 3px solid #A9E5BB;
+}
+
+.petsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+}
+
+.petCard {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(47, 184, 198, 0.10);
+  padding: 24px 18px 18px 18px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+
+.petCard:hover {
+  box-shadow: 0 4px 24px rgba(47, 184, 198, 0.18);
+}
+
+.petCard h3 {
+  margin: 16px 0 8px 0;
+  font-size: 1.25rem;
+  color: #4b3f72;
+  text-align: center;
+}
+
+.petCard p {
+  margin: 2px 0;
+  font-size: 1rem;
+  color: #444;
+  text-align: center;
+}

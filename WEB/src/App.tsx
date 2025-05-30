@@ -17,6 +17,7 @@ import Cardiologia from "./pages/EspecialidadesPage/Cardiologia/Cardiologia";
 import Endocrinologia from "./pages/EspecialidadesPage/Endocrinologia/Endocrinologia";
 import Gastroenterologia from "./pages/EspecialidadesPage/Gastroenterologia/Gastroenterologia";
 import Oncologia from "./pages/EspecialidadesPage/Oncologia/Oncologia";
+import PetsPage from "./pages/Pets/PetsPage";
 import "./App.css";
 import 'animate.css';
 import { AuthProvider, useAuth } from "./utils/AuthContext";
@@ -44,6 +45,7 @@ const AppContent = () => {
         <Route path="/oncologia" element={<Oncologia />} />
         <Route path="/userProfile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
         <Route path="/add-pet" element={<ProtectedRoute><AddPet /></ProtectedRoute>} />
+        <Route path="/mascotas" element={<PetsPage />} />
       </Routes>
       <Footer />
     </Router>
