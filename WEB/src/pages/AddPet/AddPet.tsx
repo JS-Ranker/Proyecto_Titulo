@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { FaPaw, FaArrowLeft } from "react-icons/fa";
 import { razasService } from "../../services/razas";
 import { especiesService } from "../../services/especies";
+import styles from "./AddPet.module.css";
 
 interface PetData {
   nombre_mascota: string;
@@ -136,51 +137,38 @@ const AddPet = () => {
   };
 
   return (
-    <div className="container py-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
+    <div className={styles.container}>
+      <div className={styles.header}>
         <button
           onClick={() => navigate(-1)}
-          className="btn btn-link text-decoration-none"
-          style={{ color: "#4b3f72" }}
+          className={styles.backButton}
         >
           <FaArrowLeft size={20} />
         </button>
-        <h2 className="mb-0 text-center" style={{ color: "#4b3f72" }}>
-          <FaPaw className="me-2" /> Registrar Mascota
+        <h2 className={styles.title}>
+          <FaPaw className={styles.pawIcon} /> Registrar Mascota
         </h2>
         <div style={{ width: 20 }}></div>
       </div>
 
-      <div className="card p-4 shadow-sm">
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              className="form-label fw-bold d-block"
-              style={{ color: "#4b3f72", marginBottom: "8px" }}
-            >
+      <div className={styles.card}>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
               Nombre de la Mascota
             </label>
             <input
               type="text"
-              className="form-control"
+              className={styles.nameInput}
               name="nombre_mascota"
               value={petData.nombre_mascota}
               onChange={handleChange}
-              style={{
-                border: "none",
-                borderBottom: "2px solid #4b3f72",
-                borderRadius: "0",
-                padding: "10px 0",
-              }}
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label
-              className="form-label fw-bold d-block"
-              style={{ color: "#4b3f72", marginBottom: "8px" }}
-            >
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
               Tipo de Mascota
             </label>
             <select
@@ -193,7 +181,7 @@ const AddPet = () => {
                   id_especie: Number(e.target.value)
                 }));
               }}
-              className="form-select"
+              className={styles.select}
               required
             >
               <option value="">Selecciona un tipo</option>
@@ -205,18 +193,15 @@ const AddPet = () => {
             </select>
           </div>
 
-          <div className="mb-4">
-            <label
-              className="form-label fw-bold d-block"
-              style={{ color: "#4b3f72", marginBottom: "8px" }}
-            >
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
               Raza
             </label>
             <select
               name="id_raza"
               value={petData.id_raza || ""}
               onChange={handleChange}
-              className="form-select"
+              className={styles.select}
               required
             >
               <option value="">Selecciona una raza</option>
@@ -228,13 +213,13 @@ const AddPet = () => {
             </select>
           </div>
 
-          <div className="mb-4">
-            <label className="form-label fw-bold d-block" style={{ color: "#4b3f72", marginBottom: "8px" }}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
               Fecha de Nacimiento
             </label>
             <input
               type="date"
-              className="form-control"
+              className={styles.input}
               name="fecha_nac_mascota"
               value={petData.fecha_nac_mascota}
               onChange={handleChange}
@@ -242,13 +227,13 @@ const AddPet = () => {
             />
           </div>
 
-          <div className="mb-4">
-            <label className="form-label fw-bold d-block" style={{ color: "#4b3f72", marginBottom: "8px" }}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
               Peso (kg)
             </label>
             <input
               type="number"
-              className="form-control"
+              className={styles.input}
               name="peso_kg"
               value={petData.peso_kg}
               onChange={handleChange}
@@ -258,15 +243,15 @@ const AddPet = () => {
             />
           </div>
 
-          <div className="mb-4">
-            <label className="form-label fw-bold d-block" style={{ color: "#4b3f72", marginBottom: "8px" }}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
               Género
             </label>
             <select
               name="sexo_mascota"
               value={petData.sexo_mascota}
               onChange={handleChange}
-              className="form-select"
+              className={styles.select}
               required
             >
               <option value="">Selecciona género</option>
@@ -275,15 +260,15 @@ const AddPet = () => {
             </select>
           </div>
 
-          <div className="mb-4">
-            <label className="form-label fw-bold d-block" style={{ color: "#4b3f72", marginBottom: "8px" }}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
               ¿Esterilizado?
             </label>
             <select
               name="esta_esterilizado"
               value={petData.esta_esterilizado}
               onChange={handleChange}
-              className="form-select"
+              className={styles.select}
               required
             >
               <option value="">Selecciona una opción</option>
@@ -292,13 +277,13 @@ const AddPet = () => {
             </select>
           </div>
 
-          <div className="mb-4">
-            <label className="form-label fw-bold d-block" style={{ color: "#4b3f72", marginBottom: "8px" }}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
               Color
             </label>
             <input
               type="text"
-              className="form-control"
+              className={styles.input}
               name="color_mascota"
               value={petData.color_mascota}
               onChange={handleChange}
@@ -306,57 +291,44 @@ const AddPet = () => {
             />
           </div>
 
-          <div className="mb-4">
-            <label className="form-label fw-bold d-block" style={{ color: "#4b3f72", marginBottom: "8px" }}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
               Código Microchip
             </label>
             <input
               type="text"
-              className="form-control"
+              className={styles.input}
               name="codigo_microchip"
               value={petData.codigo_microchip}
               onChange={handleChange}
             />
           </div>
 
-          <div className="mb-4">
-            <label className="form-label fw-bold d-block" style={{ color: "#4b3f72", marginBottom: "8px" }}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
               Foto de la Mascota
             </label>
             <input
               type="file"
               accept="image/*"
-              className="form-control"
+              className={styles.fileInput}
               onChange={e => setImagen(e.target.files ? e.target.files[0] : null)}
             />
           </div>
 
-          <hr className="my-4" style={{ borderColor: "#ddd" }} />
+          <hr className={styles.divider} />
 
-          <div className="d-flex flex-column gap-2">
+          <div className={styles.buttonGroup}>
             <button
               type="submit"
-              className="btn btn-primary py-2"
-              style={{
-                backgroundColor: "#ff9a76",
-                border: "none",
-                borderRadius: "10px",
-                fontWeight: "500",
-              }}
+              className={styles.primaryButton}
             >
               REGISTRAR MASCOTA
             </button>
 
             <Link
               to="/user"
-              className="btn btn-outline-secondary py-2 text-center"
-              style={{
-                color: "#4b3f72",
-                borderColor: "#4b3f72",
-                borderRadius: "10px",
-                fontWeight: "500",
-                textDecoration: "none",
-              }}
+              className={styles.secondaryButton}
             >
               VOLVER A INICIO
             </Link>
@@ -365,9 +337,8 @@ const AddPet = () => {
 
         {mensaje && (
           <div
-            className={`alert ${mensaje.tipo === "exito" ? "alert-success" : "alert-danger"}`}
+            className={`${styles.alert} ${mensaje.tipo === "exito" ? styles.alertSuccess : styles.alertError}`}
             role="alert"
-            style={{ fontWeight: 500, textAlign: "center" }}
           >
             {mensaje.texto}
           </div>

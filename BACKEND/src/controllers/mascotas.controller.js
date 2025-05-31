@@ -66,11 +66,8 @@ const desactivarMascota = (req, res) => {
 
 const activarMascota = (req, res) => {
   const id = req.params.id;
-
-  Mascota.activar(id, (err) => {
-    if (err) {
-      return res.status(500).json({ error: 'Error al activar mascota', detalle: err });
-    }
+  Mascota.activarPorId(id, (err, result) => {
+    if (err) return res.status(500).json({ error: 'Error al activar la mascota', detalle: err });
     res.json({ mensaje: 'Mascota activada correctamente' });
   });
 };
@@ -100,6 +97,26 @@ const buscarMascotasPorDueno = (req, res) => {
   });
 };
 
+const desactivarMascotasPorDueno = (req, res) => {
+  const id_dueno = req.params.id_dueno;
+  Mascota.desactivarPorDueno(id_dueno, (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error al desactivar las mascotas del dueño', detalle: err });
+    }
+    res.json({ mensaje: 'Mascotas desactivadas correctamente' });
+  });
+};
+
+const activarMascotasPorDueno = (req, res) => {
+  const id_dueno = req.params.id_dueno;
+  Mascota.activarPorDueno(id_dueno, (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error al activar las mascotas del dueño', detalle: err });
+    }
+    res.json({ mensaje: 'Mascotas activadas correctamente' });
+  });
+};
+
 export {
   traerMascotas,
   crearMascota,
@@ -107,5 +124,7 @@ export {
   desactivarMascota,
   activarMascota,
   buscarMascotaPorId,
-  buscarMascotasPorDueno
+  buscarMascotasPorDueno,
+  desactivarMascotasPorDueno,
+  activarMascotasPorDueno,
 };
