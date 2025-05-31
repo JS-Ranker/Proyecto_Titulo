@@ -8,6 +8,39 @@
   background: #f3f3f3;
   box-shadow: 0 2px 8px rgba(47, 184, 198, 0.10);
   border: 3px solid #A9E5BB;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.petImage:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(47, 184, 198, 0.20);
+  border-color: #2FB8C6;
+}
+
+.petImagePlaceholder {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f3f3f3;
+  color: #A9E5BB;
+  font-size: 3rem;
+  margin: 0 auto 12px auto;
+  box-shadow: 0 2px 8px rgba(47, 184, 198, 0.10);
+  border: 3px solid #A9E5BB;
+  transition: 
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s,
+    border-color 0.3s;
+  cursor: default;
+}
+
+.petImagePlaceholder:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(47, 184, 198, 0.20);
+  border-color: #2FB8C6;
 }
 
 .petsGrid {
@@ -15,34 +48,249 @@
   flex-wrap: wrap;
   gap: 32px;
   justify-content: center;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .petCard {
   background: #fff;
-  border-radius: 18px;
+  border-radius: 22px;
   box-shadow: 0 2px 12px rgba(47, 184, 198, 0.10);
-  padding: 24px 18px 18px 18px;
-  width: 260px;
+  padding: 32px 28px 24px 28px; /* Más espacio interno */
+  width: 320px;                /* Más ancho */
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: box-shadow 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideInUp 0.5s ease-out;
+  animation-fill-mode: both;
+  position: relative;
+  overflow: hidden;
+}
+
+.petCard::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #A9E5BB, #2FB8C6, #A9E5BB);
+  border-radius: 20px;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
 }
 
 .petCard:hover {
-  box-shadow: 0 4px 24px rgba(47, 184, 198, 0.18);
+  transform: translateY(-8px);
+  box-shadow: 0 8px 32px rgba(47, 184, 198, 0.25);
+}
+
+.petCard:hover::before {
+  opacity: 0.1;
 }
 
 .petCard h3 {
-  margin: 16px 0 8px 0;
-  font-size: 1.25rem;
+  margin: 18px 0 10px 0;
+  font-size: 1.35rem;
   color: #4b3f72;
   text-align: center;
+  transition: color 0.3s ease;
+}
+
+.petCard:hover h3 {
+  color: #2FB8C6;
 }
 
 .petCard p {
-  margin: 2px 0;
-  font-size: 1rem;
+  margin: 4px 0;
+  font-size: 1.08rem;
   color: #444;
-  text-align: center;
+  text-align: left; 
+  transition: transform 0.2s ease;
+}
+
+.petCard:hover p {
+  transform: translateX(2px);
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animación escalonada para las tarjetas */
+.petCard:nth-child(1) { animation-delay: 0.1s; }
+.petCard:nth-child(2) { animation-delay: 0.2s; }
+.petCard:nth-child(3) { animation-delay: 0.3s; }
+.petCard:nth-child(4) { animation-delay: 0.4s; }
+.petCard:nth-child(5) { animation-delay: 0.5s; }
+.petCard:nth-child(6) { animation-delay: 0.6s; }
+
+/* Animaciones para estados de carga */
+.loadingSpinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 3px solid #A9E5BB;
+  border-radius: 50%;
+  border-top-color: #2FB8C6;
+  animation: spin 1s ease-in-out infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animación para botones */
+.animatedButton,
+.addPetButton,
+.backButton,
+a.animatedButton,
+a.addPetButton,
+a.backButton {
+  text-decoration: none !important;
+}
+
+.animatedButton,
+.backButton,
+.addPetButton {
+  min-width: 160px;
+  padding: 0.95em 2.3em;
+  font-size: 1.15rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7em;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 6px 24px rgba(47, 184, 198, 0.18);
+  background: linear-gradient(90deg, #A9E5BB 0%, #2FB8C6 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 
+    background 0.3s,
+    color 0.3s,
+    transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.18s;
+}
+
+.animatedButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.38) 100%);
+  transform: skewX(-20deg);
+  transition: left 0.5s;
+  pointer-events: none;
+}
+
+.animatedButton:hover {
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: 0 10px 32px rgba(47, 184, 198, 0.25);
+  background: linear-gradient(90deg, #2FB8C6 0%, #A9E5BB 100%);
+}
+
+.animatedButton:hover::before {
+  left: 120%;
+}
+
+.animatedButton:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(47, 184, 198, 0.10);
+}
+
+/* Botón Volver */
+.backButton {
+  background: linear-gradient(90deg, #A9E5BB 0%, #7ed6a7 100%);
+  color: #4b3f72;
+  margin-right: 0;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+}
+.backButton:hover {
+  background: linear-gradient(90deg, #2FB8C6 0%, #A9E5BB 100%);
+  color: #fff;
+}
+.backButton .icon {
+  font-size: 1.3em;
+  margin-right: 0.3em;
+}
+
+/* Botón Agregar Mascota */
+.addPetButton {
+  background: linear-gradient(90deg, #2FB8C6 0%, #A9E5BB 100%);
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+}
+.addPetButton:hover {
+  background: linear-gradient(90deg, #A9E5BB 0%, #2FB8C6 100%);
+  color: #4b3f72;
+}
+.addPetButton .icon {
+  font-size: 1.3em;
+  margin-right: 0.3em;
+}
+
+.headerBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  margin: 2.5rem 0 2rem 0;
+}
+
+.headerBar h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #2FB8C6;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* Mensaje de no mascotas con animación */
+.noMascotasMessage {
+  animation: fadeIn 0.8s ease-out;
+  color: #4b3f72;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

@@ -96,6 +96,16 @@ const Mascota = {
     db.query(sql, [id], callback);
   },
 
+  desactivarPorDueno: (id_dueno, callback) => {
+    const sql = `UPDATE mascotas SET estado_activo = 0 WHERE id_dueno = ?`;
+    db.query(sql, [id_dueno], callback);
+  },
+
+  activarPorDueno: (id_dueno, callback) => {
+    const sql = `UPDATE mascotas SET estado_activo = 1 WHERE id_dueno = ?`;
+    db.query(sql, [id_dueno], callback);
+  },
+
   buscarPorId: (id, callback) => {
     const sql = `
       SELECT 
@@ -132,7 +142,9 @@ const Mascota = {
         m.id_mascota,
         m.nombre_mascota,
         m.id_especie,
+        e.nombre AS nombre_especie,
         m.id_raza,
+        r.nombre AS nombre_raza,
         m.fecha_nac_mascota,
         m.peso_kg,
         m.sexo_mascota,
@@ -144,11 +156,18 @@ const Mascota = {
         m.fecha_registro_mascota,
         m.estado_activo
       FROM mascotas m
+      LEFT JOIN especies e ON m.id_especie = e.id
+      LEFT JOIN razas r ON m.id_raza = r.id
       WHERE m.id_dueno = ? AND m.estado_activo = 1
       ORDER BY m.nombre_mascota ASC
     `;
     db.query(sql, [id_dueno], callback);
-  }
+  },
+
+  activarPorId: (id_mascota, callback) => {
+    const sql = `UPDATE mascotas SET estado_activo = 1 WHERE id_mascota = ?`;
+    db.query(sql, [id_mascota], callback);
+  },
 };
 
 export default Mascota;

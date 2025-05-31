@@ -669,10 +669,7 @@ const UserProfile: React.FC = () => {
     [userData?.nombre, userData?.apellido]
   );
 
-  const hasPets = useMemo(() => 
-    userData?.pets && userData.pets.length > 0, 
-    [userData?.pets]
-  );
+
 
   // Estados de carga y error
   if (loading) return <LoadingSpinner />;
@@ -770,16 +767,6 @@ const UserProfile: React.FC = () => {
   );
 };
 
-// Función auxiliar para calcular la edad desde la fecha de nacimiento
-function calcularEdad(fechaNac: string) {
-  const nacimiento = new Date(fechaNac);
-  const hoy = new Date();
-  let edad = hoy.getFullYear() - nacimiento.getFullYear();
-  const m = hoy.getMonth() - nacimiento.getMonth();
-  if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
-    edad--;
-  }
-  return edad;
-}
+
 
 export default UserProfile;
