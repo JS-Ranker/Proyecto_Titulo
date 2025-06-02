@@ -41,27 +41,36 @@ Texto secundario: Gris medio - #666666
   }
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 /* Estilos del footer */
 .footer {
-  position: relative;
+  position: static; /* El footer estará al final del contenido */
+  left: unset;
+  bottom: unset;
+  width: 100%;
+  z-index: 100;
   background-color: #2FB8C6;
   color: #FAFAF9;
   padding: 80px 0 40px;
   margin-top: 120px;
   overflow: hidden;
   animation: fadeIn 1.2s ease-in-out;
+  box-sizing: border-box;
+  display: block;
+  transition: opacity 0.3s ease;
+  opacity: 1;
+}
+
+.footer-visible {
+  transform: translateY(0); /* Footer visible cuando se scrollea hacia abajo */
+}
+
+.footer-hidden {
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
 }
 
 .footer-wave {
@@ -101,9 +110,9 @@ Texto secundario: Gris medio - #666666
 
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px;
-  margin-bottom: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 30px;
 }
 
 .footer-column {
@@ -113,14 +122,14 @@ Texto secundario: Gris medio - #666666
 .footer-logo {
   display: flex;
   align-items: center;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   color: #FAFAF9;
 }
 
 .logo-icon {
-  font-size: 2rem;
+  font-size: 1.8rem;
   margin-right: 10px;
   animation: float 4s ease-in-out infinite;
 }
@@ -128,15 +137,16 @@ Texto secundario: Gris medio - #666666
 .footer-desc {
   color: rgba(250, 250, 249, 0.8);
   line-height: 1.6;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
 }
 
 .footer-heading {
   color: #FAFAF9;
-  font-size: 1.3rem;
-  margin-bottom: 20px;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
   position: relative;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
 
   &::after {
     content: '';
@@ -160,7 +170,7 @@ Texto secundario: Gris medio - #666666
   margin: 0;
 
   li {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 }
 
@@ -171,6 +181,7 @@ Texto secundario: Gris medio - #666666
   position: relative;
   padding-left: 15px;
   display: inline-block;
+  font-size: 0.9rem;
 
   &::before {
     content: '>';
@@ -198,8 +209,9 @@ Texto secundario: Gris medio - #666666
 .contact-item {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   transition: transform 0.3s ease;
+  font-size: 0.9rem;
 
   &:hover {
     transform: translateX(5px);
@@ -209,21 +221,21 @@ Texto secundario: Gris medio - #666666
 .contact-icon {
   margin-right: 10px;
   color: #A9E5BB;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .social-links {
   display: flex;
-  gap: 15px;
-  margin-top: 25px;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 .social-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background-color: rgba(250, 250, 249, 0.1);
   color: #FAFAF9;
@@ -231,7 +243,7 @@ Texto secundario: Gris medio - #666666
   text-decoration: none;
 
   ion-icon {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   &:hover {
@@ -246,25 +258,25 @@ Texto secundario: Gris medio - #666666
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 30px;
+  padding-top: 20px;
   border-top: 1px solid rgba(250, 250, 249, 0.1);
 }
 
 .copyright {
   color: rgba(250, 250, 249, 0.7);
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .footer-bottom-links {
   display: flex;
-  gap: 20px;
+  gap: 15px;
 }
 
 .bottom-link {
   color: rgba(250, 250, 249, 0.7);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   transition: color 0.3s ease;
 
   &:hover {
@@ -274,27 +286,39 @@ Texto secundario: Gris medio - #666666
 
 /* Responsive */
 @media (max-width: 768px) {
+  .footer {
+    padding: 40px 0 20px;
+  }
+
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 25px;
   }
   
   .footer-bottom-bar {
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     text-align: center;
   }
   
-  .footer {
-    padding: 60px 0 30px;
-    margin-top: 80px;
+  .footer-wave {
+    top: -40px;
   }
   
   .footer-wave svg {
-    height: 70px;
+    height: 40px;
   }
-  
-  .footer-wave {
-    top: -69px;
+
+  .footer-logo {
+    font-size: 1.4rem;
+  }
+
+  .footer-heading {
+    font-size: 1.1rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
