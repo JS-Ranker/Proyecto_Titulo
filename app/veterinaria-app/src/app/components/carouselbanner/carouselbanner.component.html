@@ -1,3 +1,68 @@
-<p>
-  carouselbanner works!
-</p>
+<div 
+  class="carousel-wrapper"
+  [class.transitioning]="isTransitioning"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()">
+  
+  <!-- Contenedor de imágenes -->
+  <div class="carousel-container">
+    <div 
+      *ngFor="let slide of slides; let i = index" 
+      class="image-container"
+      [class.active]="i === activeIndex"
+      [class.fade-in]="i === activeIndex"
+      [class.fade-out]="i !== activeIndex">
+      <img 
+        [src]="slide.image" 
+        [alt]="slide.alt"
+        class="slide-image">
+    </div>
+  </div>
+
+  <!-- Control arrows personalizados -->
+  <div class="custom-controls">
+    <button 
+      class="control-prev" 
+      (click)="prevSlide()"
+      type="button">
+      <span>‹</span>
+    </button>
+    <button 
+      class="control-next" 
+      (click)="nextSlide()"
+      type="button">
+      <span>›</span>
+    </button>
+  </div>
+
+  <!-- Indicadores personalizados -->
+  <div class="custom-indicators">
+    <button
+      *ngFor="let slide of slides; let i = index"
+      class="indicator"
+      [class.active]="i === activeIndex"
+      (click)="goToSlide(i)"
+      type="button">
+    </button>
+  </div>
+
+  <!-- Mensaje principal basado en el slide activo -->
+  <div class="main-message-overlay">
+    <div 
+      class="main-message-content"
+      [ngClass]="{
+        'veterinaria-message': getCurrentSlide().theme === 'veterinaria',
+        'ecommerce-message': getCurrentSlide().theme === 'ecommerce',
+        'adopcion-message': getCurrentSlide().theme === 'adopcion'
+      }">
+      <h1>{{ getCurrentSlide().title }}</h1>
+      <p>{{ getCurrentSlide().description }}</p>
+      <button 
+        class="main-action-button"
+        (click)="onMainActionClick()"
+        type="button">
+        {{ getCurrentSlide().buttonText }}
+      </button>
+    </div>
+  </div>
+</div>
