@@ -1,3 +1,71 @@
-<p>
-  header works!
-</p>
+<header [class]="'header ' + (scrolled ? 'scrolled' : '')">
+  <nav class="container">
+    <div class="nav-wrapper">
+      <!-- Brand/Logo -->
+      <a class="brand" (click)="navigateTo('/')">
+        <ion-icon name="paw" class="logo"></ion-icon>
+        <span>Happy Pet</span>
+      </a>
+
+      <!-- Hamburger Button -->
+      <button 
+        class="hamburger"
+        [attr.aria-expanded]="isMenuOpen"
+        aria-label="Toggle navigation"
+        (click)="toggleMenu()">
+        <span class="hamburger-icon"></span>
+      </button>
+
+      <!-- Navigation Menu -->
+      <div [class]="'nav-menu ' + (isMenuOpen ? 'show-menu' : '')">
+        <ul class="nav-list">
+          <!-- Inicio -->
+          <li class="nav-item">
+            <a 
+              [class]="'nav-link ' + (isActiveRoute('/') ? 'active-nav-link' : '')"
+              (click)="navigateTo('/')">
+              Inicio
+            </a>
+          </li>
+
+          <!-- Menu items for non-logged users -->
+          <ng-container *ngIf="!isLoggedIn">
+            <li class="nav-item">
+              <a 
+                [class]="'nav-link ' + (isActiveRoute('/login') ? 'active-nav-link' : '')"
+                (click)="navigateTo('/login')">
+                Login
+              </a>
+            </li>
+            <li class="nav-item">
+              <a 
+                [class]="'nav-link ' + (isActiveRoute('/register') ? 'active-nav-link' : '')"
+                (click)="navigateTo('/register')">
+                Registro
+              </a>
+            </li>
+          </ng-container>
+
+          <!-- Menu items for logged users -->
+          <ng-container *ngIf="isLoggedIn">
+            <li class="nav-item">
+              <a 
+                [class]="'nav-link ' + (isActiveRoute('/UserProfile') ? 'active-nav-link' : '')"
+                (click)="navigateTo('/UserProfile')">
+                <ion-icon name="person-circle" class="nav-icon"></ion-icon>
+                Perfil
+              </a>
+            </li>
+            <li class="nav-item">
+              <button 
+                class="nav-link logout-button"
+                (click)="showLogoutConfirm()">
+                Cerrar sesión
+              </button>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
