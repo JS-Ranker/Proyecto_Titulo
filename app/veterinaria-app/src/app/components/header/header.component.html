@@ -46,8 +46,8 @@
           <ng-container *ngIf="isLoggedIn$ | async">
             <li class="nav-item">
               <a 
-                [class]="'nav-link ' + (isActiveRoute('/UserProfile') ? 'active-nav-link' : '')"
-                (click)="navigateTo('/UserProfile')">
+                [class]="'nav-link ' + (isActiveRoute('/userprofile') ? 'active-nav-link' : '')"
+                (click)="navigateTo('/userprofile')">
                 <ion-icon name="person-circle" class="nav-icon"></ion-icon>
                 Perfil
               </a>

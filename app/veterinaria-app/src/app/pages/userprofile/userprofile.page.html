@@ -1,13 +1,105 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>userprofile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header></app-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">userprofile</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content *ngIf="!loading && userData" class="profile-content">
+  <div class="profile-card">
+    <h1 class="profile-title">Mi Perfil</h1>
+    <ion-list>
+      <ion-item>
+        <ion-label>RUT</ion-label>
+        <ion-text>{{ userData.rut }}</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Nombre</ion-label>
+        <ion-text>{{ userData.nombre }}</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Apellido</ion-label>
+        <ion-text>{{ userData.apellido }}</ion-text>
+      </ion-item>
+      <!-- Email -->
+      <ion-item>
+        <ion-label>Email</ion-label>
+        <ng-container *ngIf="editField !== 'email'; else editEmail">
+          <ion-text>{{ userData.email }}</ion-text>
+          <ion-button fill="clear" size="small" slot="end" (click)="startEdit('email')">
+            <ion-icon name="pencil-outline"></ion-icon>
+          </ion-button>
+        </ng-container>
+        <ng-template #editEmail>
+          <ion-input [(ngModel)]="editForm.value.email" (ngModelChange)="editForm.get('email')?.setValue($event)" type="email"></ion-input>
+          <ion-button fill="clear" size="small" slot="end" (click)="saveField('email')">
+            <ion-icon name="checkmark-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" slot="end" color="medium" (click)="cancelField()">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ion-item>
+      <!-- Teléfono --> 
+      <ion-item>
+        <ion-label>Teléfono</ion-label>
+        <ng-container *ngIf="editField !== 'telefono'; else editTelefono">
+          <ion-text>{{ userData.telefono }}</ion-text>
+          <ion-button fill="clear" size="small" slot="end" (click)="startEdit('telefono')">
+            <ion-icon name="pencil-outline"></ion-icon>
+          </ion-button>
+        </ng-container>
+        <ng-template #editTelefono>
+          <ion-input [(ngModel)]="editForm.value.telefono" (ngModelChange)="editForm.get('telefono')?.setValue($event)"></ion-input>
+          <ion-button fill="clear" size="small" slot="end" (click)="saveField('telefono')">
+            <ion-icon name="checkmark-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" slot="end" color="medium" (click)="cancelField()">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ion-item>
+      <!-- Clave -->
+      <ion-item>
+        <ion-label>Clave</ion-label>
+        <ng-container *ngIf="editField !== 'password'; else editPassword">
+          <ion-text>********</ion-text>
+          <ion-button fill="clear" size="small" slot="end" (click)="startEdit('password')">
+            <ion-icon name="pencil-outline"></ion-icon>
+          </ion-button>
+        </ng-container>
+        <ng-template #editPassword>
+          <ion-input [(ngModel)]="editForm.value.password" (ngModelChange)="editForm.get('password')?.setValue($event)" type="password" placeholder="Nueva clave"></ion-input>
+          <ion-button fill="clear" size="small" slot="end" (click)="saveField('password')">
+            <ion-icon name="checkmark-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" slot="end" color="medium" (click)="cancelField()">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ng-template>
+      </ion-item>
+    </ion-list>
+    <div *ngIf="error" class="error-message">{{ error }}</div>
+    <div *ngIf="success" class="success-message">{{ success }}</div>
+  </div>
+
+  <div class="pets-section">
+    <h2>Mis Mascotas</h2>
+    <ion-list *ngIf="mascotas && mascotas.length > 0">
+      <ion-item *ngFor="let mascota of mascotas" class="pet-card">
+        <ion-avatar slot="start">
+          <ng-container *ngIf="mascota.url_imagen_mascota; else pawIcon">
+            <img [src]="'http://localhost:3000/' + mascota.url_imagen_mascota" />
+          </ng-container>
+          <ng-template #pawIcon>
+            <ion-icon name="paw" class="paw-avatar-icon"></ion-icon>
+          </ng-template>
+        </ion-avatar>
+        <ion-label>
+          <div class="pet-name">{{ mascota.nombre_mascota }}</div>
+          <div class="pet-info">{{ mascota.nombre_especie }} - {{ mascota.nombre_raza }}</div>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <div *ngIf="mascotas && mascotas.length === 0" class="no-pets">
+      No tienes mascotas registradas aún.
+    </div>
+  </div>
+  <app-footer></app-footer>
 </ion-content>
+
