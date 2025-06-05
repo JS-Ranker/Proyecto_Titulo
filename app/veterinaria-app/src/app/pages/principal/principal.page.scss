@@ -53,8 +53,8 @@
 }
 
 .paw-icon {
-  font-size: 2rem;
-  color: #FF8C70;
+  font-size: 1.2em;       // Igual que .logo en el header
+  color: #2FB8C6;
   transition: transform 0.3s ease;
 }
 
@@ -132,6 +132,20 @@
   margin-bottom: 1rem;
   color: #FF8C70;
   transition: transform 0.3s ease;
+}
+
+.brand {
+  color: #2FB8C6;
+  font-size: 1.5rem;      // Igual que en el header
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;               // Igual que en el header
+  text-decoration: none;
+  position: relative;
+  transition: all 0.3s ease;
+  margin: 0 auto 24px auto;
 }
 
 /* Media Queries para responsividad */

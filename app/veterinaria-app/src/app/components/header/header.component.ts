@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
-import { AuthService } from '../../service/auth.service'; // Ajusta la ruta según tu estructura
+import { AuthService } from '../../service/auth.service'; 
 
 @Component({
   selector: 'app-header',
@@ -10,31 +9,16 @@ import { AuthService } from '../../service/auth.service'; // Ajusta la ruta seg�
   styleUrls: ['./header.component.scss'],
   standalone: false,
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent {
   isMenuOpen = false;
   scrolled = false;
-  isLoggedIn = false;
-  
-  private authSubscription?: Subscription;
+  isLoggedIn$ = this.authService.isLoggedIn$;
 
   constructor(
     private router: Router,
     private alertController: AlertController,
     private authService: AuthService
   ) {}
-
-  ngOnInit() {
-    // Suscribirse al estado de autenticación
-    this.authSubscription = this.authService.isLoggedIn$.subscribe(
-      (loggedIn) => this.isLoggedIn = loggedIn
-    );
-  }
-
-  ngOnDestroy() {
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
-  }
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
@@ -86,7 +70,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/']);
   }
 
-  // Método para verificar si una ruta está activa
+  logout() {
+    this.authService.logout();
+    this.closeMenu();
+    this.router.navigate(['/']);
+  }
+
   isActiveRoute(route: string): boolean {
     return this.router.url === route;
   }
