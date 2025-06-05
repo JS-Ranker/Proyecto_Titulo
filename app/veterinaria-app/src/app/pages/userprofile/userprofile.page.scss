@@ -1,0 +1,190 @@
+:host {
+  --primary-color: #2fb8c6;
+  --secondary-color: #a9e5bb;
+  --accent-color: #ff8c70;
+  --background-light: #f8fafc;
+  --text-primary: #222;
+  --text-secondary: #666;
+  min-height: 100vh;
+}
+
+ion-content {
+  background: var(--background-light);
+}
+
+.custom-header {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  box-shadow: 0 4px 20px rgba(47, 184, 198, 0.08);
+  padding: 0.5rem 0;
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1.5rem;
+  }
+  .logo {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: white;
+    object-fit: contain;
+    box-shadow: 0 2px 8px rgba(47, 184, 198, 0.15);
+  }
+  .brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 1px;
+  }
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1rem 1rem 1rem;
+}
+
+.profile-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(47, 184, 198, 0.08);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 420px;
+  transition: box-shadow 0.2s;
+  .profile-title {
+    color: var(--primary-color);
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+  ion-list {
+    background: transparent;
+    ion-item {
+      --background: transparent;
+      border-bottom: 1px solid #f1f5f9;
+      align-items: center;
+      min-height: 54px;
+      ion-label {
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 1rem;
+        min-width: 90px;
+      }
+      ion-text {
+        color: var(--text-primary);
+        font-size: 1.05rem;
+        font-weight: 500;
+      }
+      ion-input {
+        font-size: 1.05rem;
+        background: #f8fafc;
+        border-radius: 8px;
+        padding: 0.2rem 0.7rem;
+        border: 1px solid #e0e7ef;
+        margin-right: 0.5rem;
+      }
+      ion-button {
+        --padding-start: 0;
+        --padding-end: 0;
+        --background: transparent;
+        --color: var(--primary-color);
+        --box-shadow: none;
+        margin-left: 0.2rem;
+        margin-right: 0.2rem;
+        font-size: 1.2rem;
+      }
+      ion-icon {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+.success-message {
+  color: var(--primary-color);
+  background: #e6f9fa;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0 0.5rem 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.error-message {
+  color: #ff6b6b;
+  background: #fff0f0;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0 0.5rem 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.pets-section {
+  background: #fff;
+  border-radius: 18px;
+  padding: 2rem 1rem 1.5rem 1rem;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 2px 16px rgba(47, 184, 198, 0.06);
+  margin-bottom: 2rem;
+  h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.2rem;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .pet-card {
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 6px rgba(47, 184, 198, 0.07);
+    background: #f8fafc;
+    ion-avatar {
+      min-width: 48px;
+      min-height: 48px;
+      margin-right: 1rem;
+      img {
+        border-radius: 50%;
+        border: 2px solid var(--primary-color);
+        object-fit: cover;
+        width: 48px;
+        height: 48px;
+      }
+    }
+    .pet-name {
+      font-weight: 700;
+      color: var(--primary-color);
+      font-size: 1.08rem;
+    }
+    .pet-info {
+      color: var(--text-secondary);
+      font-size: 0.97rem;
+    }
+  }
+  .no-pets {
+    color: var(--accent-color);
+    text-align: center;
+    font-weight: 600;
+    margin-top: 1rem;
+    font-size: 1.05rem;
+  }
+}
+
+.paw-avatar-icon {
+  font-size: 2.2rem;
+  color: #2FB8C6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}

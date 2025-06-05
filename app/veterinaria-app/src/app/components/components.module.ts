@@ -16,7 +16,7 @@ import { CarouselbannerComponent } from './carouselbanner/carouselbanner.compone
     CommonModule,
     IonicModule
   ],
-  exports: [
+  exports: [ 
     HeaderComponent,
     FooterComponent,
     CarouselbannerComponent

@@ -86,6 +86,8 @@ export class LoginPage {
     try {
       const response = await this.duenosService.login(this.loginForm.value).toPromise();
       this.authService.login(response.token);
+      // Guarda el RUT en localStorage
+      localStorage.setItem('currentUserRut', this.loginForm.value.rut);
       this.showSuccessOverlay = true;
       setTimeout(() => {
         this.showSuccessOverlay = false;
