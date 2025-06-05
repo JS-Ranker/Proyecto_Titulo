@@ -2,11 +2,10 @@
   <nav class="container">
     <div class="nav-wrapper">
       <!-- Brand/Logo -->
-      <a class="brand" (click)="navigateTo('/')">
-        <ion-icon name="paw" class="logo"></ion-icon>
+      <a class="brand happy-pet-logo" (click)="navigateTo('/')">
+        <ion-icon name="paw" class="logo paw-icon"></ion-icon>
         <span>Happy Pet</span>
       </a>
-
       <!-- Hamburger Button -->
       <button 
         class="hamburger"
@@ -15,7 +14,6 @@
         (click)="toggleMenu()">
         <span class="hamburger-icon"></span>
       </button>
-
       <!-- Navigation Menu -->
       <div [class]="'nav-menu ' + (isMenuOpen ? 'show-menu' : '')">
         <ul class="nav-list">
@@ -27,9 +25,8 @@
               Inicio
             </a>
           </li>
-
           <!-- Menu items for non-logged users -->
-          <ng-container *ngIf="!isLoggedIn">
+          <ng-container *ngIf="!(isLoggedIn$ | async)">
             <li class="nav-item">
               <a 
                 [class]="'nav-link ' + (isActiveRoute('/login') ? 'active-nav-link' : '')"
@@ -45,9 +42,8 @@
               </a>
             </li>
           </ng-container>
-
           <!-- Menu items for logged users -->
-          <ng-container *ngIf="isLoggedIn">
+          <ng-container *ngIf="isLoggedIn$ | async">
             <li class="nav-item">
               <a 
                 [class]="'nav-link ' + (isActiveRoute('/UserProfile') ? 'active-nav-link' : '')"

@@ -1,40 +1,25 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  public isLoggedIn$ = this.isLoggedInSubject.asObservable();
+  private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
 
-  constructor() {
-    // Verificar si hay una sesión guardada al inicializar
-    this.checkStoredSession();
-  }
-
-  private checkStoredSession() {
-    // Aquí puedes verificar localStorage, sessionStorage, o cualquier método de persistencia
-    const token = localStorage.getItem('authToken');
-    const isLoggedIn = !!token;
-    this.isLoggedInSubject.next(isLoggedIn);
-  }
+  isLoggedIn$ = this.loggedIn.asObservable();
 
   login(token: string) {
-    localStorage.setItem('authToken', token);
-    this.isLoggedInSubject.next(true);
+    localStorage.setItem('token', token);
+    this.loggedIn.next(true);
   }
 
   logout() {
-    localStorage.removeItem('authToken');
-    this.isLoggedInSubject.next(false);
+    localStorage.removeItem('token');
+    this.loggedIn.next(false);
   }
 
-  get isLoggedIn(): boolean {
-    return this.isLoggedInSubject.value;
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('authToken');
+  private hasToken(): boolean {
+    return !!localStorage.getItem('token');
   }
 }

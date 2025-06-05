@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +19,8 @@ import { ComponentsModule } from './components/components.module';
     CommonModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    ComponentsModule // Puedes dejarlo si usas componentes compartidos en AppComponent
+    ComponentsModule, // Puedes dejarlo si usas componentes compartidos en AppComponent
+    HttpClientModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
