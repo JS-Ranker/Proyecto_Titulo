@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DuenosService } from '../../service/duenos.service';
 import { MascotasService } from '../../service/mascotas.service';
 
@@ -23,7 +24,8 @@ export class UserprofilePage implements OnInit {
   constructor(
     private duenosService: DuenosService,
     private mascotasService: MascotasService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.editForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -169,5 +171,9 @@ export class UserprofilePage implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  goToPets() {
+    this.router.navigate(['/pets']);
   }
 }
