@@ -5,7 +5,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { UserprofilePage } from './userprofile.page';
 import { RouterModule } from '@angular/router';
-import { ComponentsModule } from '../../components/components.module'; 
+import { ComponentsModule } from '../../components/components.module';
+import { BackButtonComponent } from '../../components/back-button/back-button.component'; // <-- Agrega este import
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ComponentsModule } from '../../components/components.module';
     ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild([{ path: '', component: UserprofilePage }]),
-    ComponentsModule 
+    ComponentsModule,
+    BackButtonComponent // <-- Agrega aquí el componente standalone
   ],
   declarations: [UserprofilePage]
 })

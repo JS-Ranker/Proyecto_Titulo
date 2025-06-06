@@ -10,4 +10,8 @@ export class MascotasService {
   obtenerMascotasPorDueno(rut: string) {
     return this.http.get(`${this.apiUrl}/mascotas/dueno/${rut}`);
   }
+
+  crearMascota(formData: FormData) {
+    return this.http.post('http://localhost:3000/api/mascotas', formData);
+  }
 }

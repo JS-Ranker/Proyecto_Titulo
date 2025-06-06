@@ -1,8 +1,19 @@
 <app-header></app-header>
 
 <ion-content *ngIf="!loading && userData" class="profile-content">
+  <div class="pets-topbar">
+    <app-back-button 
+      [navigateTo]="'/principal'" 
+      [size]="'medium'" 
+      [theme]="'light'">
+    </app-back-button>
+    <div class="header-content">
+      <h1 class="pets-title">Mi Perfil</h1>
+    </div>
+    <div class="header-actions"></div>
+  </div>
+
   <div class="profile-card">
-    <h1 class="profile-title">Mi Perfil</h1>
     <ion-list>
       <ion-item>
         <ion-label>RUT</ion-label>
@@ -16,7 +27,7 @@
         <ion-label>Apellido</ion-label>
         <ion-text>{{ userData.apellido }}</ion-text>
       </ion-item>
-      <!-- Email -->
+      <!-- Email --> 
       <ion-item>
         <ion-label>Email</ion-label>
         <ng-container *ngIf="editField !== 'email'; else editEmail">
@@ -33,7 +44,7 @@
           <ion-button fill="clear" size="small" slot="end" color="medium" (click)="cancelField()">
             <ion-icon name="close-outline"></ion-icon>
           </ion-button>
-        </ng-template>
+        </ng-template> 
       </ion-item>
       <!-- Teléfono --> 
       <ion-item>
@@ -98,6 +109,13 @@
     </ion-list>
     <div *ngIf="mascotas && mascotas.length === 0" class="no-pets">
       No tienes mascotas registradas aún.
+    </div>
+    <!-- Botón de gestionar mascotas al final de la sección -->
+    <div style="text-align:center; margin-top: 1.5rem;">
+      <ion-button class="gestionar-mascotas-btn" (click)="goToPets()">
+        <ion-icon name="paw" slot="start"></ion-icon>
+        Gestionar Mascotas
+      </ion-button>
     </div>
   </div>
   <app-footer></app-footer>
