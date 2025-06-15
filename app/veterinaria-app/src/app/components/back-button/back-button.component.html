@@ -1,8 +1,0 @@
-<ion-button 
-  [class]="'back-btn ' + getSizeClass() + ' ' + getThemeClass() + (showText ? ' show-text' : '')"
-  (click)="onBackClick()"
-  [title]="tooltip"
-  fill="clear">
-  <ion-icon name="arrow-back"></ion-icon>
-  <span *ngIf="showText">{{ text }}</span>
-</ion-button>
