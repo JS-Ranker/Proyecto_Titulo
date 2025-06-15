@@ -1,0 +1,6 @@
+# Ignorar todo por defecto
+/app-veterinaria/*
+
+# Permitir solo la carpeta src dentro de app-veterinaria
+!/app-veterinaria/src/
+!/app-veterinaria/src/**

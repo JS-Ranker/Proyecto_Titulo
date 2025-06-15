@@ -1,0 +1,332 @@
+:host {
+  --primary-color: #2fb8c6;
+  --secondary-color: #a9e5bb;
+  --accent-color: #ff8c70;
+  --background-light: #f8fafc;
+  --text-primary: #222;
+  --text-secondary: #666;
+  min-height: 100vh;
+}
+
+ion-content {
+  background: var(--background-light);
+}
+
+.custom-header {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  box-shadow: 0 4px 20px rgba(47, 184, 198, 0.08);
+  padding: 0.5rem 0;
+  .header-content {
+    display: flex;
+    align-items: center; 
+    gap: 1rem;
+    padding: 0.5rem 1.5rem;
+  }
+  .logo {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: white;
+    object-fit: contain;
+    box-shadow: 0 2px 8px rgba(47, 184, 198, 0.15);
+  }
+  .brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 1px;
+  }
+}
+
+.profile-content {
+  display: block; // Cambia de flex a block para no centrar todo el contenido
+  padding: 2.5rem 1rem 1rem 1rem;
+}
+
+.profile-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(47, 184, 198, 0.08);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 420px;
+  transition: box-shadow 0.2s;
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
+  .profile-title {
+    color: var(--primary-color);
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+  ion-list {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+  }
+  ion-item {
+    --background: transparent;
+    border-bottom: 1px solid #e0e7ef;
+    border-radius: 10px;
+    margin-bottom: 0.7rem;
+    padding: 0.7rem 0.5rem;
+    transition: background 0.2s;
+    align-items: center;
+    min-height: 56px;
+    box-shadow: 0 1px 4px rgba(47,184,198,0.04);
+
+    &:hover, &:focus-within {
+      background: #f1f5f9;
+      border-color: #b2ebf2;
+    }
+
+    ion-label {
+      color: #2FB8C6;
+      font-weight: 600;
+      font-size: 1.05rem;
+      min-width: 90px;
+      flex: 0 0 90px;
+    }
+
+    ion-text, ion-input {
+      color: #222;
+      font-size: 1.08rem;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
+
+    ion-input {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 0.25rem 0.7rem;
+      border: 1px solid #e0e7ef;
+      margin-right: 0.5rem;
+      transition: border 0.2s;
+      &:focus {
+        border: 1.5px solid #2FB8C6;
+        background: #e0f7fa;
+      }
+    }
+
+    ion-button {
+      --padding-start: 0;
+      --padding-end: 0;
+      --background: transparent;
+      --color: #2FB8C6;
+      --box-shadow: none;
+      margin-left: 0.2rem;
+      margin-right: 0.2rem;
+      font-size: 1.2rem;
+      border-radius: 50%;
+      transition: background 0.2s;
+      &:hover {
+        --background: #e0f7fa;
+      }
+    }
+
+    ion-icon {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.success-message {
+  color: var(--primary-color);
+  background: #e6f9fa;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0 0.5rem 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.error-message {
+  color: #ff6b6b;
+  background: #fff0f0;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0 0.5rem 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.pets-section {
+  background: #fff;
+  border-radius: 18px;
+  padding: 2rem 1rem 1.5rem 1rem;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 2px 16px rgba(47, 184, 198, 0.06);
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
+  h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.2rem;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .pet-card {
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 6px rgba(47, 184, 198, 0.07);
+    background: #f8fafc;
+    ion-avatar {
+      min-width: 48px;
+      min-height: 48px;
+      margin-right: 1rem;
+      img {
+        border-radius: 50%;
+        border: 2px solid var(--primary-color);
+        object-fit: cover;
+        width: 48px;
+        height: 48px;
+      }
+    }
+    .pet-name {
+      font-weight: 700;
+      color: var(--primary-color);
+      font-size: 1.08rem;
+    }
+    .pet-info {
+      color: var(--text-secondary);
+      font-size: 0.97rem;
+    }
+  }
+  .no-pets {
+    color: var(--accent-color);
+    text-align: center;
+    font-weight: 600;
+    margin-top: 1rem;
+    font-size: 1.05rem;
+  }
+}
+
+.paw-avatar-icon {
+  font-size: 2.2rem;
+  color: #2FB8C6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}
+
+.profile-back-btn {
+  padding: 1rem 1.5rem 0.5rem 1.5rem;
+}
+
+.pets-topbar {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.2rem 1.5rem 1rem 1.5rem;
+  background: linear-gradient(120deg, #ffffff 60%, #e0f7fa 100%);
+  box-shadow: 0 4px 24px rgba(47,184,198,0.08), 0 1.5px 0 rgba(47,184,198,0.10);
+  border-radius: 0 0 22px 22px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  margin-bottom: 1.2rem;
+  min-height: 72px;
+  transition: box-shadow 0.2s;
+}
+
+.app-back-button, .back-btn {
+  margin-right: 0.5rem;
+}
+
+.header-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.pets-title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin: 0;
+  line-height: 1.15;
+  color: #222;
+  background: linear-gradient(90deg, #2FB8C6 0%, #FF8C70 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 8px rgba(47,184,198,0.08);
+}
+
+.pets-subtitle {
+  color: #2FB8C6;
+  font-size: 1.02rem;
+  font-weight: 500;
+  margin: 0.25rem 0 0 0;
+  letter-spacing: 0.1px;
+  opacity: 0.85;
+  text-shadow: 0 1px 4px rgba(47,184,198,0.07);
+}
+
+.gestionar-mascotas-btn {
+  --background: linear-gradient(90deg, #2FB8C6 0%, #FF8C70 100%);
+  --color: #fff;
+  --border-radius: 22px;
+  --box-shadow: 0 2px 12px rgba(47,184,198,0.10);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-size: 1.08rem;
+  padding: 0.9rem 1.7rem;
+  margin: 1.5rem auto 2rem auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 12px rgba(47,184,198,0.10);
+
+  &:hover, &:focus {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 24px rgba(47,184,198,0.18);
+    --background: linear-gradient(90deg, #2FB8C6 10%, #FF8C70 90%);
+  }
+
+  ion-icon {
+    font-size: 1.3rem;
+    margin-right: 0.3rem;
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .pets-topbar {
+    padding: 1rem 0.7rem 0.7rem 0.7rem;
+    min-height: 62px;
+    border-radius: 0 0 14px 14px;
+  }
+  .pets-title {
+    font-size: 1.08rem;
+  }
+  .pets-subtitle {
+    font-size: 0.93rem;
+  }
+  .profile-card {
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+    max-width: 100%;
+  }
+  .profile-card ion-item {
+    padding: 0.5rem 0.2rem;
+    font-size: 0.97rem;
+  }
+}

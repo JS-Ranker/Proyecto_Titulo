@@ -1,0 +1,62 @@
+<!-- Header fuera del ion-content -->
+<app-header></app-header>
+
+<ion-content [fullscreen]="true" class="home-container">
+  <!-- Carousel Banner -->
+  <app-carouselbanner></app-carouselbanner>
+  
+  <!-- Contenido de la página -->
+  <section class="about-section">
+    <div class="container">
+
+            <span class="brand happy-pet-logo">
+        <ion-icon name="paw" class="logo paw-icon"></ion-icon>
+        <span>Happy Pet</span>
+      </span>
+
+
+      <div class="content-box">
+        <p class="description">
+          Somos la veterinaria Happy Pet, tu aliado en el cuidado y bienestar
+          de tus mascotas. Con amor, experiencia y un equipo dedicado, nos
+          comprometemos a brindar la mejor atención médica, preventiva y de
+          emergencia para que tus peludos vivan una vida feliz y saludable.
+        </p>
+        <p class="description">
+          Pero nuestro compromiso va más allá: como parte de nuestra labor
+          social, trabajamos como ONG para rescatar animales en situación de
+          calle, rehabilitarlos y darles visibilidad en busca de un hogar
+          lleno de amor. Porque en Happy Pet, cada pata cuenta y cada adopción
+          es una nueva familia.
+        </p>
+      </div>
+    </div> 
+  </section>
+
+  <!-- Services Preview Section -->
+  <section class="services-preview">
+    <div class="container">
+      <h2 class="section-title">Nuestros Servicios</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🏥</div>
+          <h3>Atención Médica</h3>
+          <p>Cuidado completo para tu mascota con profesionales experimentados</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">💉</div>
+          <h3>Vacunación</h3>
+          <p>Mantén a tu mascota protegida con nuestro plan de vacunación</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🐾</div>
+          <h3>Adopciones</h3>
+          <p>Conoce a nuestros peludos en busca de un hogar lleno de amor</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer dentro del ion-content -->
+  <app-footer></app-footer>
+</ion-content>
