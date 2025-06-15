@@ -1,0 +1,46 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true" class="login-container">
+  <div class="login-form">
+    <div class="login-logo">
+      <ion-icon name="paw" class="logo"></ion-icon>
+      <h1 class="brandName">HappyPet</h1>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <ion-item>
+        <ion-label position="floating">RUT</ion-label>
+        <ion-input
+          formControlName="rut"
+          type="text"
+          (ionInput)="onRutInput($event)">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder=></ion-input>
+        <ion-icon
+          slot="end"
+          [name]="showPassword ? 'eye-off' : 'eye'"
+          class="password-toggle"
+          (click)="togglePasswordVisibility()"
+        ></ion-icon>
+      </ion-item>
+      <div *ngIf="error" class="error-message">{{ error }}</div>
+      <ion-button expand="block" type="submit" [disabled]="loading">
+        <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+        <span *ngIf="!loading">Ingresar</span>
+      </ion-button>
+      <div class="register-link">
+        ¿No tienes una cuenta?
+        <a (click)="navigateToRegister()">Regístrate aquí</a>
+      </div>
+    </form>
+  </div>
+  <!-- Overlay de éxito animado -->
+  <div *ngIf="showSuccessOverlay" class="success-overlay">
+    <div class="checkmark-container">
+      <ion-icon name="checkmark-circle" class="checkmark-anim"></ion-icon>
+      <div class="success-text">¡Bienvenido!</div>
+    </div>
+  </div>
+</ion-content>

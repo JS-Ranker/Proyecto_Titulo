@@ -1,0 +1,55 @@
+/* Estilos globales para el layout de la aplicación */
+
+/* Asegurar que el contenido principal tenga altura completa */
+ion-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* El contenido principal debe expandirse */
+ion-router-outlet {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Páginas deben tener altura mínima */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* El contenido de la página debe expandirse */
+.main-content {
+  flex: 1;
+}
+
+/* Asegurar que ion-content no tenga altura fija cuando hay footer */
+ion-content {
+  --overflow: visible;
+}
+
+/* Para páginas con footer, asegurar espacio suficiente */
+.page-with-footer {
+  ion-content {
+    margin-bottom: 0;
+  }
+}
+
+/* Opcional: Agregar separación visual antes del footer */
+.content-footer-separator {
+  height: 60px;
+  background: linear-gradient(
+    to bottom,
+    rgba(250, 250, 249, 1) 0%,
+    rgba(250, 250, 249, 0.8) 50%,
+    rgba(47, 184, 198, 0.1) 100%
+  );
+}
+
+/* Estilo para el logo de Happy Pet */
+.happy-pet-logo .paw-icon {
+  color: #2FB8C6 !important;
+}

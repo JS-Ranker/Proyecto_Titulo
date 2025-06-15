@@ -1,0 +1,154 @@
+/* Estilos base del botón de retroceder */
+.back-btn {
+  --border-radius: 50%;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(47,184,198,0.1);
+  border-radius: 50% !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    font-weight: bold;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.95);
+  }
+}
+
+/* Variantes de tamaño */
+.back-btn-small {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+
+  ion-icon {
+    font-size: 1.2rem;
+  }
+}
+
+.back-btn-medium {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+
+  ion-icon {
+    font-size: 1.5rem;
+  }
+}
+
+.back-btn-large {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+
+  ion-icon {
+    font-size: 1.8rem;
+  }
+}
+
+/* Variantes de tema */
+.back-btn-light {
+  --background: rgba(255,255,255,0.9);
+  --box-shadow: 0 4px 20px rgba(47,184,198,0.15);
+  --color: #2FB8C6;
+
+  &:hover {
+    --background: rgba(47,184,198,0.1);
+    --box-shadow: 0 6px 25px rgba(47,184,198,0.2);
+  }
+}
+
+.back-btn-dark {
+  --background: rgba(0,0,0,0.7);
+  --box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  --color: #ffffff;
+  border-color: rgba(255,255,255,0.2);
+
+  &:hover {
+    --background: rgba(0,0,0,0.8);
+    --box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+  }
+}
+
+.back-btn-primary {
+  --background: linear-gradient(135deg, #2FB8C6 0%, #FF8C70 100%);
+  --box-shadow: 0 4px 20px rgba(47,184,198,0.3);
+  --color: #ffffff;
+  border-color: rgba(255,255,255,0.2);
+
+  &:hover {
+    --background: linear-gradient(135deg, #FF8C70 0%, #2FB8C6 100%);
+    --box-shadow: 0 6px 25px rgba(47,184,198,0.4);
+  }
+}
+
+/* Estilo con texto */
+.back-btn.show-text {
+  border-radius: 25px !important;
+  --border-radius: 25px;
+  width: auto;
+  min-width: auto;
+  --padding-start: 1rem;
+  --padding-end: 1.2rem;
+  --padding-top: 0.6rem;
+  --padding-bottom: 0.6rem;
+
+  span {
+    margin-left: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .back-btn-large {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+
+    ion-icon {
+      font-size: 1.5rem;
+    }
+  }
+
+  .back-btn-medium {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+
+    ion-icon {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+/* Tema oscuro */
+@media (prefers-color-scheme: dark) {
+  .back-btn-light {
+    --background: rgba(255,255,255,0.1);
+    --color: #ffffff;
+    border-color: rgba(255,255,255,0.2);
+
+    &:hover {
+      --background: rgba(255,255,255,0.2);
+    }
+  }
+}
