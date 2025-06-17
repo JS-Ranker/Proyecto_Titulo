@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DuenosService } from '../../service/duenos.service';
 import { MascotasService } from '../../service/mascotas.service';
+import { IMG_BASE_URL } from 'src/app/service/api-config';
 
 @Component({
   selector: 'app-userprofile',
@@ -20,6 +21,7 @@ export class UserprofilePage implements OnInit {
   editMode = false;
   editForm: FormGroup;
   editField: string | null = null;
+  IMG_BASE_URL = IMG_BASE_URL;
 
   constructor(
     private duenosService: DuenosService,

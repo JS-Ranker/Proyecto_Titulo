@@ -95,7 +95,7 @@
       <ion-item *ngFor="let mascota of mascotas" class="pet-card">
         <ion-avatar slot="start">
           <ng-container *ngIf="mascota.url_imagen_mascota; else pawIcon">
-            <img [src]="'http://localhost:3000/' + mascota.url_imagen_mascota" />
+            <img [src]="IMG_BASE_URL + mascota.url_imagen_mascota" alt="Mascota" />
           </ng-container>
           <ng-template #pawIcon>
             <ion-icon name="paw" class="paw-avatar-icon"></ion-icon>

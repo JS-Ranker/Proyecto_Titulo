@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MascotasService } from '../../service/mascotas.service';
 import { Router } from '@angular/router';
+import { IMG_BASE_URL } from 'src/app/service/api-config';
 
 @Component({
   selector: 'app-pets',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 export class PetsPage implements OnInit {
   mascotas: any[] = [];
   loading = true;
+  IMG_BASE_URL = IMG_BASE_URL;
 
   constructor(
     private mascotasService: MascotasService,

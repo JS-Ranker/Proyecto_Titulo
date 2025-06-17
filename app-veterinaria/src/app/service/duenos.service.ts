@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-const API_BASE_URL = 'http://localhost:3000/api/duenos'; // Cambia la URL si tu backend es diferente
+import { API_BASE_URL } from './api-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DuenosService {
-  private apiUrl = 'http://localhost:3000/api'; // Ajusta según tu backend
+  private apiUrl = API_BASE_URL;
 
   constructor(private http: HttpClient) {}
 
   register(data: any): Observable<any> {
-    return this.http.post(API_BASE_URL, data);
+    return this.http.post(`${this.apiUrl}/duenos`, data);
   }
 
   login(data: any): Observable<any> {
-    return this.http.post(`${API_BASE_URL}/login`, data);
+    return this.http.post(`${this.apiUrl}/duenos/login`, data);
   }
 
   getDuenoPorRut(rut: string) {
