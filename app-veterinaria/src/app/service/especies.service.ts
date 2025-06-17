@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { API_BASE_URL } from './api-config';
 
 @Injectable({ providedIn: 'root' })
 export class EspeciesService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = API_BASE_URL;
 
   constructor(private http: HttpClient) {}
 

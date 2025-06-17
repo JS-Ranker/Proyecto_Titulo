@@ -1,5 +1,15 @@
 @import '../login/login.page.scss'; // Reutiliza estilos del login
 
+ion-content,
+.register-container {
+  --background: #FAFAF9 !important;
+  background: #FAFAF9 !important;
+}
+
+.login-form, .register-form {
+  background: #fff !important;
+}
+
 .success-message {
   color: var(--success);
   text-align: center;
@@ -9,4 +19,4 @@
   border-radius: 8px;
   padding: 0.7rem 1rem;
   animation: fadeIn 0.5s;
-} 
+}
