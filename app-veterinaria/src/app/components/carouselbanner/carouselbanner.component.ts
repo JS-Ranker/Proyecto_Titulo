@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router'; // Agrega esto
 
 interface SlideData {
   id: number;
@@ -53,7 +54,7 @@ export class CarouselbannerComponent implements OnInit, OnDestroy {
     }
   ];
 
-  constructor() { }
+  constructor(private router: Router) {} 
 
   ngOnInit() {
     this.startAutoSlide();
@@ -100,15 +101,12 @@ export class CarouselbannerComponent implements OnInit, OnDestroy {
     switch (currentSlide.theme) {
       case 'veterinaria':
         // Navegar a servicios veterinarios
-        console.log('Navegando a servicios veterinarios');
+        this.router.navigate(['/video-call']); 
         break;
       case 'ecommerce':
-        // Navegar a tienda
-        console.log('Navegando a tienda online');
+        this.router.navigate(['/shop']);
         break;
       case 'adopcion':
-        // Navegar a adopciones
-        console.log('Navegando a adopciones');
         break;
     }
   }

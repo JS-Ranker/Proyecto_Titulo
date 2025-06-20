@@ -39,6 +39,8 @@ const routes: Routes = [
     path: 'userprofile',
     loadChildren: () => import('./pages/userprofile/userprofile.module').then( m => m.UserprofilePageModule)
   },
+
+
 ];
 
 @NgModule({

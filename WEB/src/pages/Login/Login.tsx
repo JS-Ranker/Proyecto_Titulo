@@ -132,7 +132,7 @@ const Login = () => {
         login({ rut: response.data.rut });
 
         // Guarda el usuario en localStorage para el registro de mascotas
-        localStorage.setItem("currentUser", JSON.stringify({ rut: response.data.rut }));
+        localStorage.setItem("currentUser", JSON.stringify(response.data));
 
         // Mostrar modal de éxito
         setLoadingSuccess(false);
