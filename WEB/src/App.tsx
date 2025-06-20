@@ -21,6 +21,8 @@ import PetsPage from "./pages/Pets/PetsPage";
 import "./App.css";
 import 'animate.css';
 import { AuthProvider, useAuth } from "./utils/AuthContext";
+import AgendamientoCitas from "./pages/AgendamientoCitas/AgendamientoCitas";
+import VideoConsulta from "./pages/VideoConsulta/VideoConsulta"; // Agrega este import
 
 // Componente para proteger rutas
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
@@ -46,6 +48,8 @@ const AppContent = () => {
         <Route path="/userProfile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
         <Route path="/add-pet" element={<ProtectedRoute><AddPet /></ProtectedRoute>} />
         <Route path="/mascotas" element={<PetsPage />} />
+        <Route path="/agendamientoCitas" element={<AgendamientoCitas />} />
+        <Route path="/videoConsulta" element={<VideoConsulta />} /> {/* Agrega esta línea */}
       </Routes>
       <Footer />
     </Router>

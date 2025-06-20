@@ -1,5 +1,6 @@
 import { Carousel } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Agrega esta línea
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./CarouselBanner.module.css";
 
@@ -7,6 +8,7 @@ const CarouselBanner = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate(); // Agrega esta línea
   
   const totalSlides = 3;
   
@@ -111,7 +113,10 @@ const CarouselBanner = () => {
           <div className={`${styles.mainMessageContent} ${styles.veterinariaMessage}`}>
             <h1>Cuidamos a quien más quieres</h1>
             <p>Atención médica veterinaria de calidad con un equipo profesional</p>
-            <button className={styles.mainActionButton}>
+            <button
+              className={styles.mainActionButton}
+              onClick={() => navigate("/especialidadespage")}
+            >
               Ver servicios veterinarios
             </button>
           </div>

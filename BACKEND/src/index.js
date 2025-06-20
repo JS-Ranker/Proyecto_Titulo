@@ -7,6 +7,9 @@ import duenosRoutes from './routes/duenos.routes.js';
 import mascotasRoutes from './routes/mascotas.routes.js';
 import razasRoutes from './routes/razas.routes.js';
 import especiesRoutes from './routes/especies.routes.js';
+import citasRoutes from './routes/citas.routes.js';
+import tiposConsultaRoutes from './routes/tipos_consultas.routes.js';
+import veterinarioRoutes from './routes/veterinario.routes.js';
 
 dotenv.config();
 
@@ -20,6 +23,9 @@ app.use('/api/duenos', duenosRoutes);
 app.use('/api/mascotas', mascotasRoutes);
 app.use('/api/razas', razasRoutes);
 app.use('/api/especies', especiesRoutes);
+app.use('/api/citas', citasRoutes);
+app.use('/api/tipos-consulta', tiposConsultaRoutes);
+app.use('/api/veterinarios', veterinarioRoutes);
 
 app.get('/', (req, res) => {
   res.send('API de Clínica Veterinaria funcionando!');

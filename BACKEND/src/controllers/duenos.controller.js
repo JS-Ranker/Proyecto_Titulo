@@ -124,10 +124,8 @@ export const TraerDuenoPorRut = (req, res) => {
 
 };
 
-
 export const loginDueno = (req, res) => {
   const { rut, password } = req.body;
-
   Dueno.buscarPorRut(rut, (err, dueno) => {
     if (err) {
       return res.status(500).json({ error: 'Error en el servidor', detalle: err });
@@ -145,7 +143,18 @@ export const loginDueno = (req, res) => {
       return res.status(403).json({ error: 'Usuario inactivo' });
     }
 
-    res.status(200).json({ mensaje: 'Login exitoso', rut: dueno.rut });
+    // Traer todos los datos del dueño (nombre, apellido, email, etc)
+    // Usar buscarDatosPorRut en vez de buscarPorRut
+    Dueno.buscarDatosPorRut(rut, (err2, datosDueno) => {
+      if (err2) {
+        return res.status(500).json({ error: 'Error al obtener datos del dueño', detalle: err2 });
+      }
+      if (!datosDueno) {
+        return res.status(404).json({ error: 'Datos del dueño no encontrados' });
+      }
+      res.status(200).json(datosDueno);
+    });
   });
 };
+
 

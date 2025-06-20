@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./EspecialidadesPage.module.css";
 
 const EspecialidadesPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Nuestras Especialidades Veterinarias</h1>
@@ -47,6 +49,21 @@ const EspecialidadesPage = () => {
             Ver más
           </Link>
         </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          gap: "1rem",
+          justifyContent: "center",
+          marginTop: "2rem",
+        }}
+      >
+        <button onClick={() => navigate("/agendamientoCitas")}>
+          Agendar cita
+        </button>
+        <button onClick={() => navigate("/videoConsulta")}>
+          Video Consultas
+        </button>
       </div>
     </div>
   );
