@@ -17,4 +17,12 @@ export const citasService = {
     const response = await axios.post(API_BASE_URL, data);
     return response.data;
   },
-};
+  obtenerCitasPorDueno: async (rut: string) => {
+    const response = await axios.get(`http://localhost:3000/api/citas/dueno/${rut}`);
+    return response.data;
+  },
+  cancelarCita: async (id: number) => {
+    const response = await axios.patch(`${API_BASE_URL}/${id}/cancelar`);
+    return response.data;
+  },
+}; 

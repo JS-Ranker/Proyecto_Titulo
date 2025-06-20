@@ -1,0 +1,294 @@
+
+.citas-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #FAFAF9;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Título principal */
+.citas-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333333;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.citas-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #2FB8C6, #A9E5BB);
+  border-radius: 2px;
+}
+
+/* Mensaje cuando no hay citas */
+.no-citas-message {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #A9E5BB20, #2FB8C620);
+  border-radius: 16px;
+  border: 2px dashed #2FB8C6;
+  margin: 2rem 0;
+}
+
+.no-citas-message p {
+  font-size: 1.2rem;
+  color: #666666;
+  margin: 0;
+  font-weight: 500;
+}
+
+.no-citas-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* Container de la tabla */
+.table-container {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(47, 184, 198, 0.1);
+  overflow: hidden;
+  margin: 2rem 0;
+  border: 1px solid rgba(47, 184, 198, 0.1);
+}
+
+/* Estilos de la tabla */
+.citas-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+/* Encabezado de la tabla */
+.citas-table thead {
+  background: linear-gradient(135deg, #2FB8C6, #A9E5BB);
+}
+
+.citas-table thead th {
+  padding: 1.2rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  border: none;
+  position: relative;
+}
+
+.citas-table thead th:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 25%;
+  height: 50%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Filas del cuerpo */
+.citas-table tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.citas-table tbody tr:hover {
+  background-color: rgba(47, 184, 198, 0.05);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(47, 184, 198, 0.1);
+}
+
+.citas-table tbody tr:nth-child(even) {
+  background-color: rgba(169, 229, 187, 0.03);
+}
+
+.citas-table tbody tr:nth-child(even):hover {
+  background-color: rgba(47, 184, 198, 0.08);
+}
+
+/* Celdas del cuerpo */
+.citas-table tbody td {
+  padding: 1rem;
+  color: #333333;
+  vertical-align: middle;
+  border: none;
+}
+
+/* Estilos específicos por columna */
+.mascota-cell {
+  font-weight: 600;
+  color: #2FB8C6;
+}
+
+.veterinario-cell {
+  font-style: italic;
+  color: #666666;
+}
+
+.especialidad-cell {
+  background-color: rgba(169, 229, 187, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem !important;
+  font-weight: 500;
+  color: #2FB8C6;
+  text-align: center;
+  margin: 0.2rem 0;
+  display: inline-block;
+  min-width: 100px;
+}
+
+.fecha-cell {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: #666666;
+  font-weight: 500;
+}
+
+/* Estados de las citas */
+.estado-cell {
+  text-align: center;
+}
+
+.estado-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  min-width: 80px;
+}
+
+.estado-pendiente {
+  background-color: #FF8C70;
+  color: white;
+}
+
+.estado-confirmada {
+  background-color: #A9E5BB;
+  color: #2FB8C6;
+}
+
+.estado-completada {
+  background-color: #2FB8C6;
+  color: white;
+}
+
+.estado-cancelada {
+  background-color: #f0f0f0;
+  color: #666666;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .citas-container {
+    padding: 1rem;
+  }
+  
+  .citas-title {
+    font-size: 2rem;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+  }
+  
+  .citas-table {
+    min-width: 600px;
+  }
+  
+  .citas-table thead th,
+  .citas-table tbody td {
+    padding: 0.8rem 0.6rem;
+  }
+  
+  .citas-table thead th {
+    font-size: 0.8rem;
+  }
+  
+  .citas-table tbody td {
+    font-size: 0.9rem;
+  }
+  
+  .especialidad-cell {
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.85rem;
+  }
+  
+  .estado-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .citas-container {
+    padding: 0.5rem;
+  }
+  
+  .citas-title {
+    font-size: 1.8rem;
+  }
+  
+  .no-citas-message {
+    padding: 2rem 1rem;
+  }
+  
+  .citas-table {
+    font-size: 0.85rem;
+  }
+  
+  .citas-table thead th,
+  .citas-table tbody td {
+    padding: 0.6rem 0.4rem;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table-container {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.no-citas-message {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Efectos adicionales */
+.citas-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2FB8C6, #A9E5BB, #FF8C70);
+  border-radius: 16px 16px 0 0;
+}

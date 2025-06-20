@@ -1,0 +1,203 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true" class="agendar-citas-container">
+  <div class="container">
+    <h1 class="title">
+      <ion-icon name="paw" class="paw-icon"></ion-icon>
+      Agendar Cita Veterinaria
+    </h1>
+
+    <!-- Mensaje de éxito -->
+    <div *ngIf="isSubmitted" class="confirmation-message">
+      <ion-icon name="checkmark-circle" class="confirmation-icon"></ion-icon>
+      <h2>¡Cita Agendada!</h2>
+      <p>Tu cita fue registrada exitosamente.<br />Serás redirigido al inicio en unos segundos.</p>
+    </div>
+
+    <form *ngIf="!isSubmitted">
+      <!-- Paso 1: Dueño y mascota -->
+      <div *ngIf="step === 1" class="form-section">
+        <h2 class="section-title">Información del Dueño</h2>
+        <ion-list>
+          <ion-item>
+            <ion-label>Nombre completo</ion-label>
+            <ion-text>{{ currentUser?.nombre ? (currentUser?.nombre + ' ' + (currentUser?.apellido || '')) : (currentUser?.nombres || '') }}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label>Correo electrónico</ion-label>
+            <ion-text>{{ currentUser?.email }}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label>Teléfono</ion-label>
+            <ion-text>{{ currentUser?.telefono }}</ion-text>
+          </ion-item>
+        </ion-list>
+        <h2 class="section-title">Información de la Mascota</h2>
+        <ion-item>
+          <ion-label position="stacked">Mascota</ion-label>
+          <ion-select [(ngModel)]="selectedMascota" name="mascota" (ionChange)="onMascotaChange($event.detail.value)">
+            <ion-select-option *ngFor="let mascota of mascotas" [value]="mascota.id_mascota">
+              {{ mascota.nombre_mascota }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div *ngIf="selectedMascota" class="pet-card" style="margin:1rem 0;">
+          <ion-item lines="none">
+            <ion-avatar slot="start">
+              <ng-container *ngIf="mascotaSeleccionada?.url_imagen_mascota; else pawIcon">
+                <img [src]="'http://localhost:3000/' + mascotaSeleccionada?.url_imagen_mascota" alt="Mascota" />
+              </ng-container>
+              <ng-template #pawIcon>
+                <ion-icon name="paw" class="paw-avatar-icon"></ion-icon>
+              </ng-template>
+            </ion-avatar>
+            <ion-label>
+              <div class="pet-name">
+                {{ mascotaSeleccionada?.nombre_mascota }}
+                <span class="pet-chip" *ngIf="mascotaSeleccionada?.esta_esterilizado">
+                  <ion-icon name="checkmark-circle"></ion-icon> Esterilizado
+                </span>
+              </div>
+              <div class="pet-info">
+                <ion-icon name="paw" class="icon-info"></ion-icon>
+                {{ mascotaSeleccionada?.nombre_especie || 'Tipo desconocido' }} - {{ mascotaSeleccionada?.nombre_raza || 'Raza desconocida' }}
+              </div>
+              <div class="pet-attribute">
+                <ion-icon name="calendar" class="icon-info"></ion-icon>
+                <span class="accent">Edad: {{ edadMascotaSeleccionada }}</span>
+              </div>
+              <div class="pet-attribute">
+                <ion-icon name="fitness" class="icon-info"></ion-icon>
+                <span>Peso: {{ mascotaSeleccionada?.peso_kg || 'N/A' }} kg</span>
+              </div>
+              <div class="pet-attribute">
+                <ion-icon name="male-female" class="icon-info"></ion-icon>
+                <span>Género: {{ mascotaSeleccionada?.sexo_mascota }}</span>
+              </div>
+              <div class="pet-attribute">
+                <ion-icon name="color-palette" class="icon-info"></ion-icon>
+                <span>Color: {{ mascotaSeleccionada?.color_mascota || 'N/A' }}</span>
+              </div>
+              <div class="pet-attribute">
+                <ion-icon name="barcode" class="icon-info"></ion-icon>
+                <span>Microchip: {{ mascotaSeleccionada?.codigo_microchip || 'N/A' }}</span>
+              </div>
+            </ion-label>
+          </ion-item>
+        </div>
+        <div class="action-buttons">
+          <ion-button color="primary" expand="block" (click)="nextStep()" [disabled]="!selectedMascota">
+            Siguiente
+          </ion-button>
+        </div>
+      </div>
+ 
+      <!-- Paso 2: Especialidad, veterinario y fecha -->
+      <div *ngIf="step === 2" class="form-section">
+        <h2 class="section-title">Especialidad Médica</h2>
+        <ion-list>
+          <ion-radio-group [(ngModel)]="selectedTipoConsulta" name="tipoConsulta" (ionChange)="onTipoConsultaChange(selectedTipoConsulta)">
+            <ion-item *ngFor="let tipo of tiposConsulta">
+              <ion-label>
+                <strong>{{ tipo.nombre }}</strong>
+                <div class="desc">{{ tipo.descripcion }}</div>
+                <div *ngIf="tipo.precio" class="precio-especialidad">
+                  {{ tipo.precio | currency:'CLP':'symbol':'1.0-0':'es-CL' }}
+                </div>
+              </ion-label>
+              <ion-radio slot="end" [value]="tipo"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+        <h2 class="section-title">Veterinario</h2>
+        <ion-select [(ngModel)]="selectedVeterinario" name="veterinario">
+          <ion-select-option *ngFor="let vet of veterinarios" [value]="vet">
+            {{ vet.nombre }} ({{ vet.numero_licencia || 'Sin licencia' }})
+          </ion-select-option>
+        </ion-select>
+        <h2 class="section-title">Seleccione Fecha</h2>
+        <div class="calendar-header">
+          <ion-button fill="clear" (click)="handleMonthChange(-1)">
+            <ion-icon name="chevron-back"></ion-icon>
+          </ion-button>
+          <span class="calendar-title">{{ getMonthName(currentMonth) | titlecase }}</span>
+          <ion-button fill="clear" (click)="handleMonthChange(1)">
+            <ion-icon name="chevron-forward"></ion-icon>
+          </ion-button>
+          <ion-select [(ngModel)]="currentYear" (ionChange)="handleYearChange($event.detail.value)" interface="popover">
+            <ion-select-option *ngFor="let year of availableYears" [value]="year">{{ year }}</ion-select-option>
+          </ion-select>
+        </div>
+        <div class="calendar-grid">
+          <div class="calendar-day-header" *ngFor="let day of ['D','L','M','X','J','V','S']">{{ day }}</div>
+          <div *ngFor="let day of generateCalendarDays(); let i = index"
+               [ngClass]="{'calendar-day': day, 'empty': !day, 'selected': selectedDate && day && day.getDate() === selectedDate.getDate() && day.getMonth() === selectedDate.getMonth() && day.getFullYear() === selectedDate.getFullYear()}"
+               (click)="handleDateSelect(day)">
+            {{ day ? day.getDate() : '' }}
+          </div>
+        </div>
+        <div class="action-buttons">
+          <ion-button color="secondary" expand="block" (click)="prevStep()">
+            Atrás
+          </ion-button>
+          <ion-button color="primary" expand="block" (click)="nextStep()" [disabled]="!selectedTipoConsulta || !selectedDate">
+            Siguiente
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- Paso 3: Hora, motivo y confirmación -->
+      <div *ngIf="step === 3" class="form-section">
+        <h2 class="section-title">Resumen de la Cita</h2>
+        <ion-item>
+          <ion-label position="stacked">Motivo de la consulta</ion-label>
+          <ion-textarea [(ngModel)]="motivo" name="motivo" placeholder="Describe el motivo de la consulta"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Notas previas (opcional)</ion-label>
+          <ion-textarea [(ngModel)]="notasPrevias" name="notasPrevias" placeholder="Notas adicionales para el veterinario"></ion-textarea>
+        </ion-item>
+        <div class="summary-item">
+          <span class="summary-label">Mascota:</span>
+          <span class="summary-value">{{ mascotaSeleccionada?.nombre_mascota }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Veterinario:</span>
+          <span class="summary-value">
+            {{ selectedVeterinario ? (selectedVeterinario.nombre + ' (' + (selectedVeterinario.numero_licencia || 'Sin licencia') + ')') : 'No hay veterinario disponible para esta especialidad' }}
+          </span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Especialidad:</span>
+          <span class="summary-value">
+            {{ selectedTipoConsulta ? (selectedTipoConsulta.nombre + ' - ' + selectedTipoConsulta.descripcion + ' (' + (selectedTipoConsulta.precio | currency:'CLP':'symbol':'1.0-0':'es-CL') + ')') : '' }}
+          </span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Fecha seleccionada:</span>
+          <span class="summary-value">
+            {{ selectedDate ? (selectedDate | date:'fullDate':'':'es-ES') : '' }}
+          </span>
+        </div>
+        <h2 class="section-title">Horarios Disponibles</h2>
+        <div class="time-slots">
+          <ion-button *ngFor="let time of timeSlots"
+                      [color]="selectedTime === time ? 'primary' : 'light'"
+                      (click)="selectedTime = time"
+                      class="time-slot-btn">
+            {{ time }}
+          </ion-button>
+        </div>
+        <div class="action-buttons">
+          <ion-button color="secondary" expand="block" (click)="prevStep()">
+            Atrás
+          </ion-button>
+          <ion-button color="success" expand="block" (click)="submitCita()" [disabled]="!selectedTime || loading">
+            <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+            <span *ngIf="!loading">Confirmar Cita</span>
+          </ion-button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <app-footer></app-footer>
+</ion-content>

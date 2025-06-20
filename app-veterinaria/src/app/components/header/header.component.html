@@ -1,67 +1,107 @@
-<header [class]="'header ' + (scrolled ? 'scrolled' : '')">
+<header [class.header]="true" [class.scrolled]="scrolled">
   <nav class="container">
     <div class="nav-wrapper">
-      <!-- Brand/Logo -->
-      <a class="brand happy-pet-logo" (click)="navigateTo('/')">
-        <ion-icon name="paw" class="logo paw-icon"></ion-icon>
+      <!-- Logo y marca -->
+      <a class="brand" routerLink="/" (click)="closeMenuAfterDelay()">
+        <ion-icon name="paw" class="l ogo"></ion-icon>
         <span>Happy Pet</span>
       </a>
-      <!-- Hamburger Button -->
-      <button 
+
+      <!-- Botón hamburguesa -->
+      <button
         class="hamburger"
-        [attr.aria-expanded]="isMenuOpen"
-        aria-label="Toggle navigation"
-        (click)="toggleMenu()">
-        <span class="hamburger-icon"></span>
+        [class.hamburgerOpen]="mobileMenuOpen"
+        aria-label="Abrir menú"
+        [attr.aria-expanded]="mobileMenuOpen"
+        (click)="toggleMenu()"
+      >
+        <ion-icon name="paw" class="logo"></ion-icon>
       </button>
-      <!-- Navigation Menu -->
-      <div [class]="'nav-menu ' + (isMenuOpen ? 'show-menu' : '')">
+
+      <!-- Menú de navegación -->
+      <div class="nav-menu" [class.show-menu]="mobileMenuOpen">
         <ul class="nav-list">
-          <!-- Inicio -->
-          <li class="nav-item">
-            <a 
-              [class]="'nav-link ' + (isActiveRoute('/') ? 'active-nav-link' : '')"
-              (click)="navigateTo('/')">
-              Inicio
-            </a>
-          </li>
-          <!-- Menu items for non-logged users -->
-          <ng-container *ngIf="!(isLoggedIn$ | async)">
+          <!-- Opciones para usuario logueado -->
+          <ng-container *ngIf="isLoggedIn">
             <li class="nav-item">
-              <a 
-                [class]="'nav-link ' + (isActiveRoute('/login') ? 'active-nav-link' : '')"
-                (click)="navigateTo('/login')">
-                Login
+              <a class="nav-link" routerLink="/" (click)="closeMenuAfterDelay()">
+                <ion-icon name="home" class="nav-icon"></ion-icon>
+                <span>Inicio</span>
+              </a>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/citas" (click)="closeMenuAfterDelay()">
+                <ion-icon name="calendar" class="nav-icon"></ion-icon>
+                <span>Mis Citas</span>
               </a>
             </li>
             <li class="nav-item">
-              <a 
-                [class]="'nav-link ' + (isActiveRoute('/register') ? 'active-nav-link' : '')"
-                (click)="navigateTo('/register')">
-                Registro
-              </a>
-            </li>
-          </ng-container>
-          <!-- Menu items for logged users -->
-          <ng-container *ngIf="isLoggedIn$ | async">
-            <li class="nav-item">
-              <a 
-                [class]="'nav-link ' + (isActiveRoute('/userprofile') ? 'active-nav-link' : '')"
-                (click)="navigateTo('/userprofile')">
+              <a class="nav-link" routerLink="/userprofile" (click)="closeMenuAfterDelay()">
                 <ion-icon name="person-circle" class="nav-icon"></ion-icon>
-                Perfil
+                <span>Perfil</span>
               </a>
             </li>
+
             <li class="nav-item">
-              <button 
-                class="nav-link logout-button"
-                (click)="showLogoutConfirm()">
-                Cerrar sesión
+              <a class="nav-link" routerLink="/pets" (click)="closeMenuAfterDelay()">
+                <ion-icon name="paw" class="nav-icon"></ion-icon>
+                <span>Mis Mascotas</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/agendamiento-citas" (click)="closeMenuAfterDelay()">
+                <ion-icon name="calendar" class="nav-icon"></ion-icon>
+                <span>Agendamiento de Citas</span>
+              </a>
+            </li>
+
+
+            <li class="nav-item">
+              <button class="logout-button" (click)="showLogoutModal()">
+                <ion-icon name="log-out" class="nav-icon"></ion-icon>
+                <span>Cerrar Sesión</span>
               </button>
             </li>
           </ng-container>
+
+          <!-- Opciones para usuario no logueado -->
+          <ng-container *ngIf="!isLoggedIn">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/login" (click)="closeMenuAfterDelay()">
+                <ion-icon name="log-in" class="nav-icon"></ion-icon>
+                <span>Iniciar Sesión</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/register" (click)="closeMenuAfterDelay()">
+                <ion-icon name="person-add" class="nav-icon"></ion-icon>
+                <span>Registrarse</span>
+              </a>
+            </li>
+          </ng-container>
         </ul>
-      </div>
+      </div> 
     </div>
   </nav>
+
+  <!-- Modal de confirmación de logout (solo para usuarios logueados) -->
+  <div *ngIf="showModal && isLoggedIn" class="modalOverlay" (click)="closeModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modalIcon">
+        <ion-icon name="log-out"></ion-icon>
+      </div>
+      
+      <h3>Confirmar Cierre de Sesión</h3>
+      <p>¿Estás seguro de que quieres cerrar sesión?</p>
+      
+      <div class="modalButtons">
+        <button (click)="confirmLogout()" class="confirmButton">
+          Sí, cerrar sesión
+        </button>
+        <button (click)="closeModal()" class="cancelButton">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
 </header>

@@ -221,7 +221,7 @@ const AgendamientoCitas = () => {
         </div>
       </div>
     );
-  }
+  } 
 
   return (
     <div className={styles.container}>

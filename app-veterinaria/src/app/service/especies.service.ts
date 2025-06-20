@@ -11,4 +11,4 @@ export class EspeciesService {
   getAll() {
     return this.http.get<any>(`${this.apiUrl}/especies`);
   }
-}
+} 

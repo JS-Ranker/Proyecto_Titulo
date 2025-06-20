@@ -1,26 +1,37 @@
 import { useState, useEffect } from "react";
-import {
-  FaShoppingCart,
-  FaSearch,
-  FaTimes,
-  FaPlus,
-  FaMinus,
-  FaArrowLeft,
-} from "react-icons/fa";
+import { FaShoppingCart, FaSearch, FaTimes, FaPlus, FaMinus, FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { productosService } from "../../services/productos";
+import { categoriasService } from "../../services/categorias"; // Asegúrate de tener este servicio
 import styles from "./Shop.module.css";
 
 interface Product {
   id: number;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  image: string;
+  codigo_sku?: string;
+  nombre: string;
+  descripcion?: string;
+  precio_costo?: number;
+  precio_venta: number;
+  stock: number;
+  stock_minimo?: number;
+  categoria_id?: number;
+  imagen_url?: string;
+  peso_kg?: number;
+  activo?: number;
+  destacado?: number;
+  fecha_creacion?: string;
 }
 
 interface CartItem extends Product {
   quantity: number;
+}
+
+interface Categoria {
+  id: number;
+  nombre: string;
+  descripcion?: string;
+  imagen_url?: string;
+  categoria_padre_id?: number;
 }
 
 const Shop = () => {
@@ -36,92 +47,17 @@ const Shop = () => {
   // Estado para filtros y búsqueda
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [categories, setCategories] = useState<Categoria[]>([
+    { id: 0, nombre: "Todos los productos" }
+  ]);
 
   // Cargar productos (simulando una API)
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Simulando un retraso de red
-        await new Promise((resolve) => setTimeout(resolve, 800));
-
-        // Productos de ejemplo para una veterinaria
-        const mockProducts: Product[] = [
-          {
-            id: 1,
-            name: "Alimento Premium para Perros",
-            description: "Alimento balanceado para perros adultos, 20kg",
-            price: 24990,
-            category: "alimentos",
-            image:
-              "https://cdnx.jumpseller.com/la-mascota/image/30526514/resize/719/719?1672160403",
-          },
-          {
-            id: 2,
-            name: "Alimento para Gatos",
-            description: "Alimento para gatos, 1,8kg",
-            price: 17990,
-            category: "alimentos",
-            image:
-              "https://cdnx.jumpseller.com/la-mascota/image/20027668/resize/1438/1438?1634602716",
-          },
-          {
-            id: 3,
-            name: "Cama para Mascotas",
-            description: "Cama suave y cómoda para perros y gatos",
-            price: 29990,
-            category: "accesorios",
-            image:
-              "https://www.clubdeperrosygatos.cl/wp-content/uploads/2024/05/CAMA-OXFORD-VERDEE-1.webp",
-          },
-          {
-            id: 4,
-            name: "Juguete para Perros",
-            description: "Juguete Loro Textil Repelente al Agua",
-            price: 6990,
-            category: "juguetes",
-            image:
-              "https://cdnx.jumpseller.com/la-mascota/image/26617505/resize/1438/1438?1661468295",
-          },
-          {
-            id: 5,
-            name: "Correa Retráctil",
-            description: "Correa retráctil de 5 metros con agarre ergonómico",
-            price: 12990,
-            category: "accesorios",
-            image:
-              "https://m.media-amazon.com/images/I/61hCdJf89wL._AC_SX679_.jpg",
-          },
-          {
-            id: 6,
-            name: "Shampoo para Mascotas",
-            description: "Shampoo hipoalergénico para perros y gatos",
-            price: 7990,
-            category: "higiene",
-            image:
-              "https://cdnx.jumpseller.com/la-mascota/image/51257344/resize/1438/1438?1722301141",
-          },
-          {
-            id: 7,
-            name: "Arnés Ajustable",
-            description: "Arnés reflectante con ajuste seguro",
-            price: 14990,
-            category: "accesorios",
-            image:
-              "https://cdnx.jumpseller.com/la-mascota/image/25932784/resize/1438/1438?1658960803",
-          },
-          {
-            id: 8,
-            name: "Snacks para Perros",
-            description: "Snacks naturales para entrenamiento, 200g",
-            price: 4990,
-            category: "alimentos",
-            image:
-              "https://cdnx.jumpseller.com/la-mascota/image/46715568/resize/1438/1438?1710879389",
-          },
-        ];
-
-        setProducts(mockProducts);
-        setFilteredProducts(mockProducts);
+        const productos = await productosService.obtenerTodos();
+        setProducts(productos);
+        setFilteredProducts(productos);
         setLoading(false);
       } catch (error) {
         console.error("Error al cargar productos:", error);
@@ -132,13 +68,20 @@ const Shop = () => {
     fetchProducts();
   }, []);
 
+  // Cargar categorías desde la API
+  useEffect(() => {
+    categoriasService.obtenerTodas().then((data) => {
+      setCategories([{ id: 0, nombre: "Todos los productos" }, ...data]);
+    });
+  }, []);
+
   // Filtrar productos según búsqueda y categoría
   useEffect(() => {
     let result = products;
 
-    if (selectedCategory !== "all") {
+    if (selectedCategory !== "0") {
       result = result.filter(
-        (product) => product.category === selectedCategory
+        (product) => String(product.categoria_id) === selectedCategory
       );
     }
 
@@ -146,8 +89,8 @@ const Shop = () => {
       const term = searchTerm.toLowerCase();
       result = result.filter(
         (product) =>
-          product.name.toLowerCase().includes(term) ||
-          product.description.toLowerCase().includes(term)
+          product.nombre.toLowerCase().includes(term) ||
+          product.descripcion?.toLowerCase().includes(term)
       );
     }
 
@@ -161,9 +104,7 @@ const Shop = () => {
 
       if (existingItem) {
         return prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
       }
 
@@ -184,26 +125,15 @@ const Shop = () => {
     }
 
     setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === productId ? { ...item, quantity: newQuantity } : item
-      )
+      prevCart.map((item) => (item.id === productId ? { ...item, quantity: newQuantity } : item))
     );
   };
 
   // Calcular total del carrito
   const cartTotal = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.precio_venta * item.quantity,
     0
   );
-
-  // Categorías disponibles
-  const categories = [
-    { value: "all", label: "Todos los productos" },
-    { value: "alimentos", label: "Alimentos" },
-    { value: "accesorios", label: "Accesorios" },
-    { value: "juguetes", label: "Juguetes" },
-    { value: "higiene", label: "Higiene" },
-  ];
 
   return (
     <div className={styles.shopContainer}>
@@ -245,8 +175,8 @@ const Shop = () => {
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
           {categories.map((category) => (
-            <option key={category.value} value={category.value}>
-              {category.label}
+            <option key={category.id} value={category.id}>
+              {category.nombre}
             </option>
           ))}
         </select>
@@ -261,18 +191,20 @@ const Shop = () => {
         <div className={styles.productsGrid}>
           {filteredProducts.map((product) => (
             <div key={product.id} className={styles.productCard}>
-              <img
-                src={product.image}
-                alt={product.name}
-                className={styles.productImage}
-              />
+              <div className={styles.productImageContainer}>
+                <img
+                  src={`http://localhost:3000/${product.imagen_url}`}
+                  alt={product.nombre}
+                  className={styles.productImage}
+                />
+              </div>
               <div className={styles.productInfo}>
-                <h3 className={styles.productName}>{product.name}</h3>
+                <h3 className={styles.productName}>{product.nombre}</h3>
                 <p className={styles.productDescription}>
-                  {product.description}
+                  {product.descripcion}
                 </p>
                 <div className={styles.productPrice}>
-                  ${product.price.toLocaleString("es-CL")}
+                  ${Number(product.precio_venta).toLocaleString("es-CL")}
                 </div>
                 <div className={styles.productActions}>
                   <div className={styles.quantityControls}>
@@ -290,8 +222,7 @@ const Shop = () => {
                       <FaMinus />
                     </button>
                     <span className={styles.quantityDisplay}>
-                      {cart.find((item) => item.id === product.id)?.quantity ||
-                        0}
+                      {cart.find((item) => item.id === product.id)?.quantity || 0}
                     </span>
                     <button
                       className={styles.quantityButton}
@@ -339,15 +270,19 @@ const Shop = () => {
               cart.map((item) => (
                 <div key={item.id} className={styles.cartItem}>
                   <img
-                    src={item.image}
-                    alt={item.name}
+                    src={
+                      item.imagen_url
+                        ? `http://localhost:3000/${item.imagen_url}`
+                        : "/images/default-product.png"
+                    }
+                    alt={item.nombre}
                     className={styles.cartItemImage}
                   />
                   <div className={styles.cartItemDetails}>
-                    <h3 className={styles.cartItemName}>{item.name}</h3>
+                    <h3 className={styles.cartItemName}>{item.nombre}</h3>
                     <p className={styles.cartItemPrice}>
-                      ${item.price.toLocaleString("es-CL")} x {item.quantity} =
-                      ${(item.price * item.quantity).toLocaleString("es-CL")}
+                      ${item.precio_venta.toLocaleString("es-CL")} x {item.quantity} =
+                      ${(item.precio_venta * item.quantity).toLocaleString("es-CL")}
                     </p>
                     <div className={styles.cartItemActions}>
                       <div className={styles.quantityControls}>

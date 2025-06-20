@@ -1,8 +1,10 @@
 import express from 'express';
-import { crearCita } from '../controllers/citas.controller.js';
+import { obtenerCitasPorDueno, crearCita, cancelarCita } from '../controllers/citas.controller.js';
 
 const router = express.Router();
 
 router.post('/', crearCita);
+router.get('/dueno/:rut', obtenerCitasPorDueno);
+router.patch('/:id/cancelar', cancelarCita);
 
 export default router;

@@ -19,7 +19,7 @@ import { ComponentsModule } from './components/components.module';
     CommonModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    ComponentsModule, // Puedes dejarlo si usas componentes compartidos en AppComponent
+    ComponentsModule, 
     HttpClientModule
   ],
   providers: [

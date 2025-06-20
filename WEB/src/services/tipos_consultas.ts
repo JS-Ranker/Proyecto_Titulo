@@ -14,4 +14,4 @@ export const tiposConsultaService = {
     const res = await axios.get(API_BASE_URL);
     return res.data;
   },
-};
+}; 
