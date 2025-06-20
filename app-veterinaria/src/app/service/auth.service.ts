@@ -16,10 +16,11 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
-    this.loggedIn.next(false);
+    localStorage.removeItem('currentUserRut');
+    // ...otros datos si es necesario
   }
 
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
   }
-}
+} 

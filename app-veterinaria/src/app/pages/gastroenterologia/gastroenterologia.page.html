@@ -1,0 +1,52 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true" class="gastro-container">
+  <section class="container">
+    <h1 class="title">
+      <ion-icon name="nutrition" class="icon-gastro"></ion-icon>
+      Gastroenterología Veterinaria
+    </h1>
+    <div class="content">
+      <div class="textSection">
+        <p class="intro">
+          La gastroenterología veterinaria se encarga del diagnóstico y tratamiento de enfermedades del sistema digestivo, hígado y páncreas en mascotas. Un sistema digestivo sano es fundamental para el bienestar general de tu compañero.
+        </p>
+        <h2 class="sectionTitle">Síntomas frecuentes</h2>
+        <ul class="symptomsList">
+          <li>Vómitos o diarrea persistente</li>
+          <li>Pérdida de apetito</li>
+          <li>Pérdida de peso</li>
+          <li>Dolor abdominal</li>
+          <li>Distensión abdominal</li>
+          <li>Letargia</li>
+          <li>Sangre en heces o vómito</li>
+          <li>Tolerancia al ejercicio reducida</li>
+        </ul>
+        <h2 class="sectionTitle">Exámenes que realizamos</h2>
+        <ul class="examsList">
+          <li>Ecografía abdominal</li>
+          <li>Endoscopía digestiva</li>
+          <li>Radiografías</li>
+          <li>Pruebas de laboratorio específicas</li>
+          <li>Biopsias</li>
+        </ul>
+      </div>
+      <div class="imageSection">
+        <img
+          src="../../../assets//images//especialidades/Gastroenterologia/gastroenterologia.jpg"
+          alt="Gastroenterología veterinaria"
+          class="image"
+        />
+      </div>
+    </div>
+    <div class="ctaSection">
+      <h2>¿Tu mascota tiene problemas digestivos?</h2>
+      <p>
+        Agenda una consulta con nuestros especialistas en gastroenterología veterinaria.
+      </p>
+      <ion-button color="success" expand="block" routerLink="/agendamiento-citas">
+        Reservar Consulta
+      </ion-button>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</ion-content>

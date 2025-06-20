@@ -1,13 +1,37 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>especialidadespage</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header></app-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">especialidadespage</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="especialidades-container">
+  <section class="especialidades-section">
+    <h1 class="title">
+      <ion-icon name="paw" class="paw-icon"></ion-icon>
+      Nuestras Especialidades Veterinarias
+    </h1>
+    <p class="subtitle">
+      Contamos con especialistas altamente capacitados en cada área
+    </p>
+
+    <div class="especialidades-grid">
+      <ion-card *ngFor="let esp of especialidades" class="especialidad-card">
+        <ion-card-header>
+          <ion-card-title>{{ esp.nombre }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ esp.descripcion }}</p>
+          <ion-button fill="outline" color="primary" (click)="goTo(esp.ruta)">
+            Ver más
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div class="especialidades-actions">
+      <ion-button color="success" expand="block" (click)="agendarCita()">
+        Agendar cita
+      </ion-button>
+      <ion-button color="primary" expand="block" (click)="videoConsulta()" style="margin-left:1rem;">
+        Video Consulta
+      </ion-button>
+    </div>
+  </section>
+  <app-footer></app-footer>
 </ion-content>

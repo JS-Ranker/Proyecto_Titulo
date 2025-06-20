@@ -8,7 +8,7 @@ const CarouselBanner = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const navigate = useNavigate(); // Agrega esta línea
+  const navigate = useNavigate(); // Asegúrate de tener esto
   
   const totalSlides = 3;
   
@@ -126,7 +126,10 @@ const CarouselBanner = () => {
           <div className={`${styles.mainMessageContent} ${styles.ecommerceMessage}`}>
             <h1>Todo para tu mascota en un solo lugar</h1>
             <p>Productos de calidad con entrega rápida a domicilio</p>
-            <button className={styles.mainActionButton}>
+            <button
+              className={styles.mainActionButton}
+              onClick={() => navigate("/shop")}
+            >
               Visitar nuestra tienda
             </button>
           </div>

@@ -1,0 +1,128 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true" class="endocrinologia-container">
+  <section class="container">
+    <h1 class="title">
+      <ion-icon name="medkit" class="icon-medkit"></ion-icon>
+      Endocrinología Veterinaria
+    </h1>
+    <div class="content">
+      <div class="textSection">
+        <p class="intro">
+          La endocrinología veterinaria es una rama de la medicina interna que se focaliza en el diagnóstico y tratamiento de todas las alteraciones hormonales y metabólicas. El correcto funcionamiento del sistema endocrino es fundamental para preservar el bienestar del organismo ya que regula todo el metabolismo además de ser indispensable para el crecimiento, el estado de ánimo, el pelaje y varias otras variables de comportamiento.
+        </p>
+        <p class="description">
+          Las enfermedades hormonales hoy en día tienen una alta prevalencia en los pequeños animales y al momento de no ser tratadas pueden generar múltiples descompensaciones. Pueden ocurrir por un exceso de ciertas hormonas, como el síndrome de Cushing, el hipertiroidismo, el hipersomatotropismo o por la falta de estas, como el hipotiroidismo, la diabetes mellitus o el síndrome de Addison. Gracias a un correcto tratamiento estas condiciones pueden ser controladas con éxito mejorando la calidad de vida y aumentando el pronóstico de vida de los individuos afectados.
+        </p>
+      </div>
+      <div class="imageSection">
+        <img
+          src="../../../assets//images//especialidades//Endocrinologia/enfermedades-hormonales.jpg"
+          alt="Endocrinología veterinaria"
+          class="image"
+        />
+      </div>
+    </div>
+
+    <!-- Hipotiroidismo -->
+    <div class="diseaseSection">
+      <h2 class="sectionTitle">Hipotiroidismo</h2>
+      <div class="diseaseContent">
+        <div class="diseaseText">
+          <p>
+            El hipotiroidismo es la enfermedad endocrina más frecuente en los pacientes caninos y presenta una alta prevalencia en nuestro país. Se caracteriza por una disminución en la producción de las hormonas tiroideas dada por una alteración propia de la glándula tiroides que en la mayoría de los casos es secundaria a una tiroiditis linfocítica de origen inmunomediado.
+          </p>
+          <p>
+            La pérdida de funcionalidad de la glándula genera una baja importante en la tasa metabólica, esto tiene múltiples efectos a nivel sistémico y puede generar:
+          </p>
+          <ul class="symptomsList">
+            <li>Aumento de peso</li>
+            <li>Hiporexia (disminución del apetito)</li>
+            <li>Alteraciones dermatológicas</li>
+            <li>Alteraciones en el sistema inmune</li>
+            <li>Dislipemias (alteraciones en lípidos sanguíneos)</li>
+            <li>Cambios en el comportamiento</li>
+            <li>Letargia y disminución de la actividad</li>
+            <li>Intolerancia al frío</li>
+          </ul>
+        </div>
+        <div class="diseaseImage">
+          <img
+            src="../../../assets//images//especialidades//Endocrinologia/endocrinologia-Veterinaria-hipotiroidismo.jpg"
+            alt="Hipotiroidismo en mascotas"
+            class="image"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Otras enfermedades -->
+    <div class="otherDiseases">
+      <h2 class="sectionTitle">Otras Enfermedades Endocrinas</h2>
+      <div class="diseaseCards">
+        <div class="diseaseCard">
+          <h3>Síndrome de Cushing</h3>
+          <p>
+            Exceso de producción de cortisol que puede causar aumento de sed y orina, jadeo excesivo, abdomen péndulo y problemas cutáneos.
+          </p>
+        </div>
+        <div class="diseaseCard">
+          <h3>Diabetes Mellitus</h3>
+          <p>
+            Deficiencia de insulina que provoca aumento de glucosa en sangre, con síntomas como poliuria, polidipsia y pérdida de peso.
+          </p>
+        </div>
+        <div class="diseaseCard">
+          <h3>Síndrome de Addison</h3>
+          <p>
+            Deficiencia de hormonas adrenales que puede causar vómitos, diarrea, debilidad y deshidratación severa.
+          </p>
+        </div>
+        <div class="diseaseCard">
+          <h3>Hipertiroidismo</h3>
+          <p>
+            Común en gatos mayores, causa pérdida de peso a pesar de aumento de apetito, hiperactividad y taquicardia.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diagnóstico y tratamiento -->
+    <div class="diagnosticSection">
+      <h2 class="sectionTitle">Diagnóstico y Tratamiento</h2>
+      <div class="diagnosticContent">
+        <div class="diagnosticMethods">
+          <h3>Métodos de Diagnóstico</h3>
+          <ul>
+            <li>Perfiles hormonales completos</li>
+            <li>Pruebas de estimulación/supresión</li>
+            <li>Análisis de sangre y orina</li>
+            <li>Ultrasonido endocrino</li>
+            <li>Pruebas genéticas en razas predispuestas</li>
+          </ul>
+        </div>
+        <div class="treatmentMethods">
+          <h3>Opciones de Tratamiento</h3>
+          <ul>
+            <li>Terapia de reemplazo hormonal</li>
+            <li>Medicación para regular producción hormonal</li>
+            <li>Dietas especializadas</li>
+            <li>Control de enfermedades concurrentes</li>
+            <li>Seguimiento periódico y ajuste de dosis</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="ctaSection">
+      <h2>¿Sospechas que tu mascota tiene un problema endocrino?</h2>
+      <p>
+        Nuestros especialistas están listos para ayudarte con diagnóstico preciso y tratamiento personalizado.
+      </p>
+      <ion-button color="success" expand="block" routerLink="/agendamiento-citas">
+        Reservar Consulta
+      </ion-button>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</ion-content>

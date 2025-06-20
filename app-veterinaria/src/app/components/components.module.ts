@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router'; 
 
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -14,9 +15,10 @@ import { CarouselbannerComponent } from './carouselbanner/carouselbanner.compone
   ],
   imports: [
     CommonModule,
-    IonicModule
+    IonicModule,
+    RouterModule // 👈 NECESARIO PARA USAR routerLink
   ],
-  exports: [ 
+  exports: [
     HeaderComponent,
     FooterComponent,
     CarouselbannerComponent

@@ -1,82 +1,60 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../service/auth.service'; 
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  standalone: false,
+  standalone: false 
 })
 export class HeaderComponent {
-  isMenuOpen = false;
+  mobileMenuOpen = false;
   scrolled = false;
-  isLoggedIn$ = this.authService.isLoggedIn$;
+  showModal = false;
+  isLoggedIn = false;
 
-  constructor(
-    private router: Router,
-    private alertController: AlertController,
-    private authService: AuthService
-  ) {}
+  constructor(private router: Router, private authService: AuthService) {
+    this.checkAuthStatus();
+  }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll', [])
   onWindowScroll() {
-    this.scrolled = window.pageYOffset > 50;
+    this.scrolled = window.scrollY > 50;
+  }
+
+  checkAuthStatus() {
+    this.isLoggedIn = !!localStorage.getItem('token');
   }
 
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+    document.body.style.overflow = this.mobileMenuOpen ? 'hidden' : 'unset';
   }
 
-  closeMenu() {
-    if (this.isMenuOpen) {
-      this.isMenuOpen = false;
-    }
+  // Cierra el menú después de un pequeño delay para asegurar la navegación
+  closeMenuAfterDelay() {
+    setTimeout(() => {
+      this.mobileMenuOpen = false;
+      document.body.style.overflow = 'unset';
+    }, 150);
   }
 
-  navigateTo(route: string) {
-    this.closeMenu();
-    this.router.navigate([route]);
+  showLogoutModal() {
+    this.showModal = true;
+    this.mobileMenuOpen = false;
   }
 
-  async showLogoutConfirm() {
-    const alert = await this.alertController.create({
-      header: 'Confirmar',
-      message: '¿Estás seguro de que quieres cerrar sesión?',
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel',
-          cssClass: 'cancel-button'
-        },
-        {
-          text: 'Sí',
-          cssClass: 'confirm-button',
-          handler: () => {
-            this.confirmLogout();
-          }
-        }
-      ],
-      cssClass: 'logout-alert'
-    });
-
-    await alert.present();
+  confirmLogout() { 
+    this.authService.logout(); 
+    localStorage.removeItem('token');
+    localStorage.removeItem('currentUserRut');
+    this.showModal = false;
+    this.isLoggedIn = false;
+    this.router.navigate(['/login']); 
   }
 
-  confirmLogout() {
-    this.authService.logout();
-    this.closeMenu();
-    this.router.navigate(['/']);
-  }
-
-  logout() {
-    this.authService.logout();
-    this.closeMenu();
-    this.router.navigate(['/']);
-  }
-
-  isActiveRoute(route: string): boolean {
-    return this.router.url === route;
+  closeModal() {
+    this.showModal = false;
   }
 }

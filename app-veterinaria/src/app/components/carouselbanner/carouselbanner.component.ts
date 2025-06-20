@@ -95,13 +95,13 @@ export class CarouselbannerComponent implements OnInit, OnDestroy {
     this.startAutoSlide();
   }
 
-  onMainActionClick() {
+  onMainActionClick() { 
     const currentSlide = this.slides[this.activeIndex];
     
     switch (currentSlide.theme) {
       case 'veterinaria':
         // Navegar a servicios veterinarios
-        this.router.navigate(['/video-call']); 
+        this.router.navigate(['/especialidadespage']); 
         break;
       case 'ecommerce':
         this.router.navigate(['/shop']);

@@ -1,0 +1,65 @@
+.especialidades-container {
+  background: #fafaf9;
+  min-height: 100vh;
+  padding: 1.5rem 0.5rem;
+}
+
+.especialidades-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 2rem;
+  color: #2FB8C6;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.paw-icon {
+  font-size: 2.2rem;
+  color: #2FB8C6;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.especialidades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.especialidad-card {
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(47,184,198,0.08);
+  background: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+  &:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(47,184,198,0.13);
+  }
+  ion-card-title {
+    color: #2FB8C6;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  ion-button {
+    margin-top: 1rem;
+  }
+}
+
+.especialidades-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}

@@ -1,0 +1,51 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true" class="oncologia-container">
+  <section class="container">
+    <h1 class="title">
+      <ion-icon name="medkit" class="icon-onco"></ion-icon>
+      Oncología Veterinaria
+    </h1>
+    <div class="content">
+      <div class="textSection">
+        <p class="intro">
+          La oncología veterinaria se enfoca en el diagnóstico y tratamiento del cáncer en animales. Detectar problemas oncológicos a tiempo puede mejorar significativamente la calidad y expectativa de vida de tu mascota.
+        </p>
+        <h2 class="sectionTitle">Síntomas comunes</h2>
+        <ul class="symptomsList">
+          <li>Bultos o masas anormales</li>
+          <li>Pérdida de peso inexplicable</li>
+          <li>Pérdida de apetito</li>
+          <li>Heridas que no cicatrizan</li>
+          <li>Sangrado o secreciones inusuales</li>
+          <li>Dificultad para comer o tragar</li>
+          <li>Letargia o debilidad</li>
+          <li>Dificultad para respirar o caminar</li>
+        </ul>
+        <h2 class="sectionTitle">Exámenes que realizamos</h2>
+        <ul class="examsList">
+          <li>Citología y biopsia</li>
+          <li>Radiografías y ecografías</li>
+          <li>Tomografía computarizada</li>
+          <li>Análisis de sangre específicos</li>
+        </ul>
+      </div>
+      <div class="imageSection">
+        <img
+          src="../../../assets//images//especialidades/Oncologia//oncologia1.webp"
+          alt="Oncología veterinaria"
+          class="image"
+        />
+      </div>
+    </div>
+    <div class="ctaSection">
+      <h2>¿Sospechas que tu mascota tiene un problema oncológico?</h2>
+      <p>
+        Nuestros especialistas pueden ayudarte con diagnóstico y tratamiento personalizado.
+      </p>
+      <ion-button color="success" expand="block" routerLink="/agendamiento-citas">
+        Reservar Consulta
+      </ion-button>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</ion-content>

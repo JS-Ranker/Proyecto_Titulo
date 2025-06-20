@@ -1,0 +1,56 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true" class="citas-container">
+  <div class="container">
+    <h1 class="citas-title">Mis Citas</h1>
+    <div *ngIf="loading" class="loading">Cargando citas...</div>
+    <div *ngIf="!loading && citas.length === 0" class="no-citas-message">
+      <span class="no-citas-icon">🐾</span>
+      <p>No tienes citas agendadas.</p>
+    </div>
+    <ion-grid *ngIf="!loading && citas.length > 0">
+      <ion-row class="table-header">
+        <ion-col>Mascota</ion-col>
+        <ion-col>Veterinario</ion-col>
+        <ion-col>Especialidad</ion-col>
+        <ion-col>Fecha y Hora</ion-col>
+        <ion-col>Estado</ion-col>
+      </ion-row>
+      <ion-row *ngFor="let cita of citas">
+        <ion-col>{{ cita.nombre_mascota }}</ion-col>
+        <ion-col>{{ cita.veterinario || 'Por asignar' }}</ion-col>
+        <ion-col>{{ cita.tipo_consulta }}</ion-col>
+        <ion-col>{{ cita.fecha_hora | date:'short' }}</ion-col>
+        <ion-col>
+          <span class="estado-badge" [ngClass]="getEstadoClass(cita.estado)">
+            {{ cita.estado }}
+          </span>
+          <ion-button
+            *ngIf="cita.estado === 'pendiente' || cita.estado === 'confirmada'"
+            size="small"
+            color="danger"
+            fill="outline"
+            style="margin-left: 8px"
+            (click)="handleCancelarClick(cita)">
+            Cancelar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Modal de confirmación -->
+  <ion-modal [isOpen]="modalOpen" (didDismiss)="handleCerrarModal()">
+    <ng-template>
+      <div class="modal-content">
+        <div class="modal-icon">❓</div>
+        <h2 class="modal-title">¿Seguro que deseas cancelar esta cita?</h2>
+        <p class="modal-desc">Esta acción no se puede deshacer.</p>
+        <div class="modal-actions">
+          <ion-button color="danger" (click)="handleConfirmarCancelacion()">Sí, cancelar</ion-button>
+          <ion-button color="medium" (click)="handleCerrarModal()">No, volver</ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+  <app-footer></app-footer>
+</ion-content>
