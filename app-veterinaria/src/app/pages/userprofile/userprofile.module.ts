@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { UserprofilePage } from './userprofile.page';
-import { RouterModule } from '@angular/router';
 import { ComponentsModule } from '../../components/components.module';
 import { BackButtonComponent } from '../../components/back-button/back-button.component'; // <-- Agrega este import
+import { UserprofilePageRoutingModule } from './userprofile-routing.module';
 
 @NgModule({
   imports: [
@@ -14,11 +14,10 @@ import { BackButtonComponent } from '../../components/back-button/back-button.co
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    RouterModule.forChild([{ path: '', component: UserprofilePage }]),
     ComponentsModule,
-    BackButtonComponent // <-- Agrega aquí el componente standalone
+    BackButtonComponent,
+    UserprofilePageRoutingModule
   ],
   declarations: [UserprofilePage]
 })
 export class UserprofilePageModule {}
- 

@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import https from 'https';
+import fs from 'fs';
 
 import duenosRoutes from './routes/duenos.routes.js';
 import mascotasRoutes from './routes/mascotas.routes.js';
@@ -39,5 +41,5 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Servidor corriendo en http://0.0.0.0:${PORT}`);
+  console.log(`🚀 Servidor HTTP corriendo en http://192.168.1.17:${PORT}`);
 });

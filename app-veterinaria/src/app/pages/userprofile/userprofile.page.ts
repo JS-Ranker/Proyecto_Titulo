@@ -173,7 +173,7 @@ export class UserprofilePage implements OnInit {
         this.loading = false;
       }
     });
-  }
+  } 
 
   goToPets() {
     this.router.navigate(['/pets']);
