@@ -1,6 +1,8 @@
 import styles from "./Cardiologia.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Cardiologia = () => {
+  const navigate = useNavigate();
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>CARDIOLOGÍA VETERINARIA</h1>
@@ -99,7 +101,7 @@ const Cardiologia = () => {
           <h2 className={styles.bookingTitle}>
             Reserva tu hora de consulta en Cardiología
           </h2>
-          <button className={styles.bookingButton}>Reservar ahora</button>
+          <button className={styles.bookingButton} onClick={() => navigate("/agendamientoCitas")}>Reservar ahora</button>
         </div>
 
         <div className={styles.diseasesSection}>
