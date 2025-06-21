@@ -14,7 +14,7 @@ import { DuenosService } from '../../service/duenos.service';
   templateUrl: './agendamiento-citas.page.html',
   styleUrls: ['./agendamiento-citas.page.scss'],
   standalone: false
-})
+}) 
 export class AgendamientoCitasPage implements OnInit {
   step = 1;
   currentUser: any = {};
@@ -71,7 +71,7 @@ export class AgendamientoCitasPage implements OnInit {
     this.scrollToTop();
 
     const user = localStorage.getItem('currentUser');
-    this.currentUser = user ? JSON.parse(user) : {};
+    this.currentUser = (user && user !== 'undefined') ? JSON.parse(user) : {};
     const rut = this.currentUser?.rut || localStorage.getItem('currentUserRut');
     if (rut) {
       this.duenosService.getDuenoPorRut(rut).subscribe((data: any) => {
