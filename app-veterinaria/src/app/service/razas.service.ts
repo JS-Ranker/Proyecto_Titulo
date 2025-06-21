@@ -11,4 +11,4 @@ export class RazasService {
   getByEspecie(id_especie: number) {
     return this.http.get<any>(`${this.apiUrl}/razas/especie/${id_especie}`);
   }
-} 
+}  

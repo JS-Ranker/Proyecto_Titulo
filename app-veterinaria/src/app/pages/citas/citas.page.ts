@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CitasService } from '../../service/citas.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-citas',
@@ -12,25 +13,39 @@ export class CitasPage implements OnInit {
   loading = true;
   modalOpen = false;
   citaCancelar: any = null;
-  currentUser: any = {};
 
-  constructor(private citasService: CitasService) {}
+  constructor(
+    private citasService: CitasService,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
-    const user = localStorage.getItem('currentUser');
-    this.currentUser = user ? JSON.parse(user) : {};
-    if (this.currentUser?.rut) {
-      this.citasService.obtenerCitasPorDueno(this.currentUser.rut).subscribe(citas => {
-        this.citas = citas;
-        this.loading = false;
+    this.cargarCitas();
+  }
+
+  cargarCitas() {
+    this.loading = true;
+    const userStr = localStorage.getItem('currentUser');
+    const currentUser = userStr ? JSON.parse(userStr) : null;
+    if (currentUser?.rut) {
+      this.citasService.obtenerCitasPorDueno(currentUser.rut).subscribe({
+        next: (res) => {
+          this.citas = Array.isArray(res) ? res : [];
+          this.loading = false;
+        },
+        error: () => {
+          this.citas = [];
+          this.loading = false;
+        }
       });
     } else {
+      this.citas = [];
       this.loading = false;
     }
   }
 
   getEstadoClass(estado: string) {
-    const estadoLower = estado?.toLowerCase() || '';
+    const estadoLower = (estado || '').toLowerCase();
     if (estadoLower.includes('pendiente')) return 'estado-pendiente';
     if (estadoLower.includes('confirmada')) return 'estado-confirmada';
     if (estadoLower.includes('completada')) return 'estado-completada';
@@ -43,20 +58,36 @@ export class CitasPage implements OnInit {
     this.modalOpen = true;
   }
 
-  handleConfirmarCancelacion() {
-    if (this.citaCancelar) {
-      this.citasService.cancelarCita(this.citaCancelar.id).subscribe(() => {
-        this.citas = this.citas.map(c =>
-          c.id === this.citaCancelar.id ? { ...c, estado: 'cancelada' } : c
-        );
-        this.modalOpen = false;
-        this.citaCancelar = null;
-      });
-    }
-  }
-
   handleCerrarModal() {
     this.modalOpen = false;
     this.citaCancelar = null;
+  }
+
+  async handleConfirmarCancelacion() {
+    if (!this.citaCancelar) return;
+    const alert = await this.alertController.create({
+      header: 'Cancelar cita',
+      message: '¿Seguro que deseas cancelar esta cita? Esta acción no se puede deshacer.',
+      buttons: [
+        {
+          text: 'No, volver',
+          role: 'cancel'
+        },
+        {
+          text: 'Sí, cancelar',
+          handler: () => {
+            this.citasService.cancelarCita(this.citaCancelar.id).subscribe({
+              next: () => {
+                this.citas = this.citas.map(c =>
+                  c.id === this.citaCancelar.id ? { ...c, estado: 'cancelada' } : c
+                );
+                this.handleCerrarModal();
+              }
+            });
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }
