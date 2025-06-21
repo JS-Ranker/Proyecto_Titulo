@@ -12,4 +12,4 @@ export class VeterinariosService {
   obtenerPorEspecialidad(especialidadId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/veterinarios/especialidad/${especialidadId}`);
   }
-}
+} 

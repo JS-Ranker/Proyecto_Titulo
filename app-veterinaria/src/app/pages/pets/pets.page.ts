@@ -38,7 +38,7 @@ export class PetsPage implements OnInit {
       error: () => {
         this.mascotas = [];
         this.loading = false;
-      }
+      } 
     });
   }
 

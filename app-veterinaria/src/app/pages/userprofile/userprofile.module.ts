@@ -21,3 +21,4 @@ import { BackButtonComponent } from '../../components/back-button/back-button.co
   declarations: [UserprofilePage]
 })
 export class UserprofilePageModule {}
+ 

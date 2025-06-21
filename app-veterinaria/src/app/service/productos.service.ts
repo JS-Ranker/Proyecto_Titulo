@@ -12,4 +12,4 @@ export class ProductosService {
   obtenerTodos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/productos`);
   }
-}
+} 

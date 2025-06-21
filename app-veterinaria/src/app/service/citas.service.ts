@@ -13,7 +13,7 @@ export class CitasService {
     return this.http.post(`${this.apiUrl}/citas`, cita);
   }
 
-  obtenerCitasPorDueno(rut: string): Observable<any[]> {
+  obtenerCitasPorDueno(rut: string) {
     return this.http.get<any[]>(`${this.apiUrl}/citas/dueno/${rut}`);
   }
 

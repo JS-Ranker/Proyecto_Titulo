@@ -17,20 +17,36 @@
       <!-- Paso 1: Dueño y mascota -->
       <div *ngIf="step === 1" class="form-section">
         <h2 class="section-title">Información del Dueño</h2>
-        <ion-list>
-          <ion-item>
-            <ion-label>Nombre completo</ion-label>
-            <ion-text>{{ currentUser?.nombre ? (currentUser?.nombre + ' ' + (currentUser?.apellido || '')) : (currentUser?.nombres || '') }}</ion-text>
+        <div class="user-info-card">
+          <ion-item lines="none">
+            <ion-avatar slot="start" class="user-avatar">
+              <ion-icon name="person-circle" style="font-size: 3rem; color: #2fb8c6;"></ion-icon>
+            </ion-avatar>
+            <ion-label>
+              <div class="user-info-row column">
+                <span class="user-info-label">Nombre completo</span>
+                <div class="user-info-value">
+                  <ion-icon name="person" class="user-info-icon"></ion-icon>
+                  {{ currentUser?.nombre ? (currentUser?.nombre + ' ' + (currentUser?.apellido || '')) : (currentUser?.nombres || '') }}
+                </div>
+              </div>
+              <div class="user-info-row column">
+                <span class="user-info-label">Correo</span>
+                <div class="user-info-value">
+                  <ion-icon name="mail" class="user-info-icon"></ion-icon>
+                  {{ currentUser?.email }}
+                </div>
+              </div>
+              <div class="user-info-row column">
+                <span class="user-info-label">Teléfono</span>
+                <div class="user-info-value">
+                  <ion-icon name="call" class="user-info-icon"></ion-icon>
+                  {{ currentUser?.telefono }}
+                </div>
+              </div>
+            </ion-label>
           </ion-item>
-          <ion-item>
-            <ion-label>Correo electrónico</ion-label>
-            <ion-text>{{ currentUser?.email }}</ion-text>
-          </ion-item>
-          <ion-item>
-            <ion-label>Teléfono</ion-label>
-            <ion-text>{{ currentUser?.telefono }}</ion-text>
-          </ion-item>
-        </ion-list>
+        </div>
         <h2 class="section-title">Información de la Mascota</h2>
         <ion-item>
           <ion-label position="stacked">Mascota</ion-label>
@@ -72,7 +88,7 @@
               <div class="pet-attribute">
                 <ion-icon name="male-female" class="icon-info"></ion-icon>
                 <span>Género: {{ mascotaSeleccionada?.sexo_mascota }}</span>
-              </div>
+              </div> 
               <div class="pet-attribute">
                 <ion-icon name="color-palette" class="icon-info"></ion-icon>
                 <span>Color: {{ mascotaSeleccionada?.color_mascota || 'N/A' }}</span>
@@ -115,26 +131,17 @@
           </ion-select-option>
         </ion-select>
         <h2 class="section-title">Seleccione Fecha</h2>
-        <div class="calendar-header">
-          <ion-button fill="clear" (click)="handleMonthChange(-1)">
-            <ion-icon name="chevron-back"></ion-icon>
-          </ion-button>
-          <span class="calendar-title">{{ getMonthName(currentMonth) | titlecase }}</span>
-          <ion-button fill="clear" (click)="handleMonthChange(1)">
-            <ion-icon name="chevron-forward"></ion-icon>
-          </ion-button>
-          <ion-select [(ngModel)]="currentYear" (ionChange)="handleYearChange($event.detail.value)" interface="popover">
-            <ion-select-option *ngFor="let year of availableYears" [value]="year">{{ year }}</ion-select-option>
-          </ion-select>
-        </div>
-        <div class="calendar-grid">
-          <div class="calendar-day-header" *ngFor="let day of ['D','L','M','X','J','V','S']">{{ day }}</div>
-          <div *ngFor="let day of generateCalendarDays(); let i = index"
-               [ngClass]="{'calendar-day': day, 'empty': !day, 'selected': selectedDate && day && day.getDate() === selectedDate.getDate() && day.getMonth() === selectedDate.getMonth() && day.getFullYear() === selectedDate.getFullYear()}"
-               (click)="handleDateSelect(day)">
-            {{ day ? day.getDate() : '' }}
-          </div>
-        </div>
+        <ion-item>
+          <ion-label position="stacked">Fecha de la cita</ion-label>
+          <ion-datetime
+            presentation="date"
+            [(ngModel)]="selectedDate"
+            [min]="minDate"
+            [max]="maxDate"
+            name="fechaCita"
+            (ionChange)="onDateChange($event)">
+          </ion-datetime>
+        </ion-item>
         <div class="action-buttons">
           <ion-button color="secondary" expand="block" (click)="prevStep()">
             Atrás
@@ -175,7 +182,7 @@
         <div class="summary-item">
           <span class="summary-label">Fecha seleccionada:</span>
           <span class="summary-value">
-            {{ selectedDate ? (selectedDate | date:'fullDate':'':'es-ES') : '' }}
+            {{ fechaSeleccionadaFormateada }}
           </span>
         </div>
         <h2 class="section-title">Horarios Disponibles</h2>

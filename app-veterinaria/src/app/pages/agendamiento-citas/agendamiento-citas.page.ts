@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonContent } from '@ionic/angular';
 import { MascotasService } from '../../service/mascotas.service';
-import { TiposConsultaService } from '../../service/tipos_consultas.service'; // <- nombre correcto
+import { TiposConsultaService } from '../../service/tipos_consultas.service'; 
 import { VeterinariosService } from '../../service/veterinarios.service';
 import { CitasService } from '../../service/citas.service';
 import { Router } from '@angular/router';
-import { DuenosService } from '../../service/duenos.service'; // <-- Agrega esto
+import { DuenosService } from '../../service/duenos.service'; 
+
 
 @Component({
+  
   selector: 'app-agendamiento-citas',
   templateUrl: './agendamiento-citas.page.html',
   styleUrls: ['./agendamiento-citas.page.scss'],
@@ -38,31 +41,54 @@ export class AgendamientoCitasPage implements OnInit {
 
   availableYears = Array.from({ length: 3 }, (_, i) => new Date().getFullYear() + i);
 
+  minDate = new Date().toISOString().split('T')[0]; // hoy
+  maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]; // +1 año
+
+  @ViewChild(IonContent, { static: false }) content!: IonContent;
+
   constructor(
     private mascotasService: MascotasService,
     private tiposConsultaService: TiposConsultaService,
     private veterinariosService: VeterinariosService,
     private citasService: CitasService,
-    private duenosService: DuenosService, // <-- Agrega esto
+    private duenosService: DuenosService, 
     private router: Router
   ) {}
 
   ngOnInit() {
-    // Obtén el RUT desde el localStorage
+    this.isSubmitted = false;
+    this.loading = false;
+    this.step = 1;
+    this.selectedMascota = null;
+    this.selectedTipoConsulta = null;
+    this.selectedVeterinario = null;
+    this.selectedDate = null;
+    this.selectedTime = null;
+    this.motivo = '';
+    this.notasPrevias = '';
+
+    // Scroll to top al inicializar
+    this.scrollToTop();
+
     const user = localStorage.getItem('currentUser');
     this.currentUser = user ? JSON.parse(user) : {};
     const rut = this.currentUser?.rut || localStorage.getItem('currentUserRut');
     if (rut) {
-      // Carga los datos completos del usuario
       this.duenosService.getDuenoPorRut(rut).subscribe((data: any) => {
         this.currentUser = data;
-        // Ahora carga las mascotas asociadas al usuario
         this.mascotasService.obtenerMascotasPorDueno(rut).subscribe((res: any) => {
           this.mascotas = res.data || res;
         });
       });
     }
     this.tiposConsultaService.obtenerTodos().subscribe((res: any) => this.tiposConsulta = res);
+  }
+
+  ionViewWillEnter() {
+    this.ngOnInit();
+    // Asegurar scroll to top con múltiples métodos
+    setTimeout(() => this.scrollToTop(), 50);
+    setTimeout(() => this.scrollToTop(), 200);
   }
 
   onMascotaChange(id: string) {
@@ -112,30 +138,74 @@ export class AgendamientoCitasPage implements OnInit {
     if (date) this.selectedDate = date;
   }
 
-  nextStep() { if (this.step < 3) this.step++; }
-  prevStep() { if (this.step > 1) this.step--; }
+  onDateChange(event: any) {
+    this.selectedDate = event.detail.value;
+  }
+
+  nextStep() {
+    if (this.step < 3) {
+      this.step++;
+      // Scroll to top inmediatamente y con delay para asegurar
+      this.scrollToTop();
+      setTimeout(() => this.scrollToTop(), 100);
+    }
+  }
+
+  prevStep() {
+    if (this.step > 1) {
+      this.step--;
+      // Scroll to top inmediatamente y con delay para asegurar
+      this.scrollToTop();
+      setTimeout(() => this.scrollToTop(), 100);
+    }
+  }
+
+  scrollToTop() {
+    if (this.content) {
+      this.content.scrollToTop(300);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
 
   submitCita() {
     if (!this.selectedMascota || !this.selectedTipoConsulta || !this.selectedDate || !this.selectedTime) return;
     this.loading = true;
+
+    const dateObj = typeof this.selectedDate === 'string'
+      ? new Date(this.selectedDate)
+      : this.selectedDate;
+
+    const fecha = dateObj.toISOString().split('T')[0];
+    const hora = this.selectedTime.split(' - ')[0];
+
     const cita = {
-      mascota_id: this.selectedMascota.id_mascota,
+      mascota_id: this.selectedMascota,
       veterinario_id: this.selectedVeterinario?.id ?? null,
       tipo_consulta_id: this.selectedTipoConsulta?.id ?? null,
-      fecha_hora: `${this.selectedDate.toISOString().split('T')[0]}T${this.selectedTime.split(' - ')[0]}:00`,
+      fecha_hora: `${fecha}T${hora}:00`,
       motivo: this.motivo,
       notas_previas: this.notasPrevias,
       estado: 'pendiente'
     };
+
     this.citasService.crearCita(cita).subscribe({
       next: () => {
         this.isSubmitted = true;
         this.loading = false;
-        setTimeout(() => this.router.navigate(['/']), 3000);
+        // Scroll to top al mostrar confirmación
+        this.scrollToTop();
+        setTimeout(() => this.scrollToTop(), 100);
+        
+        // Navegar después de 3 segundos
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 3000);
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
         alert('Error al agendar la cita');
+        console.error('Error al agendar cita:', err);
       }
     });
   }
@@ -157,5 +227,18 @@ export class AgendamientoCitasPage implements OnInit {
  
   get now() {
     return Date.now();
+  }
+
+  get fechaSeleccionadaFormateada() {
+    if (!this.selectedDate) return '';
+    const dateObj = typeof this.selectedDate === 'string'
+      ? new Date(this.selectedDate)
+      : this.selectedDate;
+    return dateObj.toLocaleDateString('es-CL', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   }
 }

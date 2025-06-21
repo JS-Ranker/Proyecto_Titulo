@@ -49,10 +49,10 @@ export class UserprofilePage implements OnInit {
     }
     this.duenosService.getDuenoPorRut(rut).subscribe({
       next: (data: any) => {
-        console.log('Datos usuario:', data); // <-- Agrega esto
+        console.log('Datos usuario:', data); 
         this.userData = data;
         this.editForm.patchValue({
-          email: data.email,
+          email: data.email, 
           telefono: data.telefono,
           password: ''
         });

@@ -23,7 +23,7 @@
         <ion-col>
           <span class="estado-badge" [ngClass]="getEstadoClass(cita.estado)">
             {{ cita.estado }}
-          </span>
+          </span> 
           <ion-button
             *ngIf="cita.estado === 'pendiente' || cita.estado === 'confirmada'"
             size="small"

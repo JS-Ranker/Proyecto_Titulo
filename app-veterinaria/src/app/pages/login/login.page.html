@@ -22,7 +22,7 @@
           slot="end"
           [name]="showPassword ? 'eye-off' : 'eye'"
           class="password-toggle"
-          (click)="togglePasswordVisibility()"
+          (click)="togglePasswordVisibility()" 
         ></ion-icon>
       </ion-item>
       <div *ngIf="error" class="error-message">{{ error }}</div>

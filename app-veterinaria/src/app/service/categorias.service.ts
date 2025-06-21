@@ -12,4 +12,4 @@ export class CategoriasService {
   obtenerTodas(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/categorias`);
   }
-}
+} 
