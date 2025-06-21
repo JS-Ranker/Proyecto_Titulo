@@ -19,9 +19,9 @@ export class LoginPage {
   showSuccessOverlay = false;
 
   constructor(
+    private duenosService: DuenosService,
     private fb: FormBuilder,
     private router: Router,
-    private duenosService: DuenosService,
     private authService: AuthService,
     private toastController: ToastController,
     private alertController: AlertController
@@ -61,12 +61,12 @@ export class LoginPage {
       mode: 'ios'
     });
     await alert.present();
-    setTimeout(() => alert.dismiss(), 1200); // Se cierra solo tras 1.2s
+    setTimeout(() => alert.dismiss(), 1200); 
   }
 
   formatRut(rut: string): string {
-    rut = rut.replace(/[^\dkK]/gi, ''); // Elimina todo menos números y k/K
-    rut = rut.replace(/^0+/, ''); // Elimina ceros iniciales
+    rut = rut.replace(/[^\dkK]/gi, '');
+    rut = rut.replace(/^0+/, ''); 
     if (rut.length <= 1) return rut;
     const cuerpo = rut.slice(0, -1);
     const dv = rut.slice(-1);
@@ -79,24 +79,24 @@ export class LoginPage {
     this.loginForm.get('rut')?.setValue(formatted, { emitEvent: false });
   }
 
-  async onSubmit() {
-    if (this.loginForm.invalid) return;
-    this.loading = true;
-    this.error = '';
-    try {
-      const response = await this.duenosService.login(this.loginForm.value).toPromise();
-      this.authService.login(response.token);
-      // Guarda el RUT en localStorage
-      localStorage.setItem('currentUserRut', this.loginForm.value.rut);
-      this.showSuccessOverlay = true;
-      setTimeout(() => {
-        this.showSuccessOverlay = false;
-        this.router.navigate(['/principal']);
-      }, 1500);
-    } catch (e: any) {
-      this.error = e?.error?.error || 'Error al iniciar sesión';
+  onLogin(form: any) {
+    if (form.valid) {
+      this.duenosService.login(form.value).subscribe({
+        next: (user: any) => {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.authService.login(user.token);
+          localStorage.setItem('currentUserRut', form.value.rut);
+          this.showSuccessOverlay = true;
+          setTimeout(() => {
+            this.showSuccessOverlay = false;
+            this.router.navigate(['/principal']);
+          }, 1500);
+        },
+        error: (err) => {
+          this.error = err?.error?.error || 'Error al iniciar sesión';
+        }
+      });
     }
-    this.loading = false;
   }
 
   navigateToRegister() {

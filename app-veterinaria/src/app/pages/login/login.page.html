@@ -6,7 +6,7 @@
       <ion-icon name="paw" class="logo"></ion-icon>
       <h1 class="brandName">HappyPet</h1>
     </div>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm)">
       <ion-item>
         <ion-label position="floating">RUT</ion-label>
         <ion-input

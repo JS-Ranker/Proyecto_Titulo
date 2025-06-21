@@ -6,6 +6,7 @@ import { VeterinariosService } from '../../service/veterinarios.service';
 import { CitasService } from '../../service/citas.service';
 import { Router } from '@angular/router';
 import { DuenosService } from '../../service/duenos.service'; 
+import { API_BASE_URL } from '../../service/api-config'; // Ajusta la ruta si es necesario
 
 
 @Component({
@@ -32,6 +33,8 @@ export class AgendamientoCitasPage implements OnInit {
   notasPrevias = '';
   isSubmitted = false;
   loading = false;
+
+  readonly IMG_BASE_URL = 'http://192.168.1.17:3000/'; // Usa tu IP local
 
   timeSlots = [
     '08:00 - 09:00', '09:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00',

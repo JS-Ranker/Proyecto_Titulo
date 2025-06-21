@@ -1,25 +1,25 @@
 .citas-container {
   background: #fafaf9;
   min-height: 100vh;
-  padding: 1.5rem 0.5rem;
+  padding: 1rem 0.5rem;
 }
 
 .container {
   max-width: 900px;
-  margin: 2rem auto;
+  margin: 1rem auto;
   background: white;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
 .citas-title {
   color: #2fb8c6;
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
-}
+}  
 
 .loading {
   text-align: center;
@@ -39,20 +39,88 @@
   margin-bottom: 0.5rem;
 }
 
-.table-header {
-  font-weight: 700;
-  background: #f0f8fa;
-  color: #2fb8c6;
+// Ocultar tabla en móviles
+.desktop-table {
+  display: none;
+}
+
+// Cards para móviles
+.mobile-cards {
+  display: block;
+}
+
+.cita-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.cita-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mascota-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.cita-details {
+  margin-bottom: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.detail-label {
+  font-weight: 500;
+  color: #666;
+  font-size: 0.9rem;
+  min-width: 80px;
+}
+
+.detail-value {
+  color: #333;
+  font-size: 0.9rem;
+  text-align: right;
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.cita-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 .estado-badge {
-  padding: 0.2rem 0.7rem;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
   font-weight: 600;
   text-transform: capitalize;
-  background: #e0f7fa;
-  color: #2fb8c6;
+  white-space: nowrap;
+  flex-shrink: 0;
+  
   &.estado-pendiente { background: #fff3e0; color: #ff9800; }
   &.estado-confirmada { background: #e0f7fa; color: #2fb8c6; }
   &.estado-completada { background: #e0ffe0; color: #4caf50; }
@@ -63,11 +131,12 @@
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(47,184,198,0.15);
-  padding: 2rem 2.5rem;
-  min-width: 320px;
-  max-width: 90vw;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
   text-align: center;
   border: 2px solid #2FB8C6;
+  margin: 0 auto;
 }
 
 .modal-icon {
@@ -76,7 +145,7 @@
 }
 
 .modal-title {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #2FB8C6;
   margin-bottom: 8px;
@@ -92,4 +161,42 @@
   display: flex;
   justify-content: center;
   gap: 1rem;
+  flex-wrap: wrap;
+}
+
+
+@media (min-width: 768px) {
+  .container {
+    padding: 2rem;
+    margin: 2rem auto;
+  }
+
+  .citas-title {
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .mobile-cards {
+    display: none;
+  }
+
+  .desktop-table {
+    display: block;
+  }
+
+  .table-header {
+    font-weight: 700;
+    background: #f0f8fa;
+    color: #2fb8c6;
+  }
+
+  .desktop-btn-cancelar {
+    margin-left: 8px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cita-card {
+    padding: 1.5rem;
+  }
 }

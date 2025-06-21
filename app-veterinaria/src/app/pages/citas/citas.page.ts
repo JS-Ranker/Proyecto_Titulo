@@ -17,23 +17,28 @@ export class CitasPage implements OnInit {
   constructor(
     private citasService: CitasService,
     private alertController: AlertController
-  ) {}
+  ) {} 
 
   ngOnInit() {
     this.cargarCitas();
   }
-
+ 
   cargarCitas() {
     this.loading = true;
     const userStr = localStorage.getItem('currentUser');
-    const currentUser = userStr ? JSON.parse(userStr) : null;
+    const currentUser = (userStr && userStr !== 'undefined') ? JSON.parse(userStr) : null;
+    console.log('Rut usado para buscar citas:', currentUser?.rut);
+
     if (currentUser?.rut) {
       this.citasService.obtenerCitasPorDueno(currentUser.rut).subscribe({
         next: (res) => {
+          // El backend retorna un array directo
+          console.log('Citas recibidas:', res);
           this.citas = Array.isArray(res) ? res : [];
           this.loading = false;
         },
-        error: () => {
+        error: (err) => {
+          console.error('Error al obtener citas:', err);
           this.citas = [];
           this.loading = false;
         }
