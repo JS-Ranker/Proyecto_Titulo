@@ -1,6 +1,8 @@
 import styles from "./Endocrinologia.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Endocrinologia = () => {
+  const navigate = useNavigate();
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>ENDOCRINOLOGÍA VETERINARIA</h1>
@@ -151,7 +153,7 @@ const Endocrinologia = () => {
           Nuestros especialistas están listos para ayudarte con diagnóstico
           preciso y tratamiento personalizado.
         </p>
-        <button className={styles.ctaButton}>Reservar Consulta</button>
+        <button className={styles.ctaButton} onClick={() => navigate("/agendamientoCitas")}>Reservar Consulta</button>
       </div>
     </div>
   );
