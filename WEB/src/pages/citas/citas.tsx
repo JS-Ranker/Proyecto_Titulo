@@ -64,7 +64,7 @@ const Citas: React.FC = () => {
                 <th>Especialidad</th>
                 <th>Fecha y Hora</th>
                 <th>Estado</th>
-              </tr>
+              </tr> 
             </thead>
             <tbody>
               {citas.map((cita) => (

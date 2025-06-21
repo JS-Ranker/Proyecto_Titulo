@@ -25,4 +25,4 @@ export const citasService = {
     const response = await axios.patch(`${API_BASE_URL}/${id}/cancelar`);
     return response.data;
   },
-}; 
+};  
