@@ -7,7 +7,9 @@
       <span class="no-citas-icon">🐾</span>
       <p>No tienes citas agendadas.</p>
     </div>
-    <ion-grid *ngIf="!loading && citas.length > 0">
+    
+    <!-- Vista de escritorio (tabla) -->
+    <ion-grid *ngIf="!loading && citas.length > 0" class="desktop-table">
       <ion-row class="table-header">
         <ion-col>Mascota</ion-col>
         <ion-col>Veterinario</ion-col>
@@ -20,22 +22,59 @@
         <ion-col>{{ cita.veterinario || 'Por asignar' }}</ion-col>
         <ion-col>{{ cita.tipo_consulta }}</ion-col>
         <ion-col>{{ cita.fecha_hora | date:'short' }}</ion-col>
-        <ion-col>
+        <ion-col> 
           <span class="estado-badge" [ngClass]="getEstadoClass(cita.estado)">
             {{ cita.estado }}
-          </span> 
+          </span>  
           <ion-button
             *ngIf="cita.estado === 'pendiente' || cita.estado === 'confirmada'"
             size="small"
             color="danger"
             fill="outline"
-            style="margin-left: 8px"
+            class="desktop-btn-cancelar"
             (click)="handleCancelarClick(cita)">
             Cancelar
           </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
+
+    <!-- Vista móvil (cards) -->
+    <div *ngIf="!loading && citas.length > 0" class="mobile-cards">
+      <div *ngFor="let cita of citas" class="cita-card">
+        <div class="cita-card-header">
+          <h3 class="mascota-name">{{ cita.nombre_mascota }}</h3>
+          <span class="estado-badge" [ngClass]="getEstadoClass(cita.estado)">
+            {{ cita.estado }}
+          </span>
+        </div>
+        <div class="cita-details">
+          <div class="detail-item">
+            <span class="detail-label">Veterinario:</span>
+            <span class="detail-value">{{ cita.veterinario || 'Por asignar' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Especialidad:</span>
+            <span class="detail-value">{{ cita.tipo_consulta }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Fecha y Hora:</span>
+            <span class="detail-value">{{ cita.fecha_hora | date:'short' }}</span>
+          </div>
+        </div>
+        <div 
+          *ngIf="cita.estado === 'pendiente' || cita.estado === 'confirmada'"
+          class="cita-actions">
+          <ion-button
+            size="small"
+            color="danger"
+            fill="outline"
+            (click)="handleCancelarClick(cita)">
+            Cancelar
+          </ion-button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Modal de confirmación -->

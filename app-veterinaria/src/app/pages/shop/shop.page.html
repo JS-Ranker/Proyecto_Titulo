@@ -20,7 +20,7 @@
       <ion-col size="12" size-md="6" size-lg="4" *ngFor="let product of filteredProducts">
         <ion-card class="product-card">
           <img
-            [src]="product.imagen_url ? 'http://localhost:3000/' + product.imagen_url : 'assets/images/default-product.png'"
+            [src]="product.imagen_url ? IMG_BASE_URL + product.imagen_url : 'assets/images/default-product.png'"
             [alt]="product.nombre"
             class="product-image"
           />
@@ -61,7 +61,7 @@
           <ion-item *ngFor="let item of cart">
             <ion-thumbnail slot="start">
               <img
-                [src]="item.imagen_url ? 'http://localhost:3000/' + item.imagen_url : 'assets/images/default-product.png'"
+                [src]="item.imagen_url ? IMG_BASE_URL + item.imagen_url : 'assets/images/default-product.png'"
                 [alt]="item.nombre"
               />
             </ion-thumbnail>

@@ -26,4 +26,4 @@ export class DuenosService {
   actualizarDueno(rut: string, data: any) {
     return this.http.put(`${this.apiUrl}/duenos/${rut}`, data);
   }
-}    
+}     

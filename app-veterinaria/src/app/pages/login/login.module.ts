@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { LoginPageRoutingModule } from './login-routing.module';
 import { LoginPage } from './login.page';
-import { ComponentsModule } from '../../components/components.module'; // <-- importa el módulo de componentes
+import { ComponentsModule } from '../../components/components.module'; 
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { ComponentsModule } from '../../components/components.module'; // <-- im
     ReactiveFormsModule,
     IonicModule,
     LoginPageRoutingModule,
-    ComponentsModule // <-- importa aquí el módulo de componentes
+    ComponentsModule 
   ],
   declarations: [LoginPage]
 })

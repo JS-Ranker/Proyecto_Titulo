@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router'; // <--- IMPORTA NavigationEnd
 import { AuthService } from '../../service/auth.service'; 
 
 @Component({
@@ -16,6 +16,13 @@ export class HeaderComponent {
 
   constructor(private router: Router, private authService: AuthService) {
     this.checkAuthStatus();
+
+  
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkAuthStatus();
+      }
+    });
   }
 
   @HostListener('window:scroll', [])
@@ -30,7 +37,7 @@ export class HeaderComponent {
   toggleMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
     document.body.style.overflow = this.mobileMenuOpen ? 'hidden' : 'unset';
-  }
+  } 
 
   // Cierra el menú después de un pequeño delay para asegurar la navegación
   closeMenuAfterDelay() {
