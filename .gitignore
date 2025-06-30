@@ -1,6 +1,34 @@
-# Ignorar todo por defecto
-/app-veterinaria/*
+# Dependencias
+node_modules/
+**/node_modules/
+
+# Archivos compilados y de construcción
+dist/
+build/
+www/
+*.log
+*.tmp
+
+# Archivos de configuración del entorno
+.env
+.env.local
+.env.production
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos específicos de Ionic/Capacitor
+/app-veterinaria/www/
+/app-veterinaria/build/
+/app-veterinaria/.ionic/
 
 # Permitir solo la carpeta src dentro de app-veterinaria
+/app-veterinaria/*
 !/app-veterinaria/src/
 !/app-veterinaria/src/**
+!/app-veterinaria/package.json
+!/app-veterinaria/angular.json
+!/app-veterinaria/capacitor.config.ts
+!/app-veterinaria/ionic.config.json
+!/app-veterinaria/tsconfig*.json
