@@ -128,10 +128,10 @@ const Login = () => {
       setLoadingSuccess(true);
       
       setTimeout(() => {
-        // Usar el AuthContext para manejar el login
-        login({ rut: response.data.rut });
+        // Usar el AuthContext para manejar el login con datos completos
+        login(response.data);
 
-        // Guarda el usuario en localStorage para el registro de mascotas
+        // Guarda el usuario en localStorage para compatibilidad
         localStorage.setItem("currentUser", JSON.stringify(response.data));
 
         // Mostrar modal de éxito

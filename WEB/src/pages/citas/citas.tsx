@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { citasService } from "../../services/citas";
 import styles from "./citas.module.css";
 
 const Citas: React.FC = () => {
   const [citas, setCitas] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [citaCancelar, setCitaCancelar] = useState<any>(null);
   const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
 
   useEffect(() => {
-    if (currentUser?.rut) {
-      citasService.obtenerCitasPorDueno(currentUser.rut).then(setCitas);
-    }
+    const fetchCitas = async () => {
+      if (!currentUser?.rut) return;
+      setLoading(true);
+      try {
+        const citasData = await citasService.obtenerCitasPorDueno(currentUser.rut);
+        setCitas(citasData);
+      } catch (err) {
+        setCitas([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCitas();
   }, [currentUser?.rut]);
 
   const getEstadoClass = (estado: string) => {
@@ -22,7 +34,7 @@ const Citas: React.FC = () => {
     if (estadoLower.includes('cancelada')) return 'estado-cancelada';
     return 'estado-pendiente';
   };
-
+ 
   const handleCancelarClick = (cita: any) => {
     setCitaCancelar(cita);
     setModalOpen(true);
@@ -48,138 +60,104 @@ const Citas: React.FC = () => {
 
   return (
     <div className={styles["citas-container"]}>
-      <h1 className={styles["citas-title"]}>Mis Citas</h1>
-      {citas.length === 0 ? (
-        <div className={styles["no-citas-message"]}>
-          <span className={styles["no-citas-icon"]}>🐾</span>
-          <p>No tienes citas agendadas.</p>
+      <div className={styles.profileContainer}>
+        <div className={styles.headerBar}>
+          <button
+            type="button"
+            onClick={() => window.history.back()}
+            className={styles.backButton}
+          >
+            <span>←</span>
+            Volver
+          </button>
+          <div className={styles.titleSection}>
+            <h1 className={styles["citas-title"]}>📅 Mis Citas</h1>
+            <p className={styles.subtitle}>Gestiona tus citas veterinarias</p>
+          </div>
+          <div style={{ minWidth: '140px' }}></div>
         </div>
-      ) : (
-        <div className={styles["table-container"]}>
-          <table className={styles["citas-table"]}>
-            <thead>
-              <tr>
-                <th>Mascota</th>
-                <th>Veterinario</th>
-                <th>Especialidad</th>
-                <th>Fecha y Hora</th>
-                <th>Estado</th>
-              </tr> 
-            </thead>
-            <tbody>
-              {citas.map((cita) => (
-                <tr key={cita.id}>
-                  <td className={styles["mascota-cell"]}>{cita.nombre_mascota}</td>
-                  <td className={styles["veterinario-cell"]}>
-                    {cita.veterinario || "Por asignar"}
-                  </td>
-                  <td>
-                    <span className={styles["especialidad-cell"]}>
-                      {cita.tipo_consulta}
-                    </span>
-                  </td> 
-                  <td className={styles["fecha-cell"]}>
-                    {new Date(cita.fecha_hora).toLocaleString("es-CL")}
-                  </td>
-                  <td className={styles["estado-cell"]}>
-                    <span className={`estado-badge ${getEstadoClass(cita.estado)}`}>
-                      {cita.estado}
-                    </span>
-                    {(cita.estado === "pendiente" || cita.estado === "confirmada") && (
-                      <button
-                        style={{
-                          marginLeft: 8,
-                          padding: "0.3rem 0.7rem",
-                          borderRadius: 8,
-                          border: "none",
-                          background: "#FF8C70",
-                          color: "white",
-                          cursor: "pointer",
-                          fontSize: "0.8rem",
-                        }}
-                        onClick={() => handleCancelarClick(cita)}
-                      >
-                        Cancelar
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
 
-      {/* Modal de confirmación */}
+        {loading ? (
+          <div className={styles.loadingContainer}>
+            <div className={styles.spinner}></div>
+            <p>Cargando citas...</p>
+          </div>
+        ) : citas.length === 0 ? (
+          <div className={styles["no-citas-message"]}>
+            <span className={styles["no-citas-icon"]}>�</span>
+            <h3>No tienes citas agendadas</h3>
+            <p>Cuando tengas citas programadas, aparecerán aquí para que puedas gestionarlas fácilmente.</p>
+          </div>
+        ) : (
+          <div className={styles["table-container"]}>
+            <table className={styles["citas-table"]}>
+              <thead>
+                <tr>
+                  <th>Mascota</th>
+                  <th>Veterinario</th>
+                  <th>Especialidad</th>
+                  <th>Fecha y Hora</th>
+                  <th>Estado</th>
+                </tr> 
+              </thead>
+              <tbody>
+                {citas.map((cita) => (
+                  <tr key={cita.id}>
+                    <td className={styles["mascota-cell"]}>{cita.nombre_mascota}</td>
+                    <td className={styles["veterinario-cell"]}>
+                      {cita.veterinario || "Por asignar"}
+                    </td>
+                    <td>
+                      <span className={styles["especialidad-cell"]}>
+                        {cita.tipo_consulta}
+                      </span>
+                    </td> 
+                    <td className={styles["fecha-cell"]}>
+                      {new Date(cita.fecha_hora).toLocaleString("es-CL")}
+                    </td>
+                    <td className={styles["estado-cell"]}>
+                      <span className={`${styles["estado-badge"]} ${styles[getEstadoClass(cita.estado)]}`}>
+                        {cita.estado}
+                      </span>
+                      {(cita.estado === "pendiente" || cita.estado === "confirmada") && (
+                        <button
+                          className={styles.cancelButton}
+                          onClick={() => handleCancelarClick(cita)}
+                          title="Cancelar esta cita"
+                        >
+                          ✕ Cancelar
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Modal de confirmación mejorado */}
       {modalOpen && (
-        <div style={{
-          position: "fixed",
-          top: 0, left: 0, right: 0, bottom: 0,
-          background: "rgba(47,184,198,0.15)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 1000
-        }}>
-          <div style={{
-            background: "#fff",
-            borderRadius: 16,
-            boxShadow: "0 10px 30px rgba(47,184,198,0.15)",
-            padding: "2rem 2.5rem",
-            minWidth: 320,
-            maxWidth: "90vw",
-            textAlign: "center",
-            border: "2px solid #2FB8C6",
-            animation: "fadeIn 0.4s"
-          }}>
-            <div style={{ fontSize: "2.5rem", marginBottom: 12 }}>❓</div>
-            <h2 style={{
-              fontSize: "1.3rem",
-              fontWeight: 700,
-              color: "#2FB8C6",
-              marginBottom: 8
-            }}>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalIcon}>❓</div>
+            <h2 className={styles.modalTitle}>
               ¿Seguro que deseas cancelar esta cita?
             </h2>
-            <p style={{
-              color: "#666",
-              marginBottom: 24,
-              fontSize: "1rem"
-            }}>
-              Esta acción no se puede deshacer.
+            <p className={styles.modalDescription}>
+              Esta acción no se puede deshacer y deberás agendar una nueva cita si cambias de opinión.
             </p>
-            <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
+            <div className={styles.modalActions}>
               <button
                 onClick={handleConfirmarCancelacion}
-                style={{
-                  background: "#FF8C70",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: 8,
-                  padding: "0.6rem 1.5rem",
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  cursor: "pointer",
-                  boxShadow: "0 2px 8px rgba(255,140,112,0.08)",
-                  transition: "background 0.2s"
-                }}
+                className={`${styles.modalButton} ${styles.modalButtonConfirm}`}
               >
                 Sí, cancelar
               </button>
               <button
                 onClick={handleCerrarModal}
-                style={{
-                  background: "#A9E5BB",
-                  color: "#2FB8C6",
-                  border: "none",
-                  borderRadius: 8,
-                  padding: "0.6rem 1.5rem",
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  cursor: "pointer",
-                  boxShadow: "0 2px 8px rgba(169,229,187,0.08)",
-                  transition: "background 0.2s"
-                }}
+                className={`${styles.modalButton} ${styles.modalButtonCancel}`}
               >
                 No, volver
               </button>

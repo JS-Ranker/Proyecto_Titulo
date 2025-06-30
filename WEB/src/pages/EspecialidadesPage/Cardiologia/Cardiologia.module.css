@@ -1,245 +1,811 @@
-.container {
+/* ===== PALETA DE COLORES CARDIOLOGÍA ===== */
+:root {
+  /* Colores principales */
+  --cardio-primary: #D64545;          /* Rojo suave - Acento principal */
+  --cardio-elegant: #B8405E;          /* Rojo vino claro - Variante elegante */
+  --cardio-light: #FBEAEA;            /* Rosa pálido neutro - Fondo sección light */
+  --cardio-coral: #E25454;            /* Rojo coral profundo - Iconos complementarios */
+  
+  /* Gradiente de fondo principal */
+  --cardio-bg-gradient: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 50%, #F1F5F9 100%);
+  
+  /* Colores de soporte */
+  --cardio-white: #FFFFFF;
+  --cardio-gray-50: #F8FAFC;
+  --cardio-gray-100: #F1F5F9;
+  --cardio-gray-200: #E2E8F0;
+  --cardio-gray-300: #CBD5E1;
+  --cardio-gray-600: #475569;
+  --cardio-gray-700: #334155;
+  --cardio-gray-800: #1E293B;
+  
+  /* Sombras con tinte rojo */
+  --cardio-shadow-sm: 0 1px 2px 0 rgba(214, 69, 69, 0.05);
+  --cardio-shadow: 0 4px 6px -1px rgba(214, 69, 69, 0.1), 0 2px 4px -1px rgba(214, 69, 69, 0.06);
+  --cardio-shadow-lg: 0 10px 15px -3px rgba(214, 69, 69, 0.1), 0 4px 6px -2px rgba(214, 69, 69, 0.05);
+  --cardio-shadow-xl: 0 20px 25px -5px rgba(214, 69, 69, 0.1), 0 10px 10px -5px rgba(214, 69, 69, 0.04);
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.cardiologiaContainer {
+  min-height: 100vh;
+  background: var(--cardio-bg-gradient);
+  position: relative;
+  overflow-x: hidden;
+  padding: 0px;
+  z-index: 1
+}
+
+/* ===== ELEMENTOS DECORATIVOS DE FONDO ===== */
+.decorativeBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bgDecoration {
+  position: absolute;
+  opacity: 0.03;
+  animation: float 6s ease-in-out infinite;
+}
+
+.bgDecoration1 {
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.bgDecoration2 {
+  top: 40%;
+  right: 10%;
+  animation-delay: 2s;
+}
+
+.bgDecoration3 {
+  bottom: 20%;
+  left: 15%;
+  animation-delay: 4s;
+}
+
+.bgDecorationIcon {
+  width: 8rem;
+  height: 8rem;
+  color: var(--cardio-primary);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.cardiologiaContent {
+  position: relative;
+  z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
 
-.title {
-  color: #2fb8c6;
+/* ===== HEADER SECTION ===== */
+.cardiologiaHeader {
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
 }
 
-.content {
+.cardiologiaHeader.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.headerTitleContainer {
   display: flex;
-  gap: 3rem;
-  align-items: flex-start;
-}
-
-.textSection {
-  flex: 1;
-}
-
-.description {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  color: #333;
-}
-
-.symptomsIntro {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  color: #333;
-  font-weight: 500;
-}
-
-.symptomsList {
-  padding-left: 1.5rem;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-}
-
-.symptomsList li {
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
-}
-
-.imageSection {
-  flex: 1;
-  position: relative;
-}
-
-.image {
-  width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  object-fit: cover;
-  max-height: 500px;
-}
-
-/* Estilos responsivos */
-@media (max-width: 768px) {
-  .content {
-    flex-direction: column;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .imageSection {
-    order: -1;
-    margin-bottom: 2rem;
-  }
-}
-/* Nueva sección de diagnóstico */
-.diagnosticSection {
-  margin-top: 4rem;
-  padding: 2rem 0;
-  border-top: 1px solid rgba(47, 184, 198, 0.2);
-}
-
-.sectionTitle {
-  color: #2fb8c6;
-  font-size: 1.8rem;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
   margin-bottom: 1.5rem;
-  text-align: center;
+  flex-wrap: wrap;
 }
 
-.sectionIntro {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #555;
-  margin-bottom: 2rem;
-  text-align: center;
+.headerIconContainer {
+  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-coral));
+  padding: 1rem;
+  border-radius: 50%;
+  box-shadow: var(--cardio-shadow-lg);
+  animation: pulse 2s infinite;
+}
+
+.headerIcon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--cardio-white);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.cardiologiaTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-coral));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(214, 69, 69, 0.1);
+}
+
+.titleDivider {
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cardio-primary), var(--cardio-coral));
+  margin: 1.5rem auto;
+  border-radius: 2px;
+}
+
+.cardiologiaSubtitle {
+  font-size: 1.25rem;
+  color: var(--cardio-gray-600);
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+  line-height: 1.7;
 }
 
-.diagnosticGrid {
+.highlightText {
+  color: var(--cardio-primary);
+  font-weight: 600;
+}
+
+/* ===== INTRO SECTION ===== */
+.introSection {
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out 0.2s;
+} 
+
+.introSection.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.introCard {
+  background: var(--cardio-white);
+  border-radius: 1.5rem;
+  padding: 3rem;
+  box-shadow: var(--cardio-shadow-xl);
+  border: 1px solid var(--cardio-light);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 320px;
+}
+
+.introCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 35px -5px rgba(214, 69, 69, 0.2), 0 15px 15px -5px rgba(214, 69, 69, 0.12);
+}
+
+.introCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cardio-primary), var(--cardio-coral));
+}
+
+.introIconContainer {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-coral));
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 32px rgba(214, 69, 69, 0.3);
+}
+
+.introMainIcon {
+  width: 40px;
+  height: 40px;
+  color: white;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.introContent {
+  padding-top: 6rem;
+  text-align: left;
+}
+
+.introTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--cardio-gray-800);
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+}
+
+.introDescription {
+  font-size: 1.1rem;
+  color: var(--cardio-gray-600);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.introDecoration {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  opacity: 0.1;
+}
+
+.introDecorationIcon {
+  width: 120px;
+  height: 120px;
+  color: var(--cardio-primary);
+  transform: rotate(15deg);
+}
+
+/* ===== TEAM GRID ===== */
+.teamGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
-  margin-top: 2rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out 0.4s;
 }
 
-.diagnosticCard {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease;
+.teamGrid.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.diagnosticCard:hover {
-  transform: translateY(-5px);
+.teamCard {
+  background: var(--cardio-white);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid var(--cardio-light);
+  box-shadow: var(--cardio-shadow);
 }
 
-.cardTitle {
-  color: #2fb8c6;
-  font-size: 1.3rem;
+.teamCard:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--cardio-shadow-xl);
+}
+
+.teamCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cardio-primary), var(--cardio-coral));
+}
+
+.teamCard-0 {
+  animation: slideInFromLeft 0.8s ease-out 0.1s both;
+}
+
+.teamCard-1 {
+  animation: slideInFromLeft 0.8s ease-out 0.3s both;
+}
+
+.teamCard-2 {
+  animation: slideInFromLeft 0.8s ease-out 0.5s both;
+}
+
+.teamCardBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--cardio-light) 0%, transparent 100%);
+  opacity: 0.5;
+}
+
+.teamCardContent {
+  position: relative;
+  z-index: 1;
+}
+
+.teamIconContainer {
+  display: inline-flex;
+  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-coral));
+  padding: 1.25rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--cardio-shadow);
+}
+
+.teamMainIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--cardio-white);
+}
+
+.teamTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cardio-gray-800);
   margin-bottom: 1rem;
 }
 
-.cardText {
-  color: #555;
+.teamDescription {
+  color: var(--cardio-gray-600);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.teamDecoration {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  opacity: 0.1;
+}
+
+.teamDecorationIcon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--cardio-primary);
+}
+
+/* ===== CLINICAL GRID ===== */
+.clinicalGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out 0.6s;
+}
+
+.clinicalGrid.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.clinicalCard {
+  background: var(--cardio-white);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid var(--cardio-light);
+  box-shadow: var(--cardio-shadow);
+}
+
+.clinicalCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--cardio-shadow-xl);
+}
+
+.clinicalCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cardio-primary), var(--cardio-coral));
+}
+
+.clinicalCardBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--cardio-light) 0%, transparent 100%);
+  opacity: 0.3;
+}
+
+.clinicalCardContent {
+  position: relative;
+  z-index: 1;
+}
+
+.clinicalHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.clinicalIconContainer {
+  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-coral));
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--cardio-shadow);
+}
+
+.clinicalMainIcon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--cardio-white);
+}
+
+.clinicalTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cardio-gray-800);
+  margin: 0;
+}
+
+.clinicalDescription {
+  color: var(--cardio-gray-600);
+  margin-bottom: 1.5rem;
   line-height: 1.6;
 }
 
-/* Sección de reserva y cardiopatías */
-.bookingSection {
-  margin-top: 3rem;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 2rem;
+.clinicalDecoration {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  opacity: 0.1;
 }
 
-.bookingCard {
-  background: linear-gradient(135deg, #2fb8c6, #26a0ac);
-  border-radius: 8px;
-  padding: 2rem;
-  color: white;
+.clinicalDecorationIcon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--cardio-primary);
+}
+
+/* ===== SYMPTOMS LIST ===== */
+.symptomsList {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 0.75rem;
+}
+
+.symptomItem {
+  display: flex;
   align-items: center;
-  text-align: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--cardio-light);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
 }
 
-.bookingTitle {
-  font-size: 1.4rem;
-  margin-bottom: 1.5rem;
+.symptomItem:hover {
+  background: var(--cardio-coral);
+  transform: translateX(5px);
 }
 
-.bookingButton {
-  background: white;
-  color: #2fb8c6;
-  border: none;
-  padding: 0.8rem 1.8rem;
-  border-radius: 30px;
-  font-weight: 600;
-  cursor: pointer;
+.symptomBullet {
+  width: 8px;
+  height: 8px;
+  background: var(--cardio-primary);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ===== DIAGNOSTIC LIST ===== */
+.diagnosticList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.diagnosticItem {
+  padding: 1rem;
+  background: var(--cardio-light);
+  border-radius: 0.75rem;
+  border-left: 4px solid var(--cardio-primary);
   transition: all 0.3s ease;
 }
 
-.bookingButton:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.diagnosticItem:hover {
+  background: var(--cardio-coral);
+  transform: translateX(5px);
+  box-shadow: var(--cardio-shadow);
 }
 
-.diseasesSection {
-  background: #f9f9f9;
-  border-radius: 8px;
-  padding: 2rem;
+.diagnosticTitle {
+  font-weight: 600;
+  color: var(--cardio-gray-700);
+  margin: 0;
 }
 
-.diseasesTitle {
-  color: #2fb8c6;
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
+.diagnosticDesc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--cardio-gray-600);
+  margin: 0;
+}
+
+/* ===== CTA SECTION ===== */
+.ctaSection {
+  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-elegant));
+  border-radius: 2rem;
+  padding: 3rem;
   text-align: center;
-}
-
-.diseasesGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-
-.diseaseType {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.typeTitle {
-  color: #2fb8c6;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid #a9e5bb;
-  padding-bottom: 0.5rem;
-}
-
-.diseaseList {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.diseaseList li {
-  padding: 0.5rem 0;
-  color: #555;
+  margin-bottom: 3rem;
   position: relative;
-  padding-left: 1.5rem;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out 1s;
 }
 
-.diseaseList li::before {
-  content: "•";
-  color: #2fb8c6;
-  font-size: 1.2rem;
+.ctaSection.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ctaSection::before {
+  content: '';
   position: absolute;
+  top: 0;
   left: 0;
-  top: 0.3rem;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
 }
 
-/* Responsive */
+.ctaContent {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 2rem;
+}
+
+.ctaTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--cardio-white);
+  margin-bottom: 1rem;
+}
+
+.ctaDescription {
+  font-size: 1.125rem;
+  color: var(--cardio-white);
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.ctaButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.ctaPrimary {
+  background: var(--cardio-white);
+  color: var(--cardio-primary);
+  box-shadow: var(--cardio-shadow-lg);
+}
+
+.ctaPrimary:hover {
+  background: var(--cardio-gray-50);
+  transform: translateY(-2px);
+  box-shadow: var(--cardio-shadow-xl);
+}
+
+.ctaSecondary {
+  background: transparent;
+  color: var(--cardio-white);
+  border: 2px solid var(--cardio-white);
+}
+
+.ctaSecondary:hover {
+  background: var(--cardio-white);
+  color: var(--cardio-primary);
+  transform: translateY(-2px);
+}
+
+.ctaButtonIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* ===== FOOTER INFO ===== */
+.footerInfo {
+  text-align: center;
+  padding: 2rem;
+  background: var(--cardio-light);
+  border-radius: 1rem;
+  margin-top: 2rem;
+}
+
+.footerInfo p {
+  color: var(--cardio-gray-600);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
-  .bookingSection {
+  .cardiologiaContent {
+    padding: 1rem 0.5rem;
+  }
+
+  .cardiologiaTitle {
+    font-size: 2.5rem;
+  }
+
+  .headerTitleContainer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .introCard,
+  .teamCard,
+  .clinicalCard {
+    padding: 2rem;
+  }
+
+  .teamGrid,
+  .clinicalGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .ctaSection {
+    padding: 2rem;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ctaButton {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+
+  .symptomsList {
     grid-template-columns: 1fr;
   }
 
-  .diseasesGrid {
-    grid-template-columns: 1fr;
+  .bgDecorationIcon {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardiologiaTitle {
+    font-size: 2rem;
   }
 
-  .diagnosticGrid {
-    grid-template-columns: 1fr;
+  .introTitle {
+    font-size: 1.8rem;
   }
+
+  .teamTitle {
+    font-size: 1.3rem;
+  }
+
+  .clinicalTitle {
+    font-size: 1.5rem;
+  }
+
+  .ctaTitle {
+    font-size: 1.5rem;
+  }
+
+  .introCard,
+  .teamCard,
+  .clinicalCard {
+    padding: 1.5rem;
+  }
+}
+
+/* ===== ANIMACIONES ADICIONALES ===== */
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.visible {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* ===== ESTILOS PARA ACCESIBILIDAD ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Estados de focus para accesibilidad */
+.ctaButton:focus,
+.ctaButton:focus-visible {
+  outline: 3px solid var(--cardio-primary);
+  outline-offset: 2px;
+}
+
+/* ===== HOVER STATES ADICIONALES ===== */
+.symptomItem:hover {
+  background: var(--cardio-white);
+  border-radius: 8px;
+  padding-left: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--cardio-shadow);
+}
+ 
+.diagnosticItem:hover .diagnosticTitle {
+  color: var(--cardio-elegant);
+}
+
+/* ===== GRADIENTES ADICIONALES PARA VARIEDAD ===== */
+.teamCard:nth-child(2) .teamIconContainer {
+  background: linear-gradient(135deg, var(--cardio-elegant), var(--cardio-primary));
+}
+
+.teamCard:nth-child(3) .teamIconContainer {
+  background: linear-gradient(135deg, var(--cardio-coral), var(--cardio-elegant));
 }

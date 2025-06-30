@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { FaPaw, FaUserCircle, FaHome, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaTimes, FaCalendarAlt } from "react-icons/fa";
 import { useAuth } from "../../../utils/AuthContext";
+import { productosService } from '../../../services/productos';
+import SearchBar from '../SearchBar/SearchBar';
 import styles from "./header.module.css";
 
 const Header = () => {
@@ -9,9 +11,10 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [productos, setProductos] = useState<any[]>([]);
   const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation(); 
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +27,10 @@ const Header = () => {
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    productosService.obtenerTodos().then(setProductos);
+  }, []);
 
   // Prevenir scroll del body cuando el menú está abierto
   useEffect(() => {
@@ -61,6 +68,11 @@ const Header = () => {
           <NavLink to="/" className={styles.brand} onClick={closeMenu}>
             <FaPaw className={styles.logo} /> Happy Pet
           </NavLink>
+
+          {/* SearchBar centrado */}
+          <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+            <SearchBar productos={productos} />
+          </div>
 
           {/* Botón hamburguesa mejorado */}
           <button

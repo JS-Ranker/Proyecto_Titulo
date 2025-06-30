@@ -1,0 +1,157 @@
+/* ===== VARIABLES CSS ===== */
+:root {
+  --primary: #2FB8C6;
+  --secondary: #A9E5BB;
+  --accent: #FF8C70;
+  --background: #FAFAF9;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --gradient-primary: linear-gradient(135deg, #2FB8C6 0%, #A9E5BB 100%);
+  --gradient-accent: linear-gradient(135deg, #FF8C70 0%, #2FB8C6 100%);
+  --shadow-primary: 0 8px 32px rgba(47, 184, 198, 0.15);
+  --shadow-accent: 0 8px 32px rgba(255, 140, 112, 0.15);
+}
+
+.navbar-principal {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(250, 250, 249, 0.95) 0%, rgba(240, 249, 255, 0.95) 100%);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(47, 184, 198, 0.15);
+  box-shadow: 
+    0 4px 20px rgba(47, 184, 198, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0.5rem 0;
+  position: relative;
+  top: 0;
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+.navbar-list {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+} 
+
+.navbar-list {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+} 
+
+.navbar-link {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  border-radius: 16px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.95rem;
+}
+
+.navbar-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(47, 184, 198, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.navbar-link:hover::before {
+  left: 100%;
+}
+
+.navbar-link:hover,
+.navbar-link.active {
+  color: white;
+  background: var(--gradient-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(47, 184, 198, 0.25);
+  border: 1px solid rgba(47, 184, 198, 0.3);
+}
+
+.navbar-link.active {
+  background: var(--gradient-accent);
+  box-shadow: 0 6px 20px rgba(255, 140, 112, 0.25);
+  border: 1px solid rgba(255, 140, 112, 0.3);
+}
+
+.navbar-link:active {
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .navbar-principal {
+    padding: 0.5rem 1rem;
+  }
+  
+  .navbar-list {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .navbar-link {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-list {
+    gap: 0.5rem;
+  }
+  
+  .navbar-link {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+  }
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar-principal {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* ===== EFECTOS ADICIONALES ===== */
+.navbar-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(47, 184, 198, 0.2);
+}
+
+.navbar-link:focus:not(:hover) {
+  background: rgba(47, 184, 198, 0.05);
+  color: var(--primary);
+}

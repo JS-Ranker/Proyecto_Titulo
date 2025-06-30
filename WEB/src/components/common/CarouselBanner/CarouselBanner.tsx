@@ -139,8 +139,10 @@ const CarouselBanner = () => {
           <div className={`${styles.mainMessageContent} ${styles.adopcionMessage}`}>
             <h1>Adopta una vida, cambia dos destinos</h1>
             <p>En Happy Pet trabajamos para dar un nuevo hogar a mascotas rescatadas</p>
-            <button className={styles.mainActionButton}>
-              Conoce nuestros peludos
+            <button className={styles.mainActionButton}
+              onClick={() => navigate("/adoptame")}
+            >
+              Conoce nuestras mascotas
             </button>
           </div>
         )}

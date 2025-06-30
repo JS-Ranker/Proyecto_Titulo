@@ -1,66 +1,161 @@
 
+/* ===== VARIABLES CSS ===== */
+:root {
+  --primary: #2FB8C6;
+  --secondary: #A9E5BB;
+  --accent: #FF8C70;
+  --background: #FAFAF9;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --gradient-primary: linear-gradient(135deg, #2FB8C6 0%, #A9E5BB 100%);
+  --gradient-accent: linear-gradient(135deg, #FF8C70 0%, #2FB8C6 100%);
+  --shadow-primary: 0 8px 32px rgba(47, 184, 198, 0.15);
+  --shadow-accent: 0 8px 32px rgba(255, 140, 112, 0.15);
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
 .citas-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #FAFAF9;
   min-height: 100vh;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #FAFAF9 0%, #f0f9ff 100%);
+  padding: 2rem 1rem;
 }
 
-/* Título principal */
+.profileContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ===== HEADER SECTION ===== */
+.headerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(47, 184, 198, 0.08) 0%, rgba(169, 229, 187, 0.08) 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(47, 184, 198, 0.15);
+}
+
+.titleSection {
+  text-align: center;
+  flex: 1;
+}
+
 .citas-title {
+  margin: 0 0 0.5rem 0;
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 800;
   color: #333333;
-  text-align: center;
-  margin-bottom: 2rem;
-  position: relative;
+  text-shadow: 0 2px 4px rgba(47, 184, 198, 0.1);
+  letter-spacing: -0.02em;
 }
 
-.citas-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, #2FB8C6, #A9E5BB);
-  border-radius: 2px;
-}
-
-/* Mensaje cuando no hay citas */
-.no-citas-message {
-  text-align: center;
-  padding: 3rem 2rem;
-  background: linear-gradient(135deg, #A9E5BB20, #2FB8C620);
-  border-radius: 16px;
-  border: 2px dashed #2FB8C6;
-  margin: 2rem 0;
-}
-
-.no-citas-message p {
-  font-size: 1.2rem;
-  color: #666666;
+.subtitle {
   margin: 0;
+  font-size: 1.1rem;
+  color: #666666;
   font-weight: 500;
 }
 
-.no-citas-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  display: block;
+/* ===== BOTONES PRINCIPALES ===== */
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #333333;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #A9E5BB 0%, rgba(169, 229, 187, 0.8) 100%);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(169, 229, 187, 0.3);
+  border: 1px solid rgba(169, 229, 187, 0.5);
+  cursor: pointer;
+  border: none;
 }
 
-/* Container de la tabla */
-.table-container {
-  background: white;
+.backButton:hover {
+  background: linear-gradient(135deg, #2FB8C6 0%, rgba(47, 184, 198, 0.9) 100%);
+  color: #FAFAF9;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(47, 184, 198, 0.4);
+}
+
+.addCitaButton {
+  background: linear-gradient(135deg, #2FB8C6 0%, rgba(47, 184, 198, 0.9) 100%);
+  color: #FAFAF9;
+  text-decoration: none;
+  padding: 1rem 2rem;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(47, 184, 198, 0.1);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(47, 184, 198, 0.5);
+  box-shadow: 0 4px 16px rgba(47, 184, 198, 0.3);
+}
+
+.addCitaButton:hover {
+  background: linear-gradient(135deg, #FF8C70 0%, rgba(255, 140, 112, 0.9) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 140, 112, 0.4);
+}
+/* ===== MENSAJE ESTADO VACÍO ===== */
+.no-citas-message {
+  text-align: center;
+  padding: 4rem 2rem;
+  margin: 2rem 0;
+  background: linear-gradient(135deg, rgba(169, 229, 187, 0.05) 0%, rgba(47, 184, 198, 0.05) 100%);
+  border-radius: 24px;
+  border: 2px dashed rgba(169, 229, 187, 0.3);
+  animation: fadeIn 1s ease-out;
+}
+
+.no-citas-message p {
+  font-size: 1.1rem;
+  color: #666666;
+  margin: 0 0 2rem 0;
+  line-height: 1.6;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.no-citas-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  color: #A9E5BB;
+  display: block;
+  animation: pulse 2s infinite;
+}
+
+/* ===== CONTAINER DE LA TABLA ===== */
+.table-container {
+  background: #FAFAF9;
+  border-radius: 24px;
+  box-shadow: 
+    0 4px 20px rgba(47, 184, 198, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   margin: 2rem 0;
-  border: 1px solid rgba(47, 184, 198, 0.1);
+  border: 1px solid rgba(169, 229, 187, 0.3);
+  position: relative;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.table-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2FB8C6 0%, #A9E5BB 50%, #FF8C70 100%);
+  opacity: 0.8;
 }
 
 /* Estilos de la tabla */
@@ -155,55 +250,293 @@
   font-weight: 500;
 }
 
-/* Estados de las citas */
+/* ===== BOTÓN CANCELAR ===== */
+.cancelButton {
+  margin-left: 12px;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #FF8C70;
+  background: linear-gradient(135deg, #FF8C70 0%, #FFB4A3 100%);
+  color: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 12px rgba(255, 140, 112, 0.25);
+  /* Claramente un botón interactivo */
+  position: relative;
+  overflow: hidden;
+}
+
+.cancelButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.cancelButton:hover {
+  background: linear-gradient(135deg, #FF6B47 0%, #FF8C70 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 140, 112, 0.4);
+  border-color: #FF6B47;
+}
+
+.cancelButton:hover::before {
+  left: 100%;
+}
+
+.cancelButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 140, 112, 0.3);
+}
+
+/* ===== ESTADOS DE CARGA ===== */
+.loadingContainer {
+  text-align: center;
+  margin: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.spinner {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(169, 229, 187, 0.3);
+  border-radius: 50%;
+  border-top-color: #2FB8C6;
+  animation: spin 1s ease-in-out infinite;
+}
+
+/* ===== MODAL MEJORADO ===== */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(47, 184, 198, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+
+.modalContent {
+  background: #FAFAF9;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(47, 184, 198, 0.15);
+  padding: 2.5rem;
+  min-width: 320px;
+  max-width: 90vw;
+  text-align: center;
+  border: 1px solid rgba(47, 184, 198, 0.2);
+  animation: modalSlideIn 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.modalContent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2FB8C6 0%, #A9E5BB 50%, #FF8C70 100%);
+  opacity: 0.8;
+}
+
+.modalIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #FF8C70;
+}
+
+.modalTitle {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #333333;
+  margin-bottom: 0.5rem;
+}
+
+.modalDescription {
+  color: #666666;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.modalButton {
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.modalButtonConfirm {
+  background: linear-gradient(135deg, #FF8C70 0%, #FFB4A3 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 140, 112, 0.3);
+}
+
+.modalButtonConfirm:hover {
+  background: linear-gradient(135deg, #FFB4A3 0%, #FF8C70 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 140, 112, 0.4);
+}
+
+.modalButtonCancel {
+  background: linear-gradient(135deg, #A9E5BB 0%, #2FB8C6 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(169, 229, 187, 0.3);
+}
+
+.modalButtonCancel:hover {
+  background: linear-gradient(135deg, #2FB8C6 0%, #A9E5BB 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(47, 184, 198, 0.4);
+}
+/* ===== ESTADOS DE LAS CITAS ===== */
 .estado-cell {
   text-align: center;
+  padding: 1rem 0.8rem !important;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  min-width: 160px;
 }
 
 .estado-badge {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 20px;
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-weight: 500;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: inline-block;
-  min-width: 80px;
+  min-width: 90px;
+  text-align: center;
+  position: relative;
+  /* Sin cursor pointer ni efectos hover para que no parezca clickeable */
+  cursor: default;
+  user-select: none;
+  /* Estilo distintivamente no-interactivo */
+  opacity: 0.9;
+  font-family: inherit;
+}
+
+/* Sin hover effects para los badges - son solo informativos */
+.estado-badge:hover {
+  /* Explícitamente sin efectos para evitar confusión */
+  transform: none;
+  box-shadow: none;
 }
 
 .estado-pendiente {
-  background-color: #FF8C70;
-  color: white;
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.12) 0%, rgba(255, 214, 51, 0.08) 100%);
+  color: #CC8800;
+  border: 2px solid rgba(255, 193, 7, 0.25);
+  font-style: italic;
+  position: relative;
+  /* Estilo distintivamente no-clickeable */
+  box-shadow: inset 0 1px 3px rgba(255, 193, 7, 0.1);
+}
+
+.estado-pendiente::before {
+  content: '⏳';
+  margin-right: 0.4rem;
+  font-size: 0.9em;
 }
 
 .estado-confirmada {
-  background-color: #A9E5BB;
+  background: linear-gradient(135deg, rgba(47, 184, 198, 0.15) 0%, rgba(169, 229, 187, 0.15) 100%);
   color: #2FB8C6;
+  border: 2px solid rgba(47, 184, 198, 0.3);
+  box-shadow: inset 0 1px 3px rgba(47, 184, 198, 0.1);
+}
+
+.estado-confirmada::before {
+  content: '✓';
+  margin-right: 0.4rem;
+  font-weight: bold;
 }
 
 .estado-completada {
-  background-color: #2FB8C6;
-  color: white;
+  background: linear-gradient(135deg, rgba(169, 229, 187, 0.15) 0%, rgba(47, 184, 198, 0.15) 100%);
+  color: #28a745;
+  border: 2px solid rgba(40, 167, 69, 0.3);
+  box-shadow: inset 0 1px 3px rgba(40, 167, 69, 0.1);
+}
+
+.estado-completada::before {
+  content: '✅';
+  margin-right: 0.4rem;
 }
 
 .estado-cancelada {
-  background-color: #f0f0f0;
-  color: #666666;
+  background: linear-gradient(135deg, rgba(108, 117, 125, 0.1) 0%, rgba(134, 142, 150, 0.1) 100%);
+  color: #6c757d;
+  border: 2px solid rgba(108, 117, 125, 0.25);
+  text-decoration: line-through;
+  box-shadow: inset 0 1px 3px rgba(108, 117, 125, 0.1);
 }
 
-/* Responsividad */
+.estado-cancelada::before {
+  content: '❌';
+  margin-right: 0.4rem;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .citas-container {
-    padding: 1rem;
+    padding: 1rem 0.5rem;
+  }
+  
+  .headerBar {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .titleSection {
+    order: -1;
   }
   
   .citas-title {
     font-size: 2rem;
   }
   
+  .subtitle {
+    font-size: 1rem;
+  }
+  
   .table-container {
     overflow-x: auto;
-    border-radius: 12px;
+    border-radius: 16px;
   }
   
   .citas-table {
@@ -228,15 +561,45 @@
     font-size: 0.85rem;
   }
   
+  .estado-cell {
+    padding: 0.8rem 0.5rem !important;
+    gap: 0.6rem;
+    min-width: 140px;
+  }
+  
   .estado-badge {
     padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    min-width: 80px;
+  }
+
+  .cancelButton {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    margin-left: 0;
+  }
+
+  .modalContent {
+    padding: 2rem;
+    margin: 1rem;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+
+  .modalButton {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
   .citas-container {
     padding: 0.5rem;
+  }
+  
+  .headerBar {
+    padding: 1rem;
   }
   
   .citas-title {
@@ -255,9 +618,15 @@
   .citas-table tbody td {
     padding: 0.6rem 0.4rem;
   }
+
+  .backButton,
+  .addCitaButton {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
 }
 
-/* Animaciones */
+/* ===== ANIMACIONES ===== */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -269,26 +638,44 @@
   }
 }
 
-.table-container {
-  animation: fadeIn 0.6s ease-out;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.no-citas-message {
-  animation: fadeIn 0.6s ease-out;
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 
-/* Efectos adicionales */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ===== EFECTOS ADICIONALES ===== */
 .citas-table tbody tr:last-child {
   border-bottom: none;
-}
-
-.table-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #2FB8C6, #A9E5BB, #FF8C70);
-  border-radius: 16px 16px 0 0;
 }

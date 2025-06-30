@@ -246,12 +246,12 @@ const ProfileHeader: React.FC<{ userName: string }> = ({ userName }) => (
     <Link to="/" className={styles.backLink}>
       <FaArrowLeft /> Volver al inicio
     </Link>
-    <div style={{ textAlign: 'center', flex: 1 }}>
+    <div className={styles.titleSection}>
       <h1 className={styles.welcomeMessage}>
-        ¡Bienvenido, {userName}!
+        👤 Mi Perfil
       </h1>
       <p className={styles.profileTitle}>
-        Gestiona tu información personal
+        Gestiona tu información personal, {userName}
       </p>
     </div>
   </div>
@@ -512,12 +512,16 @@ const PetsSection: React.FC<{ pets: any[] }> = ({ pets }) => (
     <div className={styles.petsGrid}>
       {pets.map(pet => (
         <div key={pet.id} className={styles.petCard}>
-          {pet.url_imagen_mascota && (
+          {pet.url_imagen_mascota ? (
             <img
               src={`http://localhost:3000/${pet.url_imagen_mascota}`}
               alt={pet.nombre}
               className={styles.petImage}
             />
+          ) : (
+            <div className={styles.petImagePlaceholder}>
+              🐾
+            </div>
           )}
           <h3>{pet.nombre}</h3>
         </div>
@@ -738,15 +742,18 @@ const UserProfile: React.FC = () => {
           </div>
         </div>
 
-        {/* Sección de mascotas con botón siempre visible */}
+        {/* Sección de mascotas */}
         {loadingMascotas ? (
-          <div style={{ textAlign: 'center', margin: '2rem' }}>Cargando mascotas...</div>
+          <div className={styles.loadingContainer}>
+            <div className={styles.spinner}></div>
+            <p>Cargando mascotas...</p>
+          </div>
         ) : mascotas.length > 0 ? (
           <PetsSection pets={mascotas.map(m => ({
-  id: m.id_mascota,
-  nombre: m.nombre_mascota,
-  url_imagen_mascota: m.url_imagen_mascota,
-}))} />
+            id: m.id_mascota,
+            nombre: m.nombre_mascota,
+            url_imagen_mascota: m.url_imagen_mascota,
+          }))} />
         ) : (
           <div className={styles.petsSection}>
             <div className={styles.petsSectionHeader}>

@@ -44,8 +44,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setUser(null);
     setIsLoggedIn(false);
-    // Limpiar localStorage
+    // Limpiar ambas claves de localStorage
     localStorage.removeItem('happypet_user');
+    localStorage.removeItem('currentUser');
   };
 
   const getCurrentUserRut = (): string | null => {

@@ -1,0 +1,470 @@
+/* Variables CSS para la paleta de colores */
+:root {
+  --primary-color: #2FB8C6;
+  --secondary-color: #A9E5BB;
+  --accent-color: #FF8C70;
+  --background-light: #FAFAF9;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --white: #ffffff;
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+  --shadow-heavy: rgba(0, 0, 0, 0.25);
+}
+
+/* Contenedor principal */
+.especialidades-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--white) 0%, var(--background-light) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Elementos decorativos de fondo */
+.decorative-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bg-decoration {
+  position: absolute;
+  opacity: 0.05;
+}  
+
+.bg-decoration-1 {
+  top: 5rem;
+  left: 2.5rem;
+}
+
+.bg-decoration-2 {
+  top: 10rem;
+  right: 5rem;
+}
+
+.bg-decoration-3 {
+  bottom: 5rem;
+  left: 25%;
+}
+
+.bg-decoration-icon {
+  width: 8rem;
+  height: 8rem;
+  color: var(--primary-color);
+}
+
+.bg-decoration-1 .bg-decoration-icon {
+  transform: rotate(12deg);
+}
+
+.bg-decoration-2 .bg-decoration-icon {
+  transform: rotate(-12deg);
+  width: 6rem;
+  height: 6rem;
+  color: var(--accent-color);
+}
+
+.bg-decoration-3 .bg-decoration-icon {
+  transform: rotate(45deg);
+  width: 7rem;
+  height: 7rem;
+  color: var(--secondary-color);
+}
+
+/* Contenido principal */
+.especialidades-content {
+  position: relative;
+  z-index: 10;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+/* Header */
+.especialidades-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(2.5rem);
+  transition: all 1s ease-out;
+}
+
+.especialidades-header.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.header-title-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.header-icon-container {
+  padding: 0.75rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), #259aa5);
+  box-shadow: 0 10px 25px var(--shadow-medium);
+}
+
+.header-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--white);
+}
+
+.especialidades-title {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-color), #259aa5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.title-divider {
+  width: 6rem;
+  height: 0.25rem;
+  background: linear-gradient(135deg, var(--accent-color), #ff7050);
+  margin: 0 auto 2rem;
+  border-radius: 9999px;
+}
+
+.especialidades-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 48rem;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.highlight-text {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* Grid de especialidades */
+.especialidades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(2.5rem);
+  transition: all 1s ease-out 0.3s;
+}
+
+.especialidades-grid.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Tarjetas de especialidades */
+.specialty-card {
+  position: relative;
+  background: var(--white);
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 40px var(--shadow-light);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.specialty-card:hover {
+  box-shadow: 0 30px 60px var(--shadow-medium);
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(47, 184, 198, 0.3);
+}
+
+.specialty-card-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.specialty-card:hover .specialty-card-bg {
+  opacity: 1;
+}
+
+/* Colores específicos para cada especialidad */
+.cardiologia .specialty-card-bg {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(236, 72, 153, 0.05));
+}
+
+.endocrinologia .specialty-card-bg {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(249, 115, 22, 0.05));
+}
+
+.oncologia .specialty-card-bg {
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.05), rgba(99, 102, 241, 0.05));
+}
+
+.gastroenterologia .specialty-card-bg {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(20, 184, 166, 0.05));
+}
+
+.specialty-card-content {
+  position: relative;
+  padding: 2rem;
+}
+
+/* Íconos de las especialidades */
+.specialty-icon-container {
+  display: inline-flex;
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 25px var(--shadow-medium);
+  transition: transform 0.3s ease;
+}
+
+.specialty-card:hover .specialty-icon-container {
+  transform: scale(1.1);
+}
+
+.cardiologia .specialty-icon-container {
+  background: linear-gradient(135deg, #ef4444, #ec4899);
+}
+
+.endocrinologia .specialty-icon-container {
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+}
+
+.oncologia .specialty-icon-container {
+  background: linear-gradient(135deg, #9333ea, #6366f1);
+}
+
+.gastroenterologia .specialty-icon-container {
+  background: linear-gradient(135deg, #22c55e, #14b8a6);
+}
+
+.specialty-main-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--white);
+}
+
+/* Contenido de las tarjetas */
+.specialty-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+  transition: color 0.3s ease;
+}
+
+.specialty-card:hover .specialty-title {
+  color: var(--primary-color);
+}
+
+.specialty-description {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+  transition: color 0.3s ease;
+}
+
+.specialty-card:hover .specialty-description {
+  color: var(--text-primary);
+}
+
+/* Enlaces */
+.specialty-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.specialty-link:hover {
+  color: #259aa5;
+  gap: 0.75rem;
+}
+
+.specialty-arrow {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.specialty-link:hover .specialty-arrow {
+  transform: translateX(0.25rem);
+}
+
+/* Elemento decorativo */
+.specialty-decoration {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  opacity: 0.1;
+  transition: opacity 0.3s ease;
+}
+
+.specialty-card:hover .specialty-decoration {
+  opacity: 0.2;
+}
+
+.specialty-decoration-icon {
+  width: 4rem;
+  height: 4rem;
+  color: var(--text-secondary);
+}
+
+/* Sección CTA */
+.cta-section {
+  background: linear-gradient(135deg, #e6f7f9, #f0fcf0);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  border: 1px solid rgba(47, 184, 198, 0.2);
+  opacity: 0;
+  transform: translateY(2.5rem);
+  transition: all 1s ease-out 0.5s;
+}
+
+.cta-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cta-content {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.cta-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+}
+
+.cta-description {
+  color: var(--text-secondary);
+  max-width: 32rem;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.cta-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 600;
+  color: var(--white);
+  cursor: pointer;
+  box-shadow: 0 10px 25px var(--shadow-medium);
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  box-shadow: 0 15px 35px var(--shadow-heavy);
+  transform: scale(1.05);
+}
+
+.cta-primary {
+  background: linear-gradient(135deg, var(--primary-color), #259aa5);
+}
+
+.cta-primary:hover {
+  background: linear-gradient(135deg, #259aa5, #1e7a85);
+}
+
+.cta-secondary {
+  background: linear-gradient(135deg, var(--accent-color), #ff7050);
+}
+
+.cta-secondary:hover {
+  background: linear-gradient(135deg, #ff7050, #ff5722);
+}
+
+.cta-button-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.cta-primary:hover .cta-button-icon {
+  transform: rotate(12deg);
+}
+
+.cta-secondary:hover .cta-button-icon {
+  transform: scale(1.1);
+}
+
+/* Footer info */
+.footer-info {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.footer-info p {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (min-width: 640px) {
+  .cta-buttons {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .especialidades-content {
+    padding: 2rem 0.5rem;
+  }
+  .especialidades-title {
+    font-size: 2.1rem;
+  }
+  .especialidades-header {
+    margin-bottom: 2.5rem;
+  }
+  .especialidades-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .specialty-card-content {
+    padding: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .especialidades-content {
+    padding: 1rem 0.2rem;
+  }
+  .especialidades-title {
+    font-size: 1.3rem;
+  }
+  .especialidades-header {
+    margin-bottom: 1.5rem;
+  }
+  .specialty-title {
+    font-size: 1.1rem;
+  }
+  .specialty-card-content {
+    padding: 0.7rem;
+  }
+  .cta-section {
+    padding: 1rem;
+  }
+}

@@ -49,6 +49,6 @@ export class EspecialidadespagePage {
   }
 
   videoConsulta() {
-    this.router.navigate(['/video-consulta']);
+    this.router.navigate(['/videollamada']);
   }
 }

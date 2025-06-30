@@ -24,6 +24,9 @@ import { AuthProvider, useAuth } from "./utils/AuthContext";
 import AgendamientoCitas from "./pages/AgendamientoCitas/AgendamientoCitas";
 import VideoConsulta from "./pages/VideoConsulta/VideoConsulta";
 import Citas from "./pages/citas/citas"
+import Navbar from "./components/common/Navbar/Navbar";
+import QuienesSomos from "./pages/quienesSomos/QuienesSomos";
+import Adoptame from "./pages/adoptame/adoptame";
 
 // Componente para proteger rutas
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
@@ -36,6 +39,7 @@ const AppContent = () => {
   return (
     <Router>
       <Header />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -51,7 +55,9 @@ const AppContent = () => {
         <Route path="/mascotas" element={<PetsPage />} />
         <Route path="/agendamientoCitas" element={<AgendamientoCitas />} />
         <Route path ="/citas" element={<Citas />} />
-        <Route path="/videoConsulta" element={<VideoConsulta />} /> {/* Agrega esta línea */}
+        <Route path="/videoConsulta" element={<VideoConsulta />} />
+        <Route path="/quienes-somos" element={<QuienesSomos />} />
+        <Route path="/adoptame" element={<Adoptame />} />
       </Routes>
       <Footer />
     </Router>

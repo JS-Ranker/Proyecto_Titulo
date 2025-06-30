@@ -10,6 +10,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './service/auth.service';
 import { ComponentsModule } from './components/components.module';
 
+// 👇 Se agregó esta línea
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+
 @NgModule({
   declarations: [
     AppComponent // SOLO AppComponent aquí
@@ -24,7 +27,8 @@ import { ComponentsModule } from './components/components.module';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AuthService
+    AuthService,
+    AndroidPermissions // 👈 Se agregó aquí
   ],
   bootstrap: [AppComponent]
 })

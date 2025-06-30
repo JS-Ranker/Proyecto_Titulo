@@ -4,11 +4,12 @@ import {
   FaCalendarAlt,
   FaClock,
   FaUser,
-  FaDog,
-  FaCat,
   FaArrowLeft, 
-  FaArrowRight,
+  FaArrowRight, 
   FaCheck,
+  FaLock,
+  FaSignInAlt,
+  FaUserPlus,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { citasService } from "../../services/citas";
@@ -19,9 +20,6 @@ import styles from "./AgendamientoCitas.module.css";
 
 const AgendamientoCitas = () => {
   const [step, setStep] = useState<number>(1);
-  const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(
-    null
-  );
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth()
   );
@@ -40,23 +38,142 @@ const AgendamientoCitas = () => {
   const [selectedMascota, setSelectedMascota] = useState<any | null>(null);
   const [tiposConsulta, setTiposConsulta] = useState<TipoConsulta[]>([]);
   const [selectedTipoConsulta, setSelectedTipoConsulta] = useState<TipoConsulta | null>(null);
-  const [veterinarios, setVeterinarios] = useState<Veterinario[]>([]);
+  const [, setVeterinarios] = useState<Veterinario[]>([]);
   const [selectedVeterinario, setSelectedVeterinario] = useState<Veterinario | null>(null);
 
   const navigate = useNavigate();
 
-  // Obtener usuario logueado
-  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  // Obtener usuario logueado y verificar autenticación
+  const getCurrentUser = () => {
+    try {
+      // Verificar ambas claves - dar prioridad a currentUser si tiene datos completos
+      let currentUserData = localStorage.getItem("currentUser");
+      let happypetUserData = localStorage.getItem("happypet_user");
+      
+      let storedUser = null;
+      
+      // Si currentUser tiene datos completos (más que solo RUT), usarlo
+      if (currentUserData && currentUserData !== "null" && currentUserData !== "undefined" && currentUserData !== "{}") {
+        try {
+          const parsedCurrentUser = JSON.parse(currentUserData);
+          if (parsedCurrentUser && parsedCurrentUser.rut && Object.keys(parsedCurrentUser).length > 1) {
+            storedUser = currentUserData;
+          }
+        } catch (e) {
+          // Error parseando currentUser, continuar con happypet_user
+        }
+      }
+      
+      // Si no hay datos completos en currentUser, usar happypet_user
+      if (!storedUser && happypetUserData && happypetUserData !== "null" && happypetUserData !== "undefined" && happypetUserData !== "{}") {
+        storedUser = happypetUserData;
+      }
+      
+      if (!storedUser) {
+        return null;
+      }
+      
+      const parsedUser = JSON.parse(storedUser);
+      
+      // Verificar que el usuario tenga las propiedades mínimas necesarias
+      if (!parsedUser || !parsedUser.rut) {
+        return null;
+      }
+      
+      return parsedUser;
+    } catch (error) {
+      // Si hay error al parsear, limpiar localStorage
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("happypet_user");
+      return null;
+    }
+  };
+
+  const [currentUser, setCurrentUser] = useState(getCurrentUser());
+  const isAuthenticated = currentUser !== null;
+
+  // useEffect para monitorear cambios en la autenticación
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      const user = getCurrentUser();
+      setCurrentUser(user);
+    };
+
+    // Verificar estado inicial
+    checkAuthStatus();
+
+    // Escuchar cambios en localStorage
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "currentUser" || e.key === "happypet_user") {
+        checkAuthStatus();
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    // Verificar periódicamente (para cambios en la misma pestaña)
+    const interval = setInterval(checkAuthStatus, 2000);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
+
+  // Si no está autenticado, mostrar pantalla de autenticación
+  if (!isAuthenticated || !currentUser) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.authRequired}>
+          <div className={styles.authIcon}>
+            <FaLock />
+          </div>
+          <h2 className={styles.authTitle}>Acceso Requerido</h2>
+          <p className={styles.authMessage}>
+            Para agendar una cita veterinaria necesitas iniciar sesión o registrarte en nuestra plataforma.
+            <br />
+            Una vez autenticado, podrás agendar citas para tus mascotas de forma rápida y sencilla.
+          </p>
+          <div className={styles.authButtons}>
+            <button
+              className={`${styles.authButton} ${styles.authButtonPrimary}`}
+              onClick={() => navigate("/login")}
+            >
+              <FaSignInAlt /> Iniciar Sesión
+            </button>
+            <button
+              className={`${styles.authButton} ${styles.authButtonSecondary}`}
+              onClick={() => navigate("/register")}
+            >
+              <FaUserPlus /> Registrarse
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
 
   useEffect(() => {
-    if (currentUser?.rut) {
+    if (isAuthenticated && currentUser?.rut) {
       mascotasService
         .obtenerMascotasPorDueno(currentUser.rut)
         .then((res) => setMascotas(res.data))
         .catch(() => setMascotas([]));
+    } else {
+      // Limpiar datos cuando no está autenticado
+      setMascotas([]);
+      setSelectedMascotaId(null);
+      setSelectedMascota(null);
+      setStep(1);
+      setSelectedDate(null);
+      setSelectedTime(null);
+      setMotivo("");
+      setNotasPrevias("");
+      setSelectedTipoConsulta(null);
+      setSelectedVeterinario(null);
     }
-  }, [currentUser?.rut]);
+  }, [isAuthenticated, currentUser]);
 
   useEffect(() => {
     tiposConsultaService.obtenerTodos().then(setTiposConsulta);
@@ -73,16 +190,6 @@ const AgendamientoCitas = () => {
       setSelectedVeterinario(null);
     }
   }, [selectedTipoConsulta]);
-
-  // Especialidades disponibles
-  const specialties = [
-    "Cardiología",
-    "Oncología",
-    "Endocrinología",
-    "Gastroenterología",
-    "Dermatología",
-    "Oftalmología",
-  ];
 
   // Horarios disponibles
   const timeSlots = [
@@ -157,10 +264,6 @@ const AgendamientoCitas = () => {
     }
   };
 
-  const handleSpecialtySelect = (specialty: string) => {
-    setSelectedSpecialty(specialty === selectedSpecialty ? null : specialty);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -189,18 +292,6 @@ const AgendamientoCitas = () => {
     } catch (error) {
       alert("Error al agendar la cita");
     }
-  };
-
-  const resetForm = () => {
-    setStep(1);
-    setSelectedSpecialty(null);
-    setSelectedDate(null);
-    setSelectedTime(null);
-    setIsSubmitted(false);
-    setSelectedMascotaId(null);
-    setSelectedMascota(null);
-    setMotivo("");
-    setNotasPrevias("");
   };
 
   const days = generateCalendarDays();
@@ -287,54 +378,82 @@ const AgendamientoCitas = () => {
 
           {selectedMascota && (
             <div className={styles.mascotaDetalles}>
-              <div>
-                <strong>Nombre:</strong> {selectedMascota.nombre_mascota}
-              </div>
-              <div>
-                <strong>Especie:</strong>{" "}
-                {selectedMascota.nombre_especie || "No registrada"}
-              </div>
-              <div>
-                <strong>Raza:</strong> {selectedMascota.nombre_raza || "No registrada"}
-              </div>
-              <div>
-                <strong>Edad:</strong>{" "}
-                {selectedMascota.fecha_nac_mascota
-                  ? `${Math.floor(
-                      (Date.now() - new Date(selectedMascota.fecha_nac_mascota).getTime()) /
-                        (1000 * 60 * 60 * 24 * 365)
-                    )} años`
-                  : "No registrada"}
-              </div>
-              <div>
-                <strong>Peso:</strong> {selectedMascota.peso_kg ? `${selectedMascota.peso_kg} kg` : "No registrado"}
-              </div>
-              <div>
-                <strong>Sexo:</strong>{" "}
-                {selectedMascota.sexo_mascota === "macho"
-                  ? "Macho"
-                  : selectedMascota.sexo_mascota === "hembra"
-                  ? "Hembra"
-                  : "No registrado"}
-              </div>
-              <div>
-                <strong>Esterilizado:</strong> {selectedMascota.esta_esterilizado ? "Sí" : "No"}
-              </div>
-              <div>
-                <strong>Color:</strong> {selectedMascota.color_mascota || "No registrado"}
-              </div>
-              <div>
-                <strong>Microchip:</strong> {selectedMascota.codigo_microchip || "No registrado"}
-              </div>
-              {selectedMascota.url_imagen_mascota && (
-                <div>
+              <div className={styles.mascotaHeader}>
+                {selectedMascota.url_imagen_mascota && (
                   <img
                     src={`http://localhost:3000/${selectedMascota.url_imagen_mascota}`}
                     alt={selectedMascota.nombre_mascota}
-                    style={{ maxWidth: 120, borderRadius: 8, marginTop: 8 }}
+                    className={styles.mascotaAvatar}
                   />
+                )}
+                <div className={styles.mascotaInfo}>
+                  <div className={styles.mascotaNombre}>
+                    <FaPaw />
+                    {selectedMascota.nombre_mascota}
+                  </div>
+                  <div className={styles.mascotaTipo}>
+                    {selectedMascota.nombre_especie || "Especie no registrada"}
+                  </div>
                 </div>
-              )}
+              </div>
+
+              <div className={styles.mascotaGrid}>
+                <div className={styles.mascotaItem}>
+                  <span className={styles.mascotaLabel}>Raza</span>
+                  <span className={styles.mascotaValue}>
+                    {selectedMascota.nombre_raza || "No registrada"}
+                  </span>
+                </div>
+
+                <div className={styles.mascotaItem}>
+                  <span className={styles.mascotaLabel}>Edad</span>
+                  <span className={styles.mascotaValue}>
+                    {selectedMascota.fecha_nac_mascota
+                      ? `${Math.floor(
+                          (Date.now() - new Date(selectedMascota.fecha_nac_mascota).getTime()) /
+                            (1000 * 60 * 60 * 24 * 365)
+                        )} años`
+                      : "No registrada"}
+                  </span>
+                </div>
+
+                <div className={styles.mascotaItem}>
+                  <span className={styles.mascotaLabel}>Peso</span>
+                  <span className={styles.mascotaValue}>
+                    {selectedMascota.peso_kg ? `${selectedMascota.peso_kg} kg` : "No registrado"}
+                  </span>
+                </div>
+
+                <div className={styles.mascotaItem}>
+                  <span className={styles.mascotaLabel}>Sexo</span>
+                  <span className={styles.mascotaValue}>
+                    {selectedMascota.sexo_mascota === "macho"
+                      ? "Macho"
+                      : selectedMascota.sexo_mascota === "hembra"
+                      ? "Hembra"
+                      : "No registrado"}
+                  </span>
+                </div>
+
+                <div className={styles.mascotaItem}>
+                  <span className={styles.mascotaLabel}>Color</span>
+                  <span className={styles.mascotaValue}>
+                    {selectedMascota.color_mascota || "No registrado"}
+                  </span>
+                </div>
+
+                <div className={styles.mascotaItem}>
+                  <span className={styles.mascotaLabel}>Microchip</span>
+                  <span className={styles.mascotaValue}>
+                    {selectedMascota.codigo_microchip || "No registrado"}
+                  </span>
+                </div>
+              </div>
+
+              <div className={`${styles.mascotaEstado} ${selectedMascota.esta_esterilizado ? styles.activo : styles.inactivo}`}>
+                <div className={`${styles.mascotaIcon} ${selectedMascota.esta_esterilizado ? styles.activo : styles.inactivo}`}></div>
+                {selectedMascota.esta_esterilizado ? "Esterilizado" : "No Esterilizado"}
+              </div>
             </div>
           )}
 
