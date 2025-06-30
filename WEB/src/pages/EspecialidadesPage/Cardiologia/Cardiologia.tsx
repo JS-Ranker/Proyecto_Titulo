@@ -13,6 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import styles from "./Cardiologia.module.css";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";  const team = [
     {
       icon: Award,
@@ -71,6 +72,12 @@ const Cardiologia: React.FC = () => {
     setIsVisible(true);
   }, []);
 
+=======
+import { useNavigate } from "react-router-dom";
+
+const Cardiologia = () => {
+  const navigate = useNavigate();
+>>>>>>> 4040c22b3f7b93af6815519bae4191b9d70c2f8f
   return (
     <div className={styles.cardiologiaContainer}>
       {/* Decorative Background Elements */}
@@ -86,12 +93,85 @@ const Cardiologia: React.FC = () => {
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className={styles.cardiologiaContent}>
         {/* Header Section */}
         <div className={`${styles.cardiologiaHeader} ${isVisible ? styles.visible : ''}`}>
           <div className={styles.headerTitleContainer}>
             <div className={styles.headerIconContainer}>
               <HeartPulse className={styles.headerIcon} />
+=======
+      {/* Nueva sección de Procedimientos de diagnóstico */}
+      <div className={styles.diagnosticSection}>
+        <h2 className={styles.sectionTitle}>Procedimientos de diagnóstico</h2>
+        <p className={styles.sectionIntro}>
+          Dentro del procedimiento para diagnóstico de afecciones cardíacas y
+          pulmonares, se utilizan con frecuencia las siguientes pruebas:
+        </p>
+
+        <div className={styles.diagnosticGrid}>
+          <div className={styles.diagnosticCard}>
+            <h3 className={styles.cardTitle}>Análisis completo de sangre</h3>
+            <p className={styles.cardText}>
+              La diversidad de parámetros que puede aportar un análisis de
+              sangre, ayuda a definir causas cardíacas y extracardiacas del
+              funcionamiento anormal del corazón, como pueden ser las anemias,
+              deshidratación, desajuste de los electrolitos, alteraciones
+              hormonales o serologías (enfermedades infecciosas).
+            </p>
+          </div>
+
+          <div className={styles.diagnosticCard}>
+            <h3 className={styles.cardTitle}>Electrocardiografía (ECG)</h3>
+            <p className={styles.cardText}>
+              Las informaciones sobre la formación y conducción del impulso
+              eléctrico cardíaco permiten el análisis del ritmo cardíaco aportar
+              datos que pueden sugerir problemas en el corazón. La utilizamos
+              con mucha frecuencia en la rutina de la clínica, sobre todo en los
+              procedimientos preanestésicos y en situaciones en las que el
+              paciente aparenta ser asintomático.
+            </p>
+          </div>
+
+          <div className={styles.diagnosticCard}>
+            <h3 className={styles.cardTitle}>Ecocardiografía</h3>
+            <p className={styles.cardText}>
+              Es la técnica más importante de la cardiología, aunque no
+              sustituye a las anteriores. Permite el estudio dinámico y estático
+              del funcionamiento cardíaco, donde podemos evaluar la integridad
+              de sus estructuras (paredes, cavidades, válvulas, etc.), así como
+              las variaciones de los grandes vasos. El análisis del flujo
+              sanguíneo (velocidad, presión y forma) a través del sistema
+              Doppler es imprescindible en un estudio completo de la función
+              cardíaca.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Sección de reserva y cardiopatías */}
+      <div className={styles.bookingSection}>
+        <div className={styles.bookingCard}>
+          <h2 className={styles.bookingTitle}>
+            Reserva tu hora de consulta en Cardiología
+          </h2>
+          <button className={styles.bookingButton} onClick={() => navigate("/agendamientoCitas")}>Reservar ahora</button>
+        </div>
+
+        <div className={styles.diseasesSection}>
+          <h2 className={styles.diseasesTitle}>Cardiopatías más frecuentes</h2>
+
+          <div className={styles.diseasesGrid}>
+            <div className={styles.diseaseType}>
+              <h3 className={styles.typeTitle}>Congénitas</h3>
+              <ul className={styles.diseaseList}>
+                <li>Estenosis pulmonar</li>
+                <li>Defecto del septo interventricular</li>
+                <li>Conducto arterioso persistente</li>
+                <li>Estenosis subaórtica</li>
+                <li>Displasia de la válvula atrioventricular</li>
+              </ul>
+>>>>>>> 4040c22b3f7b93af6815519bae4191b9d70c2f8f
             </div>
             <h1 className={styles.cardiologiaTitle}>Cardiología Veterinaria</h1>
             <div className={styles.headerIconContainer}>

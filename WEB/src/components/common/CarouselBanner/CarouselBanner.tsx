@@ -1,6 +1,6 @@
 import { Carousel } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Agrega esta línea
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./CarouselBanner.module.css";
 
@@ -8,31 +8,31 @@ const CarouselBanner = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const navigate = useNavigate(); // Asegúrate de tener esto
-  
+  const navigate = useNavigate();
+
   const totalSlides = 3;
-  
+
   const handleSlideChange = (selectedIndex: number) => {
     setIsTransitioning(true);
     setActiveIndex(selectedIndex);
     setTimeout(() => setIsTransitioning(false), 600);
   };
-  
+
   // Efecto de animación para los indicadores personalizados
   useEffect(() => {
-    const interval = !isHovered ? 
+    const interval = !isHovered ?
       setInterval(() => {
         const nextIndex = (activeIndex + 1) % totalSlides;
         setActiveIndex(nextIndex);
       }, 7000) : null;
-    
+
     return () => {
       if (interval) clearInterval(interval);
     };
   }, [activeIndex, isHovered]);
 
   return (
-    <div 
+    <div
       className={`${styles.carouselWrapper} ${isTransitioning ? styles.transitioning : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -56,7 +56,7 @@ const CarouselBanner = () => {
             />
           </div>
         </Carousel.Item>
-        
+
         {/* Slide 2: Ecommerce */}
         <Carousel.Item>
           <div className={styles.imageContainer}>
@@ -67,7 +67,7 @@ const CarouselBanner = () => {
             />
           </div>
         </Carousel.Item>
-        
+
         {/* Slide 3: Adopciones */}
         <Carousel.Item>
           <div className={styles.imageContainer}>
@@ -79,23 +79,23 @@ const CarouselBanner = () => {
           </div>
         </Carousel.Item>
       </Carousel>
-      
+
       {/* Control arrows personalizados */}
       <div className={styles.customControls}>
-        <button 
-          className={styles.controlPrev} 
+        <button
+          className={styles.controlPrev}
           onClick={() => handleSlideChange((activeIndex - 1 + totalSlides) % totalSlides)}
         >
           <span>‹</span>
         </button>
-        <button 
-          className={styles.controlNext} 
+        <button
+          className={styles.controlNext}
           onClick={() => handleSlideChange((activeIndex + 1) % totalSlides)}
         >
           <span>›</span>
         </button>
       </div>
-      
+
       {/* Indicadores personalizados */}
       <div className={styles.customIndicators}>
         {[...Array(totalSlides)].map((_, index) => (
@@ -106,7 +106,7 @@ const CarouselBanner = () => {
           />
         ))}
       </div>
-      
+
       {/* Mensaje principal basado en el slide activo */}
       <div className={styles.mainMessageOverlay}>
         {activeIndex === 0 && (
@@ -121,7 +121,7 @@ const CarouselBanner = () => {
             </button>
           </div>
         )}
-        
+
         {activeIndex === 1 && (
           <div className={`${styles.mainMessageContent} ${styles.ecommerceMessage}`}>
             <h1>Todo para tu mascota en un solo lugar</h1>
@@ -134,7 +134,7 @@ const CarouselBanner = () => {
             </button>
           </div>
         )}
-        
+
         {activeIndex === 2 && (
           <div className={`${styles.mainMessageContent} ${styles.adopcionMessage}`}>
             <h1>Adopta una vida, cambia dos destinos</h1>
