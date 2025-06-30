@@ -1,124 +1,240 @@
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.pageContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FAFAF9 0%, #f0f9ff 100%);
+  padding: 2rem 1rem;
+}
+
+.profileContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ===== HEADER SECTION ===== */
+.headerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(47, 184, 198, 0.08) 0%, rgba(169, 229, 187, 0.08) 100%);
+  border-radius: 24px; 
+  border: 1px solid rgba(47, 184, 198, 0.15);
+}
+
+.titleSection {
+  text-align: center;
+  flex: 1;
+}
+
+.mainTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #333333;
+  text-shadow: 0 2px 4px rgba(47, 184, 198, 0.1);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #666666;
+  font-weight: 500;
+}
+
+/* ===== IMAGEN DE MASCOTA ===== */
+.petImageContainer {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
 .petImage {
   width: 120px;
   height: 120px;
   object-fit: cover;
   border-radius: 50%;
-  margin: 0 auto 12px auto;
   display: block;
-  background: #f3f3f3;
-  box-shadow: 0 2px 8px rgba(47, 184, 198, 0.10);
-  border: 3px solid #A9E5BB;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #FAFAF9;
+  box-shadow: 
+    0 4px 20px rgba(47, 184, 198, 0.15),
+    0 1px 3px rgba(47, 184, 198, 0.1);
+  border: 4px solid #A9E5BB;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .petImage:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(47, 184, 198, 0.20);
+  transform: scale(1.08);
+  box-shadow: 
+    0 8px 32px rgba(47, 184, 198, 0.25),
+    0 4px 12px rgba(47, 184, 198, 0.15);
   border-color: #2FB8C6;
 }
 
 .petImagePlaceholder {
   width: 120px;
-  height: 120px;
+  height: 120px; 
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #f3f3f3;
+  background: linear-gradient(135deg, #FAFAF9 0%, rgba(169, 229, 187, 0.1) 100%);
   color: #A9E5BB;
   font-size: 3rem;
-  margin: 0 auto 12px auto;
-  box-shadow: 0 2px 8px rgba(47, 184, 198, 0.10);
-  border: 3px solid #A9E5BB;
-  transition: 
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s,
-    border-color 0.3s;
+  box-shadow: 
+    0 4px 20px rgba(47, 184, 198, 0.15),
+    0 1px 3px rgba(47, 184, 198, 0.1);
+  border: 4px solid #A9E5BB;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: default;
 }
 
 .petImagePlaceholder:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(47, 184, 198, 0.20);
+  transform: scale(1.08);
+  box-shadow: 
+    0 8px 32px rgba(47, 184, 198, 0.25),
+    0 4px 12px rgba(47, 184, 198, 0.15);
   border-color: #2FB8C6;
+  color: #2FB8C6;
 }
 
-.petsGrid {
+.petStatus {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 32px;
+  height: 32px;
+  background: #FAFAF9;
+  border-radius: 50%;
   display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
+  align-items: center;
   justify-content: center;
-  animation: fadeInUp 0.6s ease-out;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #A9E5BB;
+}
+
+/* ===== GRID Y TARJETAS ===== */
+.petsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .petCard {
-  background: #fff;
-  border-radius: 22px;
-  box-shadow: 0 2px 12px rgba(47, 184, 198, 0.10);
-  padding: 32px 28px 24px 28px; /* Más espacio interno */
-  width: 320px;                /* Más ancho */
+  background: #FAFAF9;
+  border-radius: 24px;
+  box-shadow: 
+    0 4px 20px rgba(47, 184, 198, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: slideInUp 0.5s ease-out;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideInUp 0.6s ease-out;
   animation-fill-mode: both;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(169, 229, 187, 0.3);
 }
 
 .petCard::before {
   content: '';
   position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, #A9E5BB, #2FB8C6, #A9E5BB);
-  border-radius: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2FB8C6 0%, #A9E5BB 50%, #FF8C70 100%);
   opacity: 0;
-  z-index: -1;
   transition: opacity 0.3s ease;
 }
 
 .petCard:hover {
   transform: translateY(-8px);
-  box-shadow: 0 8px 32px rgba(47, 184, 198, 0.25);
+  box-shadow: 
+    0 12px 40px rgba(47, 184, 198, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: rgba(47, 184, 198, 0.3);
 }
 
 .petCard:hover::before {
-  opacity: 0.1;
+  opacity: 1;
 }
 
-.petCard h3 {
-  margin: 18px 0 10px 0;
-  font-size: 1.35rem;
-  color: #4b3f72;
+.petInfo {
+  width: 100%;
   text-align: center;
+}
+
+.petName {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  color: #333333;
+  font-weight: 700;
   transition: color 0.3s ease;
 }
 
-.petCard:hover h3 {
+.petCard:hover .petName {
   color: #2FB8C6;
 }
 
-.petCard p {
-  margin: 4px 0;
-  font-size: 1.08rem;
-  color: #444;
-  text-align: left; 
-  transition: transform 0.2s ease;
+.petDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  text-align: left;
 }
 
-.petCard:hover p {
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: rgba(169, 229, 187, 0.08);
+  border-radius: 12px;
+  border-left: 3px solid #A9E5BB;
+  transition: all 0.3s ease;
+}
+
+.detailRow:hover {
+  background: rgba(47, 184, 198, 0.08);
+  border-left-color: #2FB8C6;
   transform: translateX(2px);
 }
 
-/* Animaciones */
+.detailLabel {
+  font-weight: 600;
+  color: #333333;
+  font-size: 0.95rem;
+  min-width: 120px;
+}
+
+.detailValue {
+  color: #666666;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+.statusYes {
+  color: #2FB8C6 !important;
+  font-weight: 600 !important;
+}
+
+.statusNo {
+  color: #FF8C70 !important;
+  font-weight: 600 !important;
+}
+
+/* ===== ANIMACIONES ===== */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
   }
   to {
     opacity: 1;
@@ -129,7 +245,7 @@
 @keyframes slideInUp {
   from {
     opacity: 0;
-    transform: translateY(40px) scale(0.95);
+    transform: translateY(60px) scale(0.95);
   }
   to {
     opacity: 1;
@@ -137,24 +253,13 @@
   }
 }
 
-/* Animación escalonada para las tarjetas */
-.petCard:nth-child(1) { animation-delay: 0.1s; }
-.petCard:nth-child(2) { animation-delay: 0.2s; }
-.petCard:nth-child(3) { animation-delay: 0.3s; }
-.petCard:nth-child(4) { animation-delay: 0.4s; }
-.petCard:nth-child(5) { animation-delay: 0.5s; }
-.petCard:nth-child(6) { animation-delay: 0.6s; }
-
-/* Animaciones para estados de carga */
-.loadingSpinner {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border: 3px solid #A9E5BB;
-  border-radius: 50%;
-  border-top-color: #2FB8C6;
-  animation: spin 1s ease-in-out infinite;
-  margin: 0 auto;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes spin {
@@ -163,7 +268,42 @@
   }
 }
 
-/* Animación para botones */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* ===== ESTADO DE CARGA ===== */
+.loadingContainer {
+  text-align: center;
+  margin: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.loadingSpinner {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(169, 229, 187, 0.3);
+  border-radius: 50%;
+  border-top-color: #2FB8C6;
+  animation: spin 1s ease-in-out infinite;
+}
+
+.loadingText {
+  color: #666666;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* ===== BOTONES ===== */
 .animatedButton,
 .addPetButton,
 .backButton,
@@ -176,121 +316,211 @@ a.backButton {
 .animatedButton,
 .backButton,
 .addPetButton {
-  min-width: 160px;
-  padding: 0.95em 2.3em;
-  font-size: 1.15rem;
-  border-radius: 999px;
+  min-width: 180px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.7em;
-  font-weight: 700;
+  gap: 0.5rem;
   border: none;
-  box-shadow: 0 6px 24px rgba(47, 184, 198, 0.18);
-  background: linear-gradient(90deg, #A9E5BB 0%, #2FB8C6 100%);
-  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
-  cursor: pointer;
-  transition: 
-    background 0.3s,
-    color 0.3s,
-    transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.18s;
 }
 
 .animatedButton::before {
   content: '';
   position: absolute;
   top: 0;
-  left: -75%;
-  width: 50%;
+  left: -100%;
+  width: 100%;
   height: 100%;
-  background: linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.38) 100%);
-  transform: skewX(-20deg);
-  transition: left 0.5s;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+  transition: left 0.6s;
   pointer-events: none;
 }
 
-.animatedButton:hover {
-  transform: translateY(-2px) scale(1.06);
-  box-shadow: 0 10px 32px rgba(47, 184, 198, 0.25);
-  background: linear-gradient(90deg, #2FB8C6 0%, #A9E5BB 100%);
-}
-
 .animatedButton:hover::before {
-  left: 120%;
+  left: 100%;
 }
 
-.animatedButton:active {
-  transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(47, 184, 198, 0.10);
-}
-
-/* Botón Volver */
 .backButton {
-  background: linear-gradient(90deg, #A9E5BB 0%, #7ed6a7 100%);
-  color: #4b3f72;
-  margin-right: 0;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 0.7em;
+  background: linear-gradient(135deg, #A9E5BB 0%, rgba(169, 229, 187, 0.8) 100%);
+  color: #333333;
+  box-shadow: 0 4px 16px rgba(169, 229, 187, 0.3);
+  border: 1px solid rgba(169, 229, 187, 0.5);
 }
+
 .backButton:hover {
-  background: linear-gradient(90deg, #2FB8C6 0%, #A9E5BB 100%);
-  color: #fff;
-}
-.backButton .icon {
-  font-size: 1.3em;
-  margin-right: 0.3em;
+  background: linear-gradient(135deg, #2FB8C6 0%, rgba(47, 184, 198, 0.9) 100%);
+  color: #FAFAF9;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(47, 184, 198, 0.4);
 }
 
-/* Botón Agregar Mascota */
 .addPetButton {
-  background: linear-gradient(90deg, #2FB8C6 0%, #A9E5BB 100%);
-  color: #fff;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 0.7em;
+  background: linear-gradient(135deg, #2FB8C6 0%, rgba(47, 184, 198, 0.9) 100%);
+  color: #FAFAF9;
+  box-shadow: 0 4px 16px rgba(47, 184, 198, 0.3);
+  border: 1px solid rgba(47, 184, 198, 0.5);
 }
+
 .addPetButton:hover {
-  background: linear-gradient(90deg, #A9E5BB 0%, #2FB8C6 100%);
-  color: #4b3f72;
-}
-.addPetButton .icon {
-  font-size: 1.3em;
-  margin-right: 0.3em;
+  background: linear-gradient(135deg, #FF8C70 0%, rgba(255, 140, 112, 0.9) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 140, 112, 0.4);
 }
 
-.headerBar {
+.viewAllPetsButton {
+  background: linear-gradient(135deg, #FF8C70 0%, rgba(255, 140, 112, 0.9) 100%);
+  color: #FAFAF9;
+  box-shadow: 0 4px 16px rgba(255, 140, 112, 0.3);
+  border: 1px solid rgba(255, 140, 112, 0.5);
+  min-width: 220px;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.viewAllPetsButton:hover {
+  background: linear-gradient(135deg, #2FB8C6 0%, rgba(47, 184, 198, 0.9) 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(47, 184, 198, 0.4);
+}
+
+.icon {
+  font-size: 1.2em;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 2.5rem;
-  margin: 2.5rem 0 2rem 0;
 }
 
-.headerBar h2 {
-  margin: 0;
-  font-size: 2rem;
-  color: #2FB8C6;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-/* Mensaje de no mascotas con animación */
+/* ===== ESTADO VACÍO ===== */
 .noMascotasMessage {
-  animation: fadeIn 0.8s ease-out;
-  color: #4b3f72;
+  text-align: center;
+  padding: 4rem 2rem;
+  margin: 2rem 0;
+  background: linear-gradient(135deg, rgba(169, 229, 187, 0.05) 0%, rgba(47, 184, 198, 0.05) 100%);
+  border-radius: 24px;
+  border: 2px dashed rgba(169, 229, 187, 0.3);
+  animation: fadeIn 1s ease-out;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+.emptyStateIcon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  color: #A9E5BB;
+  animation: pulse 2s infinite;
+}
+
+.emptyStateTitle {
+  margin: 0 0 1rem 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333333;
+}
+
+.emptyStateDescription {
+  margin: 0 0 2rem 0;
+  font-size: 1.1rem;
+  color: #666666;
+  line-height: 1.6;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 1rem 0.5rem;
   }
-  to {
-    opacity: 1;
+  
+  .headerBar {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  
+  .mainTitle {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .petsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .petCard {
+    padding: 1.5rem;
+  }
+  
+  .animatedButton,
+  .backButton,
+  .addPetButton {
+    min-width: 140px;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .viewAllPetsButton {
+    min-width: 180px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+  
+  .detailRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    text-align: left;
+  }
+  
+  .detailLabel {
+    min-width: auto;
+  }
+  
+  .detailValue {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerBar {
+    padding: 1rem;
+  }
+  
+  .mainTitle {
+    font-size: 1.5rem;
+  }
+  
+  .petImage,
+  .petImagePlaceholder {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .petImagePlaceholder {
+    font-size: 2.5rem;
+  }
+  
+  .emptyStateIcon {
+    font-size: 3rem;
+  }
+  
+  .emptyStateTitle {
+    font-size: 1.5rem;
+  }
+  
+  .emptyStateDescription {
+    font-size: 1rem;
   }
 }

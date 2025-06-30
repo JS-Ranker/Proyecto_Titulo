@@ -14,6 +14,7 @@ import tiposConsultaRoutes from './routes/tipos_consultas.routes.js';
 import veterinarioRoutes from './routes/veterinario.routes.js';
 import productosRoutes from './routes/productos.routes.js';
 import categoriasRoutes from './routes/categorias.routes.js';
+import adopcionesRoutes from './routes/adopciones.routes.js';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use('/api/tipos-consulta', tiposConsultaRoutes);
 app.use('/api/veterinarios', veterinarioRoutes);
 app.use('/api/productos', productosRoutes);
 app.use('/api/categorias', categoriasRoutes);
+app.use('/api/adopciones', adopcionesRoutes);
 
 
 app.get('/', (req, res) => {

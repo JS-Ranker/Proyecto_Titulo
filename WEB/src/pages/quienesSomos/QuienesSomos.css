@@ -1,0 +1,444 @@
+/* Variables CSS para la paleta de colores */
+:root {
+  --primary-color: #2FB8C6;
+  --secondary-color: #A9E5BB;
+  --accent-color: #FF8C70;
+  --background-light: #FAFAF9;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --white: #ffffff;
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+  --shadow-heavy: rgba(0, 0, 0, 0.25);
+}
+
+/* Contenedor principal */
+.quienes-somos-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--white) 0%, var(--background-light) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Elementos decorativos de fondo */
+.decorative-elements {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.decoration {
+  position: absolute;
+  opacity: 0.1;
+}
+
+.decoration-1 {
+  top: 5rem;
+  left: 2.5rem;
+}
+
+.decoration-2 {
+  top: 10rem;
+  right: 5rem;
+}
+
+.decoration-3 {
+  bottom: 5rem;
+  left: 5rem;
+}
+
+.decoration-icon {
+  width: 6rem;
+  height: 6rem;
+}
+
+.decoration-paw {
+  color: var(--primary-color);
+  transform: rotate(12deg);
+}
+
+.decoration-heart {
+  color: var(--accent-color);
+  transform: rotate(-12deg);
+  width: 4rem;
+  height: 4rem;
+}
+
+.decoration-stethoscope {
+  color: var(--secondary-color);
+  transform: rotate(45deg);
+  width: 5rem;
+  height: 5rem;
+}
+
+/* Wrapper del contenido */
+.content-wrapper {
+  position: relative;
+  z-index: 10;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+/* Sección del header */
+.header-section {
+  text-align: center;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(2.5rem);
+  transition: all 1s ease-out;
+}
+
+.header-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.title-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.title-icon-left,
+.title-icon-right {
+  padding: 0.75rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), #259aa5);
+  box-shadow: 0 10px 25px var(--shadow-medium);
+}
+
+.title-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--white);
+}
+
+.main-title {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-color), #259aa5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.title-divider {
+  width: 6rem;
+  height: 0.25rem;
+  background: linear-gradient(135deg, var(--accent-color), #ff7050);
+  margin: 0 auto;
+  border-radius: 9999px;
+}
+
+/* Contenido principal */
+.main-content {
+  opacity: 0;
+  transform: translateY(2.5rem);
+  transition: all 1s ease-out 0.3s;
+}
+
+.main-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Tarjeta de introducción */
+.intro-card {
+  background: var(--white);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px var(--shadow-medium);
+  padding: 2rem;
+  margin-bottom: 3rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.5s ease;
+}
+
+.intro-card:hover {
+  box-shadow: 0 35px 70px var(--shadow-heavy);
+  transform: translateY(-2px);
+}
+
+.intro-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.intro-icon-container {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #e6f7f1, #d1f2e6);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.intro-card:hover .intro-icon-container {
+  background: linear-gradient(135deg, #d1f2e6, #b8edd1);
+}
+
+.intro-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--secondary-color);
+  filter: brightness(0.7);
+}
+
+.intro-text {
+  flex: 1;
+}
+
+.intro-text p {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Sección de misión */
+.mission-section {
+  background: linear-gradient(135deg, #e6f7f9, #f0fcf0);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  border: 1px solid rgba(47, 184, 198, 0.2);
+}
+
+.mission-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.mission-icon-container {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, var(--primary-color), #259aa5);
+  box-shadow: 0 10px 25px var(--shadow-medium);
+}
+
+.mission-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--white);
+}
+
+.mission-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.mission-text {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+  margin: 0 0 0 4rem;
+}
+
+/* Sección del equipo */
+.team-section {
+  background: var(--white);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px var(--shadow-medium);
+  padding: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.team-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.team-icon-container {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, var(--accent-color), #ff7050);
+  box-shadow: 0 10px 25px var(--shadow-medium);
+}
+
+.team-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--white);
+}
+
+.team-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin: 0;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.team-card {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #f9fafb, var(--white));
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.5s ease;
+}
+
+.team-card:hover {
+  border-color: rgba(47, 184, 198, 0.3);
+  box-shadow: 0 20px 40px var(--shadow-medium);
+  transform: translateY(-2px);
+}
+
+.team-card-0 {
+  animation-delay: 0s;
+}
+
+.team-card-1 {
+  animation-delay: 0.1s;
+}
+
+.team-card-2 {
+  animation-delay: 0.2s;
+}
+
+.team-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.team-card-icon-container {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #e6f7f9, #f0fcf0);
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.team-card:hover .team-card-icon-container {
+  background: linear-gradient(135deg, #d1f5fb, #e6f7f1);
+}
+
+.team-card-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--primary-color);
+}
+
+.team-card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem 0;
+}
+
+.team-card-description {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Call to Action */
+.cta-section {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--primary-color), #259aa5);
+  color: var(--white);
+  border-radius: 9999px;
+  box-shadow: 0 10px 25px var(--shadow-medium);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  box-shadow: 0 15px 35px var(--shadow-heavy);
+  transform: scale(1.05);
+}
+
+.cta-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.cta-text {
+  font-weight: 600;
+}
+
+/* Texto con destacados */
+.highlight-teal {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.highlight-orange {
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 2rem 1rem;
+  }
+  
+  .main-title {
+    font-size: 2.25rem;
+  }
+  
+  .intro-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .mission-text {
+    margin-left: 0;
+  }
+  
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .decoration {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .main-title {
+    font-size: 2rem;
+  }
+  
+  .mission-header,
+  .team-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .intro-text p,
+  .mission-text {
+    font-size: 1rem;
+  }
+}

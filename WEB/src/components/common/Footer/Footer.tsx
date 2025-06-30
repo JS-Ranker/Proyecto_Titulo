@@ -1,5 +1,5 @@
 import { FaPaw, FaEnvelope, FaPhone, FaMapMarkerAlt, FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
-import styles from "./footer.module.css";
+import styles from "./Footer.module.css";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -16,30 +16,30 @@ const Footer = () => {
         <div className={styles.container}>
           <div className={styles.footerGrid}>
             {/* Columna 1: Logo y descripción */}
-            <div className={styles.footerColumn}>
+            <div className={styles.footerColumn} style={{'--animation-delay': 0} as React.CSSProperties}>
               <div className={styles.footerLogo}>
                 <FaPaw className={styles.logoIcon} />
                 <span>Happy Pet</span>
-              </div>
+              </div> 
               <p className={styles.footerDesc}>
                 Cuidando con amor a tus mascotas desde 2010. En Happy Pet nos dedicamos a ofrecer los mejores servicios veterinarios con profesionalismo y cariño.
               </p>
             </div>
             
             {/* Columna 2: Enlaces rápidos */}
-            <div className={styles.footerColumn}>
+            <div className={styles.footerColumn} style={{'--animation-delay': 1} as React.CSSProperties}>
               <h3 className={styles.footerHeading}>Enlaces Rápidos</h3>
               <ul className={styles.footerLinks}>
-                <li><a href="/" className={styles.footerLink}>Inicio</a></li>
-                <li><a href="/servicios" className={styles.footerLink}>Servicios</a></li>
-                <li><a href="/nosotros" className={styles.footerLink}>Sobre Nosotros</a></li>
-                <li><a href="/contacto" className={styles.footerLink}>Contacto</a></li>
-                <li><a href="/citas" className={styles.footerLink}>Reservar Cita</a></li>
+                <li><a href="/" className={styles.footerLink}><span>Inicio</span></a></li>
+                <li><a href="/especialidadespage" className={styles.footerLink}><span>Servicios</span></a></li>
+                <li><a href="/quienes-somos" className={styles.footerLink}><span>Sobre Nosotros</span></a></li>
+                <li><a href="/contacto" className={styles.footerLink}><span>Contacto</span></a></li>
+                <li><a href="/agendamientoCitas" className={styles.footerLink}><span>Reservar Cita</span></a></li>
               </ul>
             </div>
             
             {/* Columna 3: Contacto */}
-            <div className={styles.footerColumn}>
+            <div className={styles.footerColumn} style={{'--animation-delay': 2} as React.CSSProperties}>
               <h3 className={styles.footerHeading}>Contacto</h3>
               <ul className={styles.footerContact}>
                 <li className={styles.contactItem}>
@@ -58,13 +58,13 @@ const Footer = () => {
               
               <div className={styles.socialLinks}>
                 <a href="#" className={styles.socialIcon} aria-label="Facebook">
-                  <FaFacebook />
+                  <span><FaFacebook /></span>
                 </a>
                 <a href="#" className={styles.socialIcon} aria-label="Instagram">
-                  <FaInstagram />
+                  <span><FaInstagram /></span>
                 </a>
                 <a href="#" className={styles.socialIcon} aria-label="Twitter">
-                  <FaTwitter />
+                  <span><FaTwitter /></span>
                 </a>
               </div>
             </div>
@@ -75,8 +75,8 @@ const Footer = () => {
               © {currentYear} Happy Pet - Todos los derechos reservados
             </p>
             <div className={styles.footerBottomLinks}>
-              <a href="/privacidad" className={styles.bottomLink}>Privacidad</a>
-              <a href="/terminos" className={styles.bottomLink}>Términos</a>
+              <a href="/privacidad" className={styles.bottomLink}><span>Privacidad</span></a>
+              <a href="/terminos" className={styles.bottomLink}><span>Términos</span></a>
             </div>
           </div>
         </div>

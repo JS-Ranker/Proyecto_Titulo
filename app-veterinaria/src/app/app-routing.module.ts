@@ -4,8 +4,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'principal',
+    redirectTo: 'splash', // 👉 Cambiado de 'principal' a 'splash'
     pathMatch: 'full'
+  },
+  {
+    path: 'splash',
+    loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
   },
   {
     path: 'addpet',
@@ -44,10 +48,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/citas/citas.module').then( m => m.CitasPageModule)
   },
   {
-    path: 'video-consulta',
-    loadChildren: () => import('./pages/video-consulta/video-consulta.module').then( m => m.VideoConsultaPageModule)
-  },
-  {
     path: 'agendamiento-citas',
     loadChildren: () => import('./pages/agendamiento-citas/agendamiento-citas.module').then( m => m.AgendamientoCitasPageModule)
   },
@@ -67,8 +67,10 @@ const routes: Routes = [
     path: 'oncologia',
     loadChildren: () => import('./pages/oncologia/oncologia.module').then( m => m.OncologiaPageModule)
   },
-
-
+  {
+    path: 'videollamada',
+    loadChildren: () => import('./pages/videollamada/videollamada.module').then( m => m.VideollamadaPageModule)
+  }
 ];
 
 @NgModule({
@@ -77,4 +79,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

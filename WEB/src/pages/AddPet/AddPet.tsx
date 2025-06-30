@@ -15,11 +15,11 @@ interface PetData {
   esta_esterilizado: string;
   color_mascota: string;
   codigo_microchip: string;
-  // url_imagen_mascota?: string; // Si quieres agregar imagen
+  
 }
 
 interface UserData {
-  rut: string; // <-- agrega esta línea
+  rut: string; 
   email: string;
   name: string;
   password: string;
@@ -44,6 +44,7 @@ const AddPet = () => {
   const [razas, setRazas] = useState<any[]>([]);
   const [imagen, setImagen] = useState<File | null>(null);
   const [mensaje, setMensaje] = useState<{ tipo: "exito" | "error"; texto: string } | null>(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
     especiesService.getAll().then((res) => setEspecies(res.data));
@@ -110,14 +111,21 @@ const AddPet = () => {
     try {
       const response = await fetch("http://localhost:3000/api/mascotas", {
         method: "POST",
-        body: formData,
+        body: formData, 
       });
       if (!response.ok) {
         const errorData = await response.json();
         setMensaje({ tipo: "error", texto: errorData.error || "Registro inválido" });
         return;
       }
-      setMensaje({ tipo: "exito", texto: "¡Registro exitoso!" });
+      // setMensaje({ tipo: "exito", texto: "🎉 ¡Mascota registrada exitosamente!" });
+      // Mostrar modal de éxito en lugar del mensaje normal
+      setShowSuccessModal(true);
+      
+      // Redireccionar a la página de mascotas después de un breve delay
+      setTimeout(() => {
+        navigate("/mascotas");
+      }, 3000);
       // Opcional: limpiar formulario
       setPetData({
         nombre_mascota: "",
@@ -132,7 +140,7 @@ const AddPet = () => {
       });
       setImagen(null);
     } catch (error) {
-      setMensaje({ tipo: "error", texto: "Registro inválido" });
+      setMensaje({ tipo: "error", texto: "❌ Error al registrar la mascota. Intenta nuevamente." });
     }
   };
 
@@ -145,17 +153,18 @@ const AddPet = () => {
         >
           <FaArrowLeft size={20} />
         </button>
-        <h2 className={styles.title}>
-          <FaPaw className={styles.pawIcon} /> Registrar Mascota
-        </h2>
-        <div style={{ width: 20 }}></div>
+        <h1 className={styles.title}>
+          <FaPaw className={styles.pawIcon} /> 
+          Registrar Nueva Mascota
+        </h1>
+        <div style={{ width: 48 }}></div>
       </div>
 
       <div className={styles.card}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
-              Nombre de la Mascota
+              🏷️ Nombre de la Mascota
             </label>
             <input
               type="text"
@@ -163,13 +172,14 @@ const AddPet = () => {
               name="nombre_mascota"
               value={petData.nombre_mascota}
               onChange={handleChange}
+              placeholder="Ej: Max, Luna, Rocky..."
               required
             />
           </div>
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
-              Tipo de Mascota
+              🐾 Tipo de Mascota
             </label>
             <select
               name="id_especie"
@@ -195,7 +205,7 @@ const AddPet = () => {
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
-              Raza
+              🎯 Raza
             </label>
             <select
               name="id_raza"
@@ -215,7 +225,7 @@ const AddPet = () => {
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
-              Fecha de Nacimiento
+              🎂 Fecha de Nacimiento
             </label>
             <input
               type="date"
@@ -229,7 +239,7 @@ const AddPet = () => {
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
-              Peso (kg)
+              ⚖️ Peso (kg)
             </label>
             <input
               type="number"
@@ -237,6 +247,7 @@ const AddPet = () => {
               name="peso_kg"
               value={petData.peso_kg}
               onChange={handleChange}
+              placeholder="Ej: 5.5"
               min="0"
               step="0.01"
               required
@@ -245,7 +256,7 @@ const AddPet = () => {
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
-              Género
+              ⚧ Género
             </label>
             <select
               name="sexo_mascota"
@@ -255,14 +266,14 @@ const AddPet = () => {
               required
             >
               <option value="">Selecciona género</option>
-              <option value="macho">Macho</option>
-              <option value="hembra">Hembra</option>
+              <option value="macho">♂️ Macho</option>
+              <option value="hembra">♀️ Hembra</option>
             </select>
           </div>
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
-              ¿Esterilizado?
+              🏥 ¿Esterilizado?
             </label>
             <select
               name="esta_esterilizado"
@@ -272,14 +283,14 @@ const AddPet = () => {
               required
             >
               <option value="">Selecciona una opción</option>
-              <option value="1">Sí</option>
-              <option value="0">No</option>
+              <option value="1">✅ Sí</option>
+              <option value="0">❌ No</option>
             </select>
           </div>
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
-              Color
+              🎨 Color
             </label>
             <input
               type="text"
@@ -287,13 +298,14 @@ const AddPet = () => {
               name="color_mascota"
               value={petData.color_mascota}
               onChange={handleChange}
+              placeholder="Ej: Café, Negro, Blanco..."
               required
             />
           </div>
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
-              Código Microchip
+              🔬 Código Microchip (Opcional)
             </label>
             <input
               type="text"
@@ -301,12 +313,13 @@ const AddPet = () => {
               name="codigo_microchip"
               value={petData.codigo_microchip}
               onChange={handleChange}
+              placeholder="Ej: 123456789012345"
             />
           </div>
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
-              Foto de la Mascota
+              📸 Foto de la Mascota
             </label>
             <input
               type="file"
@@ -323,14 +336,14 @@ const AddPet = () => {
               type="submit"
               className={styles.primaryButton}
             >
-              REGISTRAR MASCOTA
+              🐾 REGISTRAR MASCOTA
             </button>
 
             <Link
-              to="/user"
+              to="/mascotas"
               className={styles.secondaryButton}
             >
-              VOLVER A INICIO
+              📋 VER MIS MASCOTAS
             </Link>
           </div>
         </form>
@@ -341,6 +354,31 @@ const AddPet = () => {
             role="alert"
           >
             {mensaje.texto}
+          </div>
+        )}
+
+        {/* Modal de éxito personalizado */}
+        {showSuccessModal && (
+          <div className={styles.successModal}>
+            <div className={styles.successModalContent}>
+              <div className={styles.successIcon}>
+                🎉
+              </div>
+              <h2 className={styles.successTitle}>¡Éxito!</h2>
+              <p className={styles.successMessage}>
+                Tu mascota ha sido registrada correctamente en el sistema veterinario.
+              </p>
+              <div className={styles.successDetails}>
+                <div className={styles.successDetailItem}>
+                </div>
+                <div className={styles.successDetailItem}>
+                  <span className={styles.successDetailIcon}>📋</span>
+                  <span>Redirigiendo a tus mascotas...</span>
+                </div>
+              </div>
+              <div className={styles.successActions}>
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { FaShoppingCart, FaSearch, FaTimes, FaPlus, FaMinus, FaArrowLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaShoppingCart, FaSearch, FaTimes, FaPlus, FaMinus, FaArrowLeft, FaCheck, FaGift } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 import { productosService } from "../../services/productos";
 import { categoriasService } from "../../services/categorias"; // Asegúrate de tener este servicio
 import styles from "./Shop.module.css";
@@ -44,6 +44,9 @@ const Shop = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  // Estado para la alerta personalizada
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
   // Estado para filtros y búsqueda
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -51,40 +54,40 @@ const Shop = () => {
     { id: 0, nombre: "Todos los productos" }
   ]);
 
-  // Cargar productos (simulando una API)
+  const location = useLocation();
+
+  // Cargar productos y categorías antes de filtrar por query param
   useEffect(() => {
-    const fetchProducts = async () => {
+    let isMounted = true;
+    const fetchAll = async () => {
+      setLoading(true);
       try {
-        const productos = await productosService.obtenerTodos();
+        const [productos, cats] = await Promise.all([
+          productosService.obtenerTodos(),
+          categoriasService.obtenerTodas()
+        ]);
+        if (!isMounted) return;
         setProducts(productos);
-        setFilteredProducts(productos);
+        setCategories([{ id: 0, nombre: "Todos los productos" }, ...cats]);
         setLoading(false);
       } catch (error) {
-        console.error("Error al cargar productos:", error);
+        if (!isMounted) return;
+        console.error("Error al cargar productos o categorías:", error);
         setLoading(false);
       }
-    };
-
-    fetchProducts();
-  }, []);
-
-  // Cargar categorías desde la API
-  useEffect(() => {
-    categoriasService.obtenerTodas().then((data) => {
-      setCategories([{ id: 0, nombre: "Todos los productos" }, ...data]);
-    });
+    }; 
+    fetchAll();
+    return () => { isMounted = false; };
   }, []);
 
   // Filtrar productos según búsqueda y categoría
   useEffect(() => {
     let result = products;
-
     if (selectedCategory !== "0") {
       result = result.filter(
         (product) => String(product.categoria_id) === selectedCategory
       );
     }
-
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       result = result.filter(
@@ -93,9 +96,25 @@ const Shop = () => {
           product.descripcion?.toLowerCase().includes(term)
       );
     }
-
     setFilteredProducts(result);
   }, [searchTerm, selectedCategory, products]);
+
+  // Leer query param 'categoria' y filtrar productos al cargar (solo si existe)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const categoria = params.get('categoria');
+    if (categoria && categories.length > 1) {
+      // Buscar la categoría por nombre (case-insensitive)
+      const cat = categories.find(c => c.nombre.toLowerCase() === categoria.toLowerCase());
+      if (cat) {
+        setSelectedCategory(String(cat.id));
+      } else {
+        setSelectedCategory("0");
+      }
+    } else if (!categoria) {
+      setSelectedCategory("0");
+    }
+  }, [location.search, categories]);
 
   // Agregar producto al carrito
   const addToCart = (product: Product) => {
@@ -328,17 +347,49 @@ const Shop = () => {
               <button
                 className={styles.checkoutButton}
                 onClick={() => {
-                  alert(
-                    "¡Compra realizada con éxito! Gracias por tu compra en HappyPet."
-                  );
+                  setShowSuccessAlert(true);
                   setCart([]);
                   setIsCartOpen(false);
+                  // Auto cerrar la alerta después de 4 segundos
+                  setTimeout(() => {
+                    setShowSuccessAlert(false);
+                  }, 4000);
                 }}
               >
                 Finalizar Compra
               </button>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Alerta de éxito personalizada */}
+      <div
+        className={`${styles.successAlert} ${
+          showSuccessAlert ? styles.show : ""
+        }`}
+      >
+        <div className={styles.successAlertContent}>
+          <div className={styles.successAlertIcon}>
+            <FaCheck className={styles.successIcon} />
+          </div>
+          <div className={styles.successAlertText}>
+            <h3 className={styles.successAlertTitle}>
+              ¡Compra realizada con éxito!
+            </h3>
+            <p className={styles.successAlertMessage}>
+              Gracias por tu compra en HappyPet. Tu pedido está siendo procesado.
+            </p>
+          </div>
+          <button
+            className={styles.successAlertClose}
+            onClick={() => setShowSuccessAlert(false)}
+          >
+            <FaTimes />
+          </button>
+          <div className={styles.successAlertDecoration}>
+            <FaGift className={styles.successDecorationIcon} />
+          </div>
         </div>
       </div>
     </div>

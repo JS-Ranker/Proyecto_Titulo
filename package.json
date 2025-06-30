@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "agora-rtc-sdk-ng": "^4.23.4"
+    "agora-rtc-sdk-ng": "^4.23.4",
+    "lucide-react": "^0.522.0"
   }
 }
