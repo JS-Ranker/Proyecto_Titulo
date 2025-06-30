@@ -32,3 +32,4 @@ Thumbs.db
 !/app-veterinaria/capacitor.config.ts
 !/app-veterinaria/ionic.config.json
 !/app-veterinaria/tsconfig*.json
+node_modules
