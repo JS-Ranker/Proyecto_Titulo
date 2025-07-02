@@ -279,7 +279,7 @@ const Endocrinologia: React.FC = () => {
               o solicita una videoconsulta de urgencia.
             </p>
           </div>
-  
+   
           <div className={styles.ctaButtons}>
             <button 
               onClick={() => navigate("/agendamientoCitas")}

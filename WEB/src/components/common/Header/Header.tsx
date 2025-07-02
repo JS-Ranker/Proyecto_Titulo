@@ -12,7 +12,7 @@ const Header = () => {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [productos, setProductos] = useState<any[]>([]);
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, logout, isVeterinario } = useAuth();
   const navigate = useNavigate();
   const location = useLocation(); 
 
@@ -69,10 +69,15 @@ const Header = () => {
             <FaPaw className={styles.logo} /> Happy Pet
           </NavLink>
 
-          {/* SearchBar centrado */}
-          <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-            <SearchBar productos={productos} />
-          </div>
+          {/* SearchBar centrado - Solo mostrar si no es veterinario */}
+          {!isVeterinario() && (
+            <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+              <SearchBar productos={productos} />
+            </div>
+          )}
+          
+          {/* Espaciador cuando es veterinario */}
+          {isVeterinario() && <div style={{ flex: 1 }}></div>}
 
           {/* Botón hamburguesa mejorado */}
           <button
@@ -156,7 +161,57 @@ const Header = () => {
                       <span>Registro</span>
                     </NavLink>
                   </>
+                ) : isVeterinario() ? (
+                  // Menú específico para veterinarios
+                  <>
+                    <NavLink
+                      to="/veterinario/dashboard"
+                      className={({ isActive }) =>
+                        isActive ? `${styles.sidebarMenuItem} ${styles.sidebarMenuItemActive}` : styles.sidebarMenuItem
+                      }
+                      onClick={handleMenuItemClick}
+                    >
+                      <FaUserCircle className={styles.sidebarIcon} />
+                      <span>Mi Panel</span>
+                    </NavLink>
+
+                    <NavLink
+                      to="/veterinario/citas"
+                      className={({ isActive }) =>
+                        isActive ? `${styles.sidebarMenuItem} ${styles.sidebarMenuItemActive}` : styles.sidebarMenuItem
+                      }
+                      onClick={handleMenuItemClick}
+                    >
+                      <FaCalendarAlt className={styles.sidebarIcon} />
+                      <span>Mis Citas</span>
+                    </NavLink>
+
+                    <NavLink
+                      to="/veterinario/pacientes"
+                      className={({ isActive }) =>
+                        isActive ? `${styles.sidebarMenuItem} ${styles.sidebarMenuItemActive}` : styles.sidebarMenuItem
+                      }
+                      onClick={handleMenuItemClick}
+                    >
+                      <FaPaw className={styles.sidebarIcon} />
+                      <span>Pacientes</span>
+                    </NavLink>
+                    
+                    <div className={styles.sidebarDivider}></div>
+                    
+                    <button
+                      onClick={() => {
+                        setShowLogoutConfirm(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`${styles.sidebarMenuItem} ${styles.logoutMenuItem}`}
+                    >
+                      <FaSignOutAlt className={styles.sidebarIcon} />
+                      <span>Cerrar Sesión</span>
+                    </button>
+                  </>
                 ) : ( 
+                  // Menú específico para dueños
                   <>
                     {/* Botón "Mis Mascotas" */}
                     <NavLink
