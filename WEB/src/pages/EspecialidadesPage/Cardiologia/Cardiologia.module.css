@@ -1,39 +1,37 @@
 /* ===== PALETA DE COLORES CARDIOLOGÍA ===== */
 :root {
   /* Colores principales */
-  --cardio-primary: #D64545;          /* Rojo suave - Acento principal */
-  --cardio-elegant: #B8405E;          /* Rojo vino claro - Variante elegante */
-  --cardio-light: #FBEAEA;            /* Rosa pálido neutro - Fondo sección light */
-  --cardio-coral: #E25454;            /* Rojo coral profundo - Iconos complementarios */
+  --cardiologia-primary: #D64545;          /* Rojo suave - Acento principal */
+  --cardiologia-soft: #FFB3B3;             /* Rojo pastel - Variante más suave */
+  --cardiologia-light: #FFEAEA;            /* Rojo claro pálido - Fondo sección */
   
   /* Gradiente de fondo principal */
-  --cardio-bg-gradient: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 50%, #F1F5F9 100%);
+  --cardiologia-bg-gradient: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 50%, #F1F5F9 100%);
   
   /* Colores de soporte */
-  --cardio-white: #FFFFFF;
-  --cardio-gray-50: #F8FAFC;
-  --cardio-gray-100: #F1F5F9;
-  --cardio-gray-200: #E2E8F0;
-  --cardio-gray-300: #CBD5E1;
-  --cardio-gray-600: #475569;
-  --cardio-gray-700: #334155;
-  --cardio-gray-800: #1E293B;
-  
+  --cardiologia-white: #FFFFFF;
+  --cardiologia-gray-50: #F8FAFC;
+  --cardiologia-gray-100: #F1F5F9;
+  --cardiologia-gray-200: #E2E8F0;
+  --cardiologia-gray-300: #CBD5E1;
+  --cardiologia-gray-600: #475569;
+  --cardiologia-gray-700: #334155;
+  --cardiologia-gray-800: #1E293B;
+   
   /* Sombras con tinte rojo */
-  --cardio-shadow-sm: 0 1px 2px 0 rgba(214, 69, 69, 0.05);
-  --cardio-shadow: 0 4px 6px -1px rgba(214, 69, 69, 0.1), 0 2px 4px -1px rgba(214, 69, 69, 0.06);
-  --cardio-shadow-lg: 0 10px 15px -3px rgba(214, 69, 69, 0.1), 0 4px 6px -2px rgba(214, 69, 69, 0.05);
-  --cardio-shadow-xl: 0 20px 25px -5px rgba(214, 69, 69, 0.1), 0 10px 10px -5px rgba(214, 69, 69, 0.04);
+  --cardiologia-shadow-sm: 0 1px 2px 0 rgba(214, 69, 69, 0.05);
+  --cardiologia-shadow: 0 4px 6px -1px rgba(214, 69, 69, 0.1), 0 2px 4px -1px rgba(214, 69, 69, 0.06);
+  --cardiologia-shadow-lg: 0 10px 15px -3px rgba(214, 69, 69, 0.1), 0 4px 6px -2px rgba(214, 69, 69, 0.05);
+  --cardiologia-shadow-xl: 0 20px 25px -5px rgba(214, 69, 69, 0.1), 0 10px 10px -5px rgba(214, 69, 69, 0.04);
 }
 
-/* ===== CONTENEDOR PRINCIPAL ===== */
+/* ===== CONTENEDOR PRINCIPAL ===== */ 
 .cardiologiaContainer {
   min-height: 100vh;
-  background: var(--cardio-bg-gradient);
+  background: var(--cardiologia-bg-gradient);
   position: relative;
   overflow-x: hidden;
-  padding: 0px;
-  z-index: 1
+  padding: 2rem 0;
 }
 
 /* ===== ELEMENTOS DECORATIVOS DE FONDO ===== */
@@ -74,7 +72,7 @@
 .bgDecorationIcon {
   width: 8rem;
   height: 8rem;
-  color: var(--cardio-primary);
+  color: var(--cardiologia-primary);
 }
 
 @keyframes float {
@@ -88,7 +86,7 @@
   z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 0 1rem;
 }
 
 /* ===== HEADER SECTION ===== */
@@ -115,17 +113,17 @@
 }
 
 .headerIconContainer {
-  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-coral));
+  background: linear-gradient(135deg, var(--cardiologia-primary), var(--cardiologia-soft));
   padding: 1rem;
   border-radius: 50%;
-  box-shadow: var(--cardio-shadow-lg);
+  box-shadow: var(--cardiologia-shadow-lg);
   animation: pulse 2s infinite;
 }
 
 .headerIcon {
   width: 2rem;
   height: 2rem;
-  color: var(--cardio-white);
+  color: var(--cardiologia-white);
 }
 
 @keyframes pulse {
@@ -136,7 +134,7 @@
 .cardiologiaTitle {
   font-size: 3.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-coral));
+  background: linear-gradient(135deg, var(--cardiologia-primary), var(--cardiologia-soft));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -147,21 +145,21 @@
 .titleDivider {
   width: 100px;
   height: 4px;
-  background: linear-gradient(90deg, var(--cardio-primary), var(--cardio-coral));
+  background: linear-gradient(90deg, var(--cardiologia-primary), var(--cardiologia-soft));
   margin: 1.5rem auto;
   border-radius: 2px;
 }
 
 .cardiologiaSubtitle {
   font-size: 1.25rem;
-  color: var(--cardio-gray-600);
+  color: var(--cardiologia-gray-600);
   max-width: 800px;
   margin: 0 auto;
   line-height: 1.7;
 }
 
 .highlightText {
-  color: var(--cardio-primary);
+  color: var(--cardiologia-primary);
   font-weight: 600;
 }
 
@@ -171,7 +169,7 @@
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s ease-out 0.2s;
-} 
+}
 
 .introSection.visible {
   opacity: 1;
@@ -179,20 +177,19 @@
 }
 
 .introCard {
-  background: var(--cardio-white);
+  background: var(--cardiologia-white);
   border-radius: 1.5rem;
   padding: 3rem;
-  box-shadow: var(--cardio-shadow-xl);
-  border: 1px solid var(--cardio-light);
+  box-shadow: var(--cardiologia-shadow-xl);
+  border: 1px solid var(--cardiologia-light);
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  min-height: 320px;
 }
 
 .introCard:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 25px 35px -5px rgba(214, 69, 69, 0.2), 0 15px 15px -5px rgba(214, 69, 69, 0.12);
+  transform: translateY(-5px);
+  box-shadow: 0 25px 35px -5px rgba(214, 69, 69, 0.15), 0 15px 15px -5px rgba(214, 69, 69, 0.08);
 }
 
 .introCard::before {
@@ -202,65 +199,56 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--cardio-primary), var(--cardio-coral));
+  background: linear-gradient(90deg, var(--cardiologia-primary), var(--cardiologia-soft));
 }
 
 .introIconContainer {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-coral));
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 12px 32px rgba(214, 69, 69, 0.3);
+  display: inline-flex;
+  background: linear-gradient(135deg, var(--cardiologia-light), var(--cardiologia-soft));
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid var(--cardiologia-soft);
 }
 
 .introMainIcon {
-  width: 40px;
-  height: 40px;
-  color: white;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  width: 3rem;
+  height: 3rem;
+  color: var(--cardiologia-primary);
 }
 
 .introContent {
-  padding-top: 6rem;
   text-align: left;
 }
 
 .introTitle {
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: var(--cardio-gray-800);
-  margin-bottom: 1.5rem;
-  line-height: 1.3;
+  color: var(--cardiologia-gray-800);
+  margin-bottom: 1rem;
 }
 
 .introDescription {
-  font-size: 1.1rem;
-  color: var(--cardio-gray-600);
+  font-size: 1.125rem;
+  color: var(--cardiologia-gray-600);
   line-height: 1.7;
   margin: 0;
 }
 
 .introDecoration {
   position: absolute;
-  bottom: -20px;
-  right: -20px;
+  top: 1rem;
+  right: 1rem;
   opacity: 0.1;
 }
 
 .introDecorationIcon {
-  width: 120px;
-  height: 120px;
-  color: var(--cardio-primary);
-  transform: rotate(15deg);
+  width: 4rem;
+  height: 4rem;
+  color: var(--cardiologia-primary);
 }
 
-/* ===== TEAM GRID ===== */
+/* ===== TEAM FEATURES GRID ===== */
 .teamGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -277,19 +265,19 @@
 }
 
 .teamCard {
-  background: var(--cardio-white);
+  background: var(--cardiologia-white);
   border-radius: 1.5rem;
   padding: 2.5rem;
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
-  border: 1px solid var(--cardio-light);
-  box-shadow: var(--cardio-shadow);
+  border: 1px solid var(--cardiologia-light);
+  box-shadow: var(--cardiologia-shadow);
 }
 
 .teamCard:hover {
   transform: translateY(-8px);
-  box-shadow: var(--cardio-shadow-xl);
+  box-shadow: var(--cardiologia-shadow-xl);
 }
 
 .teamCard::before {
@@ -299,19 +287,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--cardio-primary), var(--cardio-coral));
-}
-
-.teamCard-0 {
-  animation: slideInFromLeft 0.8s ease-out 0.1s both;
-}
-
-.teamCard-1 {
-  animation: slideInFromLeft 0.8s ease-out 0.3s both;
-}
-
-.teamCard-2 {
-  animation: slideInFromLeft 0.8s ease-out 0.5s both;
+  background: linear-gradient(90deg, var(--cardiologia-primary), var(--cardiologia-soft));
 }
 
 .teamCardBg {
@@ -320,7 +296,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, var(--cardio-light) 0%, transparent 100%);
+  background: linear-gradient(135deg, var(--cardiologia-light) 0%, transparent 100%);
   opacity: 0.5;
 }
 
@@ -331,28 +307,28 @@
 
 .teamIconContainer {
   display: inline-flex;
-  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-coral));
+  background: linear-gradient(135deg, var(--cardiologia-primary), var(--cardiologia-soft));
   padding: 1.25rem;
   border-radius: 1rem;
   margin-bottom: 1.5rem;
-  box-shadow: var(--cardio-shadow);
+  box-shadow: var(--cardiologia-shadow);
 }
 
 .teamMainIcon {
   width: 2.5rem;
   height: 2.5rem;
-  color: var(--cardio-white);
+  color: var(--cardiologia-white);
 }
 
 .teamTitle {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--cardio-gray-800);
+  color: var(--cardiologia-gray-800);
   margin-bottom: 1rem;
 }
 
 .teamDescription {
-  color: var(--cardio-gray-600);
+  color: var(--cardiologia-gray-600);
   line-height: 1.6;
   margin: 0;
 }
@@ -367,7 +343,7 @@
 .teamDecorationIcon {
   width: 3rem;
   height: 3rem;
-  color: var(--cardio-primary);
+  color: var(--cardiologia-primary);
 }
 
 /* ===== CLINICAL GRID ===== */
@@ -387,19 +363,19 @@
 }
 
 .clinicalCard {
-  background: var(--cardio-white);
+  background: var(--cardiologia-white);
   border-radius: 1.5rem;
   padding: 2.5rem;
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
-  border: 1px solid var(--cardio-light);
-  box-shadow: var(--cardio-shadow);
+  border: 1px solid var(--cardiologia-light);
+  box-shadow: var(--cardiologia-shadow);
 }
 
 .clinicalCard:hover {
   transform: translateY(-5px);
-  box-shadow: var(--cardio-shadow-xl);
+  box-shadow: var(--cardiologia-shadow-xl);
 }
 
 .clinicalCard::before {
@@ -409,7 +385,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--cardio-primary), var(--cardio-coral));
+  background: linear-gradient(90deg, var(--cardiologia-primary), var(--cardiologia-soft));
 }
 
 .clinicalCardBg {
@@ -418,7 +394,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, var(--cardio-light) 0%, transparent 100%);
+  background: linear-gradient(135deg, var(--cardiologia-light) 0%, transparent 100%);
   opacity: 0.3;
 }
 
@@ -435,29 +411,93 @@
 }
 
 .clinicalIconContainer {
-  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-coral));
+  background: linear-gradient(135deg, var(--cardiologia-primary), var(--cardiologia-soft));
   padding: 1rem;
   border-radius: 0.75rem;
-  box-shadow: var(--cardio-shadow);
+  box-shadow: var(--cardiologia-shadow);
 }
 
 .clinicalMainIcon {
   width: 2rem;
   height: 2rem;
-  color: var(--cardio-white);
+  color: var(--cardiologia-white);
 }
 
 .clinicalTitle {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--cardio-gray-800);
+  color: var(--cardiologia-gray-800);
   margin: 0;
 }
 
 .clinicalDescription {
-  color: var(--cardio-gray-600);
+  color: var(--cardiologia-gray-600);
   margin-bottom: 1.5rem;
   line-height: 1.6;
+}
+
+/* Symptoms List */
+.symptomsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.symptomItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--cardiologia-light);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.symptomItem:hover {
+  background: var(--cardiologia-soft);
+  transform: translateX(5px);
+}
+
+.symptomBullet {
+  width: 8px;
+  height: 8px;
+  background: var(--cardiologia-primary);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Diagnostic List */
+.diagnosticList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.diagnosticItem {
+  padding: 1rem;
+  background: var(--cardiologia-light);
+  border-radius: 0.75rem;
+  border-left: 4px solid var(--cardiologia-primary);
+  transition: all 0.3s ease;
+}
+
+.diagnosticItem:hover {
+  background: var(--cardiologia-soft);
+  transform: translateX(5px);
+  box-shadow: var(--cardiologia-shadow);
+}
+
+.diagnosticTitle {
+  font-weight: 600;
+  color: var(--cardiologia-gray-700);
+  margin: 0;
+}
+
+.diagnosticDesc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--cardiologia-gray-600);
+  margin: 0;
 }
 
 .clinicalDecoration {
@@ -470,76 +510,111 @@
 .clinicalDecorationIcon {
   width: 3rem;
   height: 3rem;
-  color: var(--cardio-primary);
+  color: var(--cardiologia-primary);
 }
 
-/* ===== SYMPTOMS LIST ===== */
-.symptomsList {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+/* ===== DISEASES GRID ===== */
+.diseasesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out 0.8s;
 }
 
-.symptomItem {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  background: var(--cardio-light);
-  border-radius: 0.5rem;
-  transition: all 0.2s ease;
+.diseasesGrid.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.symptomItem:hover {
-  background: var(--cardio-coral);
-  transform: translateX(5px);
-}
-
-.symptomBullet {
-  width: 8px;
-  height: 8px;
-  background: var(--cardio-primary);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-/* ===== DIAGNOSTIC LIST ===== */
-.diagnosticList {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.diagnosticItem {
-  padding: 1rem;
-  background: var(--cardio-light);
-  border-radius: 0.75rem;
-  border-left: 4px solid var(--cardio-primary);
+.diseaseCard {
+  background: var(--cardiologia-white);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
   transition: all 0.3s ease;
+  border: 1px solid var(--cardiologia-light);
+  box-shadow: var(--cardiologia-shadow);
 }
 
-.diagnosticItem:hover {
-  background: var(--cardio-coral);
-  transform: translateX(5px);
-  box-shadow: var(--cardio-shadow);
+.diseaseCard:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--cardiologia-shadow-xl);
 }
 
-.diagnosticTitle {
-  font-weight: 600;
-  color: var(--cardio-gray-700);
-  margin: 0;
+.diseaseCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cardiologia-primary), var(--cardiologia-soft));
 }
 
-.diagnosticDesc {
-  font-size: 0.95rem;
+.diseaseCardBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--cardiologia-light) 0%, transparent 100%);
+  opacity: 0.5;
+}
+
+.diseaseCardContent {
+  position: relative;
+  z-index: 1;
+}
+
+.diseaseIconContainer {
+  display: inline-flex;
+  background: linear-gradient(135deg, var(--cardiologia-primary), var(--cardiologia-soft));
+  padding: 1.25rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--cardiologia-shadow);
+}
+
+.diseaseMainIcon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--cardiologia-white);
+}
+
+.diseaseTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--cardiologia-gray-800);
+  margin-bottom: 1rem;
+}
+
+.diseaseDescription {
+  color: var(--cardiologia-gray-600);
   line-height: 1.6;
-  color: var(--cardio-gray-600);
   margin: 0;
+  font-size: 0.95rem;
 }
 
-/* ===== CTA SECTION ===== */
+.diseaseDecoration {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  opacity: 0.1;
+}
+
+.diseaseDecorationIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--cardiologia-primary);
+}
+
+/* ===== CALL TO ACTION SECTION ===== */
 .ctaSection {
-  background: linear-gradient(135deg, var(--cardio-primary), var(--cardio-elegant));
+  background: linear-gradient(135deg, var(--cardiologia-primary), #B8405E);
   border-radius: 2rem;
   padding: 3rem;
   text-align: center;
@@ -575,13 +650,13 @@
 .ctaTitle {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--cardio-white);
+  color: var(--cardiologia-white);
   margin-bottom: 1rem;
 }
 
 .ctaDescription {
   font-size: 1.125rem;
-  color: var(--cardio-white);
+  color: var(--cardiologia-white);
   opacity: 0.9;
   max-width: 600px;
   margin: 0 auto;
@@ -611,26 +686,26 @@
 }
 
 .ctaPrimary {
-  background: var(--cardio-white);
-  color: var(--cardio-primary);
-  box-shadow: var(--cardio-shadow-lg);
+  background: var(--cardiologia-white);
+  color: var(--cardiologia-primary);
+  box-shadow: var(--cardiologia-shadow-lg);
 }
 
 .ctaPrimary:hover {
-  background: var(--cardio-gray-50);
+  background: var(--cardiologia-gray-50);
   transform: translateY(-2px);
-  box-shadow: var(--cardio-shadow-xl);
+  box-shadow: var(--cardiologia-shadow-xl);
 }
 
 .ctaSecondary {
   background: transparent;
-  color: var(--cardio-white);
-  border: 2px solid var(--cardio-white);
+  color: var(--cardiologia-white);
+  border: 2px solid var(--cardiologia-white);
 }
 
 .ctaSecondary:hover {
-  background: var(--cardio-white);
-  color: var(--cardio-primary);
+  background: var(--cardiologia-white);
+  color: var(--cardiologia-primary);
   transform: translateY(-2px);
 }
 
@@ -643,13 +718,13 @@
 .footerInfo {
   text-align: center;
   padding: 2rem;
-  background: var(--cardio-light);
+  background: var(--cardiologia-light);
   border-radius: 1rem;
   margin-top: 2rem;
 }
 
 .footerInfo p {
-  color: var(--cardio-gray-600);
+  color: var(--cardiologia-gray-600);
   font-style: italic;
   margin: 0;
 }
@@ -657,7 +732,7 @@
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .cardiologiaContent {
-    padding: 1rem 0.5rem;
+    padding: 0 0.5rem;
   }
 
   .cardiologiaTitle {
@@ -671,12 +746,14 @@
 
   .introCard,
   .teamCard,
-  .clinicalCard {
+  .clinicalCard,
+  .diseaseCard {
     padding: 2rem;
   }
 
   .teamGrid,
-  .clinicalGrid {
+  .clinicalGrid,
+  .diseasesGrid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
@@ -694,10 +771,6 @@
     width: 100%;
     max-width: 300px;
     justify-content: center;
-  }
-
-  .symptomsList {
-    grid-template-columns: 1fr;
   }
 
   .bgDecorationIcon {
@@ -720,7 +793,11 @@
   }
 
   .clinicalTitle {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+  }
+
+  .diseaseTitle {
+    font-size: 1.2rem;
   }
 
   .ctaTitle {
@@ -729,7 +806,8 @@
 
   .introCard,
   .teamCard,
-  .clinicalCard {
+  .clinicalCard,
+  .diseaseCard {
     padding: 1.5rem;
   }
 }
@@ -757,55 +835,37 @@
   }
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Aplicar animaciones escalonadas a las tarjetas */
+.teamCard-0 {
+  animation: slideInFromLeft 0.8s ease-out 0.1s both;
 }
 
+.teamCard-1 {
+  animation: slideInFromLeft 0.8s ease-out 0.3s both;
+}
+
+.teamCard-2 {
+  animation: slideInFromLeft 0.8s ease-out 0.5s both;
+}
+
+.diseaseCard-0 {
+  animation: slideInFromRight 0.8s ease-out 0.2s both;
+}
+
+.diseaseCard-1 {
+  animation: slideInFromRight 0.8s ease-out 0.4s both;
+}
+
+.diseaseCard-2 {
+  animation: slideInFromRight 0.8s ease-out 0.6s both;
+}
+
+.diseaseCard-3 {
+  animation: slideInFromRight 0.8s ease-out 0.8s both;
+}
+
+/* ===== ESTADOS VISIBLE ===== */
 .visible {
-  animation: fadeInUp 0.8s ease-out forwards;
-}
-
-/* ===== ESTILOS PARA ACCESIBILIDAD ===== */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Estados de focus para accesibilidad */
-.ctaButton:focus,
-.ctaButton:focus-visible {
-  outline: 3px solid var(--cardio-primary);
-  outline-offset: 2px;
-}
-
-/* ===== HOVER STATES ADICIONALES ===== */
-.symptomItem:hover {
-  background: var(--cardio-white);
-  border-radius: 8px;
-  padding-left: 16px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px var(--cardio-shadow);
-}
- 
-.diagnosticItem:hover .diagnosticTitle {
-  color: var(--cardio-elegant);
-}
-
-/* ===== GRADIENTES ADICIONALES PARA VARIEDAD ===== */
-.teamCard:nth-child(2) .teamIconContainer {
-  background: linear-gradient(135deg, var(--cardio-elegant), var(--cardio-primary));
-}
-
-.teamCard:nth-child(3) .teamIconContainer {
-  background: linear-gradient(135deg, var(--cardio-coral), var(--cardio-elegant));
+  opacity: 1;
+  transform: translateY(0);
 }

@@ -1,0 +1,828 @@
+/* Variables de colores para Medicina General - Dorado/Amarillo */
+:root {
+  --medicinaGeneral-primary: #f4a261;
+  --medicinaGeneral-primary-light: #f7b547;
+  --medicinaGeneral-primary-dark: #e76f51;
+  --medicinaGeneral-secondary: #f9c74f;
+  --medicinaGeneral-accent: #ffb700;
+  --medicinaGeneral-bg-light: #fffbf0;
+  --medicinaGeneral-bg-medium: #fff8e1;
+  --medicinaGeneral-bg-dark: #ffe0b3;
+  --medicinaGeneral-gradient: linear-gradient(135deg, #f4a261 0%, #f9c74f 50%, #ffb700 100%);
+  --medicinaGeneral-gradient-light: linear-gradient(135deg, #fffbf0 0%, #fff8e1 100%);
+  --medicinaGeneral-shadow: 0 8px 25px rgba(244, 162, 97, 0.15);
+  --medicinaGeneral-shadow-hover: 0 15px 35px rgba(244, 162, 97, 0.25);
+}
+
+/* Container principal */
+.medicinaGeneralContainer {
+  min-height: 100vh;
+  background: var(--medicinaGeneral-gradient-light);
+  position: relative;
+  overflow-x: hidden;
+  padding: 2rem 0;
+}
+
+/* Elementos decorativos del fondo */
+.decorativeBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.bgDecoration {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(244, 162, 97, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: floatAnimation 6s ease-in-out infinite;
+}
+
+.bgDecoration1 {
+  top: 10%;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.bgDecoration2 {
+  top: 50%;
+  left: 5%;
+  animation-delay: 2s;
+}
+
+.bgDecoration3 {
+  bottom: 20%;
+  right: 15%;
+  animation-delay: 4s;
+}
+
+.bgDecorationIcon {
+  width: 40px;
+  height: 40px;
+  color: var(--medicinaGeneral-primary);
+  opacity: 0.3;
+}
+
+/* Contenido principal */
+.medicinaGeneralContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Header */
+.medicinaGeneralHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease;
+}
+
+.medicinaGeneralHeader.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.headerTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.headerIconContainer {
+  width: 60px;
+  height: 60px;
+  background: var(--medicinaGeneral-gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--medicinaGeneral-shadow);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.headerIcon {
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+.medicinaGeneralTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: var(--medicinaGeneral-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.titleDivider {
+  width: 100px;
+  height: 4px;
+  background: var(--medicinaGeneral-gradient);
+  margin: 0 auto 1.5rem;
+  border-radius: 2px;
+}
+
+.medicinaGeneralSubtitle {
+  font-size: 1.2rem;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.highlightText {
+  color: var(--medicinaGeneral-primary);
+  font-weight: 600;
+}
+
+/* Sección de introducción */
+.introSection {
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease 0.2s;
+}
+
+.introSection.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.introCard {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: var(--medicinaGeneral-shadow);
+  border: 2px solid var(--medicinaGeneral-bg-medium);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.introCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--medicinaGeneral-shadow-hover);
+}
+
+.introIconContainer {
+  width: 80px;
+  height: 80px;
+  background: var(--medicinaGeneral-gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--medicinaGeneral-shadow);
+}
+
+.introMainIcon {
+  width: 40px;
+  height: 40px;
+  color: white;
+}
+
+.introTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--medicinaGeneral-primary-dark);
+  margin-bottom: 1rem;
+}
+
+.introDescription {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.introDecoration {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 100px;
+  height: 100px;
+  background: var(--medicinaGeneral-bg-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+}
+
+.introDecorationIcon {
+  width: 40px;
+  height: 40px;
+  color: var(--medicinaGeneral-primary);
+}
+
+/* Grid de características del equipo */
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease 0.4s;
+}
+
+.teamGrid.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.teamCard {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--medicinaGeneral-bg-medium);
+  transition: all 0.3s ease;
+  box-shadow: var(--medicinaGeneral-shadow);
+}
+
+.teamCard:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--medicinaGeneral-shadow-hover);
+}
+
+.teamCard-0 {
+  animation-delay: 0.1s;
+}
+
+.teamCard-1 {
+  animation-delay: 0.2s;
+}
+
+.teamCard-2 {
+  animation-delay: 0.3s;
+}
+
+.teamCardBg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: var(--medicinaGeneral-gradient);
+  border-radius: 0 20px 0 100px;
+  opacity: 0.1;
+}
+
+.teamCardContent {
+  position: relative;
+  z-index: 2;
+}
+
+.teamIconContainer {
+  width: 70px;
+  height: 70px;
+  background: var(--medicinaGeneral-gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--medicinaGeneral-shadow);
+}
+
+.teamMainIcon {
+  width: 35px;
+  height: 35px;
+  color: white;
+}
+
+.teamTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--medicinaGeneral-primary-dark);
+  margin-bottom: 1rem;
+}
+
+.teamDescription {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.teamDecoration {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  width: 60px;
+  height: 60px;
+  background: var(--medicinaGeneral-bg-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+}
+
+.teamDecorationIcon {
+  width: 25px;
+  height: 25px;
+  color: var(--medicinaGeneral-primary);
+}
+
+/* Grid de información clínica */
+.clinicalGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease 0.6s;
+}
+
+.clinicalGrid.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.clinicalCard {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--medicinaGeneral-bg-medium);
+  box-shadow: var(--medicinaGeneral-shadow);
+  transition: all 0.3s ease;
+}
+
+.clinicalCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--medicinaGeneral-shadow-hover);
+}
+
+.clinicalCardBg {
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 150px;
+  height: 150px;
+  background: var(--medicinaGeneral-gradient);
+  border-radius: 50%;
+  opacity: 0.05;
+}
+
+.clinicalCardContent {
+  position: relative;
+  z-index: 2;
+}
+
+.clinicalHeader {
+  margin-bottom: 2rem;
+}
+
+.clinicalIconContainer {
+  width: 60px;
+  height: 60px;
+  background: var(--medicinaGeneral-gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  box-shadow: var(--medicinaGeneral-shadow);
+}
+
+.clinicalMainIcon {
+  width: 30px;
+  height: 30px;
+  color: white;
+}
+
+.clinicalTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--medicinaGeneral-primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+.clinicalDescription {
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.symptomsList, .preventiveList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.symptomItem, .preventiveItem {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--medicinaGeneral-bg-medium);
+  transition: color 0.3s ease;
+}
+
+.symptomItem:hover, .preventiveItem:hover {
+  color: var(--medicinaGeneral-primary);
+}
+
+.symptomBullet {
+  width: 8px;
+  height: 8px;
+  background: var(--medicinaGeneral-primary);
+  border-radius: 50%;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.preventiveItem {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.preventiveTitle {
+  font-weight: 600;
+  color: var(--medicinaGeneral-primary-dark);
+  margin: 0;
+}
+
+.clinicalDecoration {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  width: 80px;
+  height: 80px;
+  background: var(--medicinaGeneral-bg-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+}
+
+.clinicalDecorationIcon {
+  width: 30px;
+  height: 30px;
+  color: var(--medicinaGeneral-primary);
+}
+
+/* Grid de enfermedades */
+.diseasesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease 0.8s;
+}
+
+.diseasesGrid.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.diseaseCard {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--medicinaGeneral-bg-medium);
+  box-shadow: var(--medicinaGeneral-shadow);
+  transition: all 0.3s ease;
+}
+
+.diseaseCard:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--medicinaGeneral-shadow-hover);
+}
+
+.diseaseCard-0 { animation-delay: 0.1s; }
+.diseaseCard-1 { animation-delay: 0.2s; }
+.diseaseCard-2 { animation-delay: 0.3s; }
+.diseaseCard-3 { animation-delay: 0.4s; }
+
+.diseaseCardBg {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 120px;
+  height: 120px;
+  background: var(--medicinaGeneral-gradient);
+  border-radius: 50%;
+  opacity: 0.08;
+}
+
+.diseaseCardContent {
+  position: relative;
+  z-index: 2;
+}
+
+.diseaseIconContainer {
+  width: 60px;
+  height: 60px;
+  background: var(--medicinaGeneral-gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--medicinaGeneral-shadow);
+}
+
+.diseaseMainIcon {
+  width: 28px;
+  height: 28px;
+  color: white;
+}
+
+.diseaseTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--medicinaGeneral-primary-dark);
+  margin-bottom: 1rem;
+}
+
+.diseaseDescription {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.diseaseDecoration {
+  position: absolute;
+  bottom: -15px;
+  left: -15px;
+  width: 60px;
+  height: 60px;
+  background: var(--medicinaGeneral-bg-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+}
+
+.diseaseDecorationIcon {
+  width: 25px;
+  height: 25px;
+  color: var(--medicinaGeneral-primary);
+}
+
+/* Sección de llamada a la acción */
+.ctaSection {
+  background: white;
+  border-radius: 25px;
+  padding: 3rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  box-shadow: var(--medicinaGeneral-shadow);
+  border: 3px solid var(--medicinaGeneral-bg-medium);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease 1s;
+}
+
+.ctaSection.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ctaSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--medicinaGeneral-gradient);
+  opacity: 0.05;
+  z-index: 1;
+}
+
+.ctaContent {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 2rem;
+}
+
+.ctaTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--medicinaGeneral-primary-dark);
+  margin-bottom: 1rem;
+}
+
+.ctaDescription {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+
+.ctaButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.ctaPrimary {
+  background: var(--medicinaGeneral-gradient);
+  color: white;
+  box-shadow: var(--medicinaGeneral-shadow);
+}
+
+.ctaPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--medicinaGeneral-shadow-hover);
+}
+
+.ctaSecondary {
+  background: white;
+  color: var(--medicinaGeneral-primary);
+  border: 2px solid var(--medicinaGeneral-primary);
+}
+
+.ctaSecondary:hover {
+  background: var(--medicinaGeneral-primary);
+  color: white;
+  transform: translateY(-3px);
+}
+
+.ctaButtonIcon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Navegación y footer */
+.navigationSection {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: var(--medicinaGeneral-bg-light);
+  color: var(--medicinaGeneral-primary);
+  border: 2px solid var(--medicinaGeneral-primary);
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background: var(--medicinaGeneral-primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.backButtonIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.footerInfo {
+  text-align: center;
+  padding: 2rem;
+  background: var(--medicinaGeneral-bg-light);
+  border-radius: 15px;
+  border: 1px solid var(--medicinaGeneral-bg-medium);
+}
+
+.footerInfo p {
+  color: #666;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Animaciones */
+@keyframes floatAnimation {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-20px) rotate(5deg); }
+  50% { transform: translateY(-10px) rotate(-5deg); }
+  75% { transform: translateY(-25px) rotate(3deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .medicinaGeneralContainer {
+    padding: 1rem 0;
+  }
+
+  .medicinaGeneralContent {
+    padding: 0 1rem;
+  }
+
+  .medicinaGeneralTitle {
+    font-size: 2.5rem;
+  }
+
+  .headerTitleContainer {
+    gap: 1rem;
+  }
+
+  .headerIconContainer {
+    width: 50px;
+    height: 50px;
+  }
+
+  .headerIcon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .teamGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .clinicalGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .diseasesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ctaButton {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .medicinaGeneralTitle {
+    font-size: 2rem;
+  }
+
+  .introCard,
+  .teamCard,
+  .clinicalCard,
+  .diseaseCard {
+    padding: 1.5rem;
+  }
+
+  .ctaSection {
+    padding: 2rem 1.5rem;
+  }
+}

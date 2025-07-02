@@ -17,6 +17,9 @@ import Cardiologia from "./pages/EspecialidadesPage/Cardiologia/Cardiologia";
 import Endocrinologia from "./pages/EspecialidadesPage/Endocrinologia/Endocrinologia";
 import Gastroenterologia from "./pages/EspecialidadesPage/Gastroenterologia/Gastroenterologia";
 import Oncologia from "./pages/EspecialidadesPage/Oncologia/Oncologia";
+import Dermatologia from "./pages/EspecialidadesPage/Dermatologia/Dermatologia";
+import Oftalmologia from "./pages/EspecialidadesPage/Oftalmologia/Oftalmologia";
+import MedicinaGeneral from "./pages/EspecialidadesPage/MedicinaGeneral/MedicinaGeneral";
 import PetsPage from "./pages/Pets/PetsPage";
 import "./App.css";
 import 'animate.css';
@@ -50,6 +53,9 @@ const AppContent = () => {
         <Route path="/endocrinologia" element={<Endocrinologia />} />
         <Route path="/gastroenterologia" element={<Gastroenterologia />} />
         <Route path="/oncologia" element={<Oncologia />} />
+        <Route path="/dermatologia" element={<Dermatologia />} />
+        <Route path="/oftalmologia" element={<Oftalmologia />} />
+        <Route path="/medicinaGeneral" element={<MedicinaGeneral />} />
         <Route path="/userProfile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
         <Route path="/add-pet" element={<ProtectedRoute><AddPet /></ProtectedRoute>} />
         <Route path="/mascotas" element={<PetsPage />} />
@@ -58,6 +64,13 @@ const AppContent = () => {
         <Route path="/videoConsulta" element={<VideoConsulta />} />
         <Route path="/quienes-somos" element={<QuienesSomos />} />
         <Route path="/adoptame" element={<Adoptame />} />
+        <Route path="/cardiologia" element={<Cardiologia />} />
+        <Route path="/endocrinologia" element={<Endocrinologia />} />
+        <Route path="/gastroenterologia" element={<Gastroenterologia />} />
+        <Route path="/oncologia" element={<Oncologia />} />
+        <Route path="/dermatologia" element={<Dermatologia />} />
+        <Route path="/oftalmologia" element={<Oftalmologia />} />
+        <Route path="/medicina-general" element={<MedicinaGeneral />} />
       </Routes>
       <Footer />
     </Router>
