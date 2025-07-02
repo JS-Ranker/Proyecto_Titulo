@@ -10,7 +10,9 @@ import {
   Video,
   ArrowRight,
   Sparkles,
-  PawPrint
+  PawPrint,
+  TestTube,
+  Eye
 } from 'lucide-react';
 import './EspecialidadesPage.css';
 
@@ -47,13 +49,37 @@ const EspecialidadesPage: React.FC = () => {
       colorClass: 'oncologia',
       route: '/oncologia'
     },
-    {
+    { 
       id: 'gastroenterologia',
       title: 'Gastroenterología Veterinaria',
       description: 'Enfermedades del sistema digestivo, hígado y páncreas.',
       icon: <Activity className="specialty-icon" />,
       colorClass: 'gastroenterologia',
       route: '/gastroenterologia'
+    },
+    {
+      id: 'dermatologia',
+      title: 'Dermatología Veterinaria',
+      description: 'Diagnóstico y tratamiento de enfermedades de la piel y pelaje.',
+      icon: <TestTube className="specialty-icon" />,
+      colorClass: 'dermatologia',
+      route: '/dermatologia'
+    },
+    {
+      id: 'oftalmologia',
+      title: 'Oftalmología Veterinaria',
+      description: 'Especialistas en el cuidado de la salud visual y enfermedades oculares.',
+      icon: <Eye className="specialty-icon" />,
+      colorClass: 'oftalmologia',
+      route: '/oftalmologia'
+    },
+    {
+      id: 'medicinaGeneral',
+      title: 'Medicina General Veterinaria',
+      description: 'Atención integral y medicina preventiva para todas las etapas de vida.',
+      icon: <Stethoscope className="specialty-icon" />,
+      colorClass: 'medicinaGeneral',
+      route: '/medicinaGeneral'
     }
   ];
  

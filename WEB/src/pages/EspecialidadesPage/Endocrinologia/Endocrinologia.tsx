@@ -14,9 +14,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import styles from "./Endocrinologia.module.css";
-import { useNavigate } from "react-router-dom";
 
-<<<<<<< HEAD
 const Endocrinologia: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
@@ -92,10 +90,6 @@ const Endocrinologia: React.FC = () => {
     "Pruebas genéticas en razas predispuestas"
   ];
 
-=======
-const Endocrinologia = () => {
-  const navigate = useNavigate();
->>>>>>> 4040c22b3f7b93af6815519bae4191b9d70c2f8f
   return (
     <div className={styles.endocrinologiaContainer}>
       {/* Decorative Background Elements */}
@@ -274,7 +268,6 @@ const Endocrinologia = () => {
           })}
         </div>
 
-<<<<<<< HEAD
         {/* Call to Action Section */}
         <div className={`${styles.ctaSection} ${isVisible ? styles.visible : ''}`}>
           <div className={styles.ctaContent}>
@@ -296,7 +289,7 @@ const Endocrinologia = () => {
               Reservar Consulta
               <ArrowRight className={styles.ctaButtonIcon} />
             </button>
-
+ 
             <button 
               onClick={() => navigate("/videoconsulta")}
               className={`${styles.ctaButton} ${styles.ctaSecondary}`}
@@ -313,16 +306,6 @@ const Endocrinologia = () => {
             Nuestros especialistas en endocrinología cuentan con certificaciones internacionales y años de experiencia
           </p>
         </div>
-=======
-      {/* Llamado a la acción */}
-      <div className={styles.ctaSection}>
-        <h2>¿Sospechas que tu mascota tiene un problema endocrino?</h2>
-        <p>
-          Nuestros especialistas están listos para ayudarte con diagnóstico
-          preciso y tratamiento personalizado.
-        </p>
-        <button className={styles.ctaButton} onClick={() => navigate("/agendamientoCitas")}>Reservar Consulta</button>
->>>>>>> 4040c22b3f7b93af6815519bae4191b9d70c2f8f
       </div>
     </div>
   );

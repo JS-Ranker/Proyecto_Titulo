@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
-import {
-  Activity,
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { 
+  Eye, 
+  TestTube, 
+  ShieldCheck, 
+  Activity, 
   Heart,
-  PawPrint,
-  Sparkles,
-  ArrowRight,
-  Calendar,
-  Clock,
   Stethoscope,
-  TestTube,
-  Pill,
-  ShieldCheck
+  PawPrint,
+  Calendar,
+  ArrowLeft,
+  Video,
+  Sparkles
 } from 'lucide-react';
-import { useNavigate } from "react-router-dom";
-import styles from "./Oncologia.module.css";
- 
-const Oncologia: React.FC = () => {
+import styles from './Oftalmologia.module.css';
+
+const Oftalmologia: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -25,73 +25,73 @@ const Oncologia: React.FC = () => {
 
   const teamFeatures = [
     { 
-      icon: TestTube,
-      title: "Diagnóstico Precoz",
-      desc: "Biopsias, análisis citológicos y marcadores tumorales para detección temprana del cáncer.",
-      colorClass: "oncologia"
+      icon: Eye,
+      title: "Diagnóstico Oftálmico",
+      desc: "Exámenes completos de la vista, tonometría y oftalmoscopía para evaluar la salud ocular integral.",
+      colorClass: "oftalmologia"
     },
     {
-      icon: Pill,
-      title: "Tratamiento Multidisciplinario",
-      desc: "Quimioterapia, radioterapia y cirugía oncológica con protocolos personalizados.",
-      colorClass: "oncologia"
+      icon: TestTube,
+      title: "Cirugía Ocular",
+      desc: "Procedimientos quirúrgicos especializados para cataratas, glaucoma y traumatismos oculares.",
+      colorClass: "oftalmologia"
     },
     {
       icon: ShieldCheck,
-      title: "Cuidados Paliativos",
-      desc: "Manejo del dolor y mejora de la calidad de vida durante el tratamiento.",
-      colorClass: "oncologia"
+      title: "Tratamiento Preventivo",
+      desc: "Cuidados preventivos y tratamientos para mantener la salud visual de tu mascota.",
+      colorClass: "oftalmologia"
     },
   ];
 
-  const cancerTypes = [
+  const diseases = [
     {
-      title: "Linfoma",
-      description: "Cáncer del sistema linfático, uno de los más comunes en perros y gatos. Puede afectar múltiples órganos.",
+      title: "Cataratas",
+      description: "Opacificación del cristalino que causa pérdida gradual de la visión, común en perros mayores y ciertas razas.",
+      icon: Eye,
+      colorClass: "oftalmologia"
+    },
+    {
+      title: "Glaucoma", 
+      description: "Aumento de la presión intraocular que puede causar dolor severo y pérdida irreversible de la visión.",
       icon: Activity,
-      colorClass: "oncologia"
+      colorClass: "oftalmologia"
     },
     {
-      title: "Tumor de Mastocitos", 
-      description: "Neoplasia cutánea frecuente en perros que puede presentar diferentes grados de malignidad.",
+      title: "Conjuntivitis",
+      description: "Inflamación de la conjuntiva ocular que causa enrojecimiento, secreción y molestias.",
       icon: TestTube,
-      colorClass: "oncologia"
+      colorClass: "oftalmologia"
     },
     {
-      title: "Sarcoma",
-      description: "Tumor maligno del tejido conectivo que puede aparecer en diferentes localizaciones.",
+      title: "Úlceras Corneales",
+      description: "Lesiones en la córnea que pueden ser superficiales o profundas, requiriendo tratamiento inmediato.",
       icon: ShieldCheck,
-      colorClass: "oncologia"
-    },
-    {
-      title: "Carcinoma Mamario",
-      description: "Muy común en hembras no esterilizadas, especialmente en perras de edad avanzada.",
-      icon: Heart,
-      colorClass: "oncologia"
+      colorClass: "oftalmologia"
     }
   ];
 
   const symptoms = [
-    "Masas o bultos palpables",
-    "Pérdida de peso progresiva",
-    "Cambios en el apetito",
-    "Dificultad para respirar",
-    "Sangrado anormal",
-    "Cojera persistente",
-    "Vómitos o diarrea recurrentes",
-    "Letargia y debilidad"
+    "Enrojecimiento ocular",
+    "Secreción excesiva",
+    "Parpadeo frecuente",
+    "Fotofobia (sensibilidad a la luz)",
+    "Opacidad en el ojo",
+    "Cambios en el comportamiento visual",
+    "Rascado excesivo del ojo",
+    "Pérdida de visión gradual"
   ];
 
-  const treatmentMethods = [
-    "Cirugía oncológica especializada",
-    "Quimioterapia adaptada",
-    "Radioterapia dirigida",
-    "Inmunoterapia",
-    "Cuidados paliativos integrales"
+  const diagnosticMethods = [
+    "Oftalmoscopía directa e indirecta",
+    "Tonometría (medición de presión ocular)",
+    "Prueba de fluoresceína",
+    "Ecografía ocular",
+    "Análisis de lágrimas (test de Schirmer)"
   ];
 
   return (
-    <div className={styles.oncologiaContainer}>
+    <div className={styles.oftalmologiaContainer}>
       {/* Decorative Background Elements */}
       <div className={styles.decorativeBg}>
         <div className={`${styles.bgDecoration} ${styles.bgDecoration1}`}>
@@ -105,14 +105,14 @@ const Oncologia: React.FC = () => {
         </div>
       </div>
 
-      <div className={styles.oncologiaContent}>
+      <div className={styles.oftalmologiaContent}>
         {/* Header Section */}
-        <div className={`${styles.oncologiaHeader} ${isVisible ? styles.visible : ''}`}>
+        <div className={`${styles.oftalmologiaHeader} ${isVisible ? styles.visible : ''}`}>
           <div className={styles.headerTitleContainer}>
             <div className={styles.headerIconContainer}>
-              <Activity className={styles.headerIcon} />
+              <Eye className={styles.headerIcon} />
             </div>
-            <h1 className={styles.oncologiaTitle}>Oncología Veterinaria</h1>
+            <h1 className={styles.oftalmologiaTitle}>Oftalmología Veterinaria</h1>
             <div className={styles.headerIconContainer}>
               <Sparkles className={styles.headerIcon} />
             </div>
@@ -120,10 +120,10 @@ const Oncologia: React.FC = () => {
           
           <div className={styles.titleDivider}></div>
           
-          <p className={styles.oncologiaSubtitle}>
-            Especialistas en el <span className={styles.highlightText}>diagnóstico temprano y tratamiento integral</span> del 
-            cáncer en pequeños animales, brindando esperanza y calidad de vida con tecnología de vanguardia 
-            y un enfoque compasivo.
+          <p className={styles.oftalmologiaSubtitle}>
+            Especialistas en el <span className={styles.highlightText}>cuidado de la salud visual</span> de 
+            pequeños animales, preservando y restaurando la visión con tecnología de vanguardia 
+            y técnicas quirúrgicas especializadas.
           </p>
         </div>
 
@@ -131,18 +131,18 @@ const Oncologia: React.FC = () => {
         <div className={`${styles.introSection} ${isVisible ? styles.visible : ''}`}>
           <div className={styles.introCard}>
             <div className={styles.introIconContainer}>
-              <TestTube className={styles.introMainIcon} />
+              <Eye className={styles.introMainIcon} />
             </div>
             <div className={styles.introContent}>
-              <h3 className={styles.introTitle}>Especialistas en Oncología Veterinaria</h3>
+              <h3 className={styles.introTitle}>Salud Visual Integral</h3>
               <p className={styles.introDescription}>
-                La oncología veterinaria requiere un enfoque multidisciplinario para el diagnóstico, tratamiento y 
-                seguimiento del cáncer en mascotas. Nuestro equipo combina experiencia clínica con tecnología 
-                de vanguardia para brindar la mejor atención oncológica.
+                Nuestro equipo de oftalmólogos veterinarios se especializa en el diagnóstico, tratamiento y prevención 
+                de enfermedades oculares en mascotas, utilizando equipos de última generación para preservar la visión 
+                y calidad de vida de tu compañero.
               </p>
             </div>
             <div className={styles.introDecoration}>
-              <Sparkles className={styles.introDecorationIcon} />
+              <Eye className={styles.introDecorationIcon} />
             </div>
           </div>
         </div>
@@ -152,14 +152,17 @@ const Oncologia: React.FC = () => {
           {teamFeatures.map((feature, index) => (
             <div key={index} className={`${styles.teamCard} ${styles[`teamCard-${index}`]}`}>
               <div className={styles.teamCardBg}></div>
+              
               <div className={styles.teamCardContent}>
                 <div className={styles.teamIconContainer}>
                   <feature.icon className={styles.teamMainIcon} />
                 </div>
+                
                 <h3 className={styles.teamTitle}>{feature.title}</h3>
                 <p className={styles.teamDescription}>{feature.desc}</p>
+                
                 <div className={styles.teamDecoration}>
-                  <PawPrint className={styles.teamDecorationIcon} />
+                  <Eye className={styles.teamDecorationIcon} />
                 </div>
               </div>
             </div>
@@ -170,14 +173,15 @@ const Oncologia: React.FC = () => {
         <div className={`${styles.clinicalGrid} ${isVisible ? styles.visible : ''}`}>
           <div className={`${styles.clinicalCard} ${styles.symptomsCard}`}>
             <div className={styles.clinicalCardBg}></div>
+            
             <div className={styles.clinicalCardContent}>
               <div className={styles.clinicalHeader}>
                 <div className={styles.clinicalIconContainer}>
-                  <Activity className={styles.clinicalMainIcon} />
+                  <Eye className={styles.clinicalMainIcon} />
                 </div>
-                <h3 className={styles.clinicalTitle}>Señales de Alerta del Cáncer</h3>
+                <h3 className={styles.clinicalTitle}>Síntomas a Observar</h3>
                 <p className={styles.clinicalDescription}>
-                  Reconoce los síntomas que pueden indicar la presencia de cáncer en tu mascota
+                  Signos que pueden indicar problemas oculares en tu mascota
                 </p>
               </div>
               
@@ -190,51 +194,57 @@ const Oncologia: React.FC = () => {
                 ))}
               </ul>
             </div>
+            
             <div className={styles.clinicalDecoration}>
-              <Heart className={styles.clinicalDecorationIcon} />
+              <Eye className={styles.clinicalDecorationIcon} />
             </div>
           </div>
 
           <div className={`${styles.clinicalCard} ${styles.diagnosticCard}`}>
             <div className={styles.clinicalCardBg}></div>
+            
             <div className={styles.clinicalCardContent}>
               <div className={styles.clinicalHeader}>
                 <div className={styles.clinicalIconContainer}>
                   <TestTube className={styles.clinicalMainIcon} />
                 </div>
-                <h3 className={styles.clinicalTitle}>Métodos de Tratamiento</h3>
+                <h3 className={styles.clinicalTitle}>Métodos Diagnósticos</h3>
                 <p className={styles.clinicalDescription}>
-                  Opciones terapéuticas avanzadas para el manejo integral del cáncer
+                  Tecnología avanzada para evaluación oftálmica completa
                 </p>
               </div>
               
               <ul className={styles.diagnosticList}>
-                {treatmentMethods.map((method, index) => (
+                {diagnosticMethods.map((method, index) => (
                   <li key={index} className={styles.diagnosticItem}>
                     <h4 className={styles.diagnosticTitle}>{method}</h4>
                   </li>
                 ))}
               </ul>
             </div>
+            
             <div className={styles.clinicalDecoration}>
-              <Pill className={styles.clinicalDecorationIcon} />
+              <TestTube className={styles.clinicalDecorationIcon} />
             </div>
           </div>
         </div>
 
-        {/* Cancer Types Grid */}
+        {/* Diseases Grid */}
         <div className={`${styles.diseasesGrid} ${isVisible ? styles.visible : ''}`}>
-          {cancerTypes.map((cancer, index) => (
+          {diseases.map((disease, index) => (
             <div key={index} className={`${styles.diseaseCard} ${styles[`diseaseCard-${index}`]}`}>
               <div className={styles.diseaseCardBg}></div>
+              
               <div className={styles.diseaseCardContent}>
                 <div className={styles.diseaseIconContainer}>
-                  <cancer.icon className={styles.diseaseMainIcon} />
+                  <disease.icon className={styles.diseaseMainIcon} />
                 </div>
-                <h3 className={styles.diseaseTitle}>{cancer.title}</h3>
-                <p className={styles.diseaseDescription}>{cancer.description}</p>
+                
+                <h3 className={styles.diseaseTitle}>{disease.title}</h3>
+                <p className={styles.diseaseDescription}>{disease.description}</p>
+                
                 <div className={styles.diseaseDecoration}>
-                  <Sparkles className={styles.diseaseDecorationIcon} />
+                  <Eye className={styles.diseaseDecorationIcon} />
                 </div>
               </div>
             </div>
@@ -244,10 +254,12 @@ const Oncologia: React.FC = () => {
         {/* Call to Action Section */}
         <div className={`${styles.ctaSection} ${isVisible ? styles.visible : ''}`}>
           <div className={styles.ctaContent}>
-            <h2 className={styles.ctaTitle}>¿Sospechas que tu mascota puede tener cáncer?</h2>
+            <h3 className={styles.ctaTitle}>
+              ¿Tu mascota presenta problemas oculares?
+            </h3>
             <p className={styles.ctaDescription}>
-              La detección temprana es clave para un tratamiento exitoso. Nuestros especialistas en oncología 
-              veterinaria están listos para evaluar a tu mascota con compasión y profesionalismo.
+              No esperes más. La detección temprana es clave para preservar la visión. 
+              Agenda una consulta con nuestros especialistas en oftalmología veterinaria.
             </p>
           </div>
    
@@ -257,25 +269,35 @@ const Oncologia: React.FC = () => {
               className={`${styles.ctaButton} ${styles.ctaPrimary}`}
             >
               <Calendar className={styles.ctaButtonIcon} />
-              Agendar Consulta Oncológica
-              <ArrowRight className={styles.ctaButtonIcon} />
+              Agendar Consulta
             </button>
 
             <button 
-              onClick={() => navigate("/videoconsulta")}
+              onClick={() => navigate("/videoConsulta")}
               className={`${styles.ctaButton} ${styles.ctaSecondary}`}
             >
-              <Clock className={styles.ctaButtonIcon} />
-              Consulta de Urgencia
+              <Video className={styles.ctaButtonIcon} />
+              Video Consulta
             </button> 
           </div> 
+        </div>
+
+        {/* Navigation */}
+        <div className={styles.navigationSection}>
+          <button 
+            onClick={() => navigate("/especialidadespage")}
+            className={styles.backButton}
+          >
+            <ArrowLeft className={styles.backButtonIcon} />
+            Volver a Especialidades
+          </button>
         </div>
 
         {/* Additional Info */}
         <div className={styles.footerInfo}>
           <p>
-            Nuestros especialistas en oncología veterinaria cuentan con certificaciones internacionales y experiencia 
-            en el tratamiento del cáncer con enfoques tanto curativos como paliativos
+            Nuestros oftalmólogos veterinarios cuentan con certificaciones internacionales y años de experiencia 
+            en cirugía ocular y tratamientos oftálmicos avanzados
           </p>
         </div>
       </div>
@@ -283,4 +305,4 @@ const Oncologia: React.FC = () => {
   );
 };
 
-export default Oncologia;
+export default Oftalmologia;

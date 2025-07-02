@@ -1,22 +1,21 @@
-import { useEffect, useState } from 'react';
-import {
-  Activity,
-  Heart,
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { 
+  Stethoscope, 
+  Heart, 
+  Shield, 
+  Activity, 
+  Thermometer,
   PawPrint,
-  Sparkles,
-  ArrowRight,
   Calendar,
-  Clock,
-  Stethoscope,
-  TestTube,
-  Pill,
-  ShieldCheck,
-  FlaskConical
+  ArrowLeft,
+  Video,
+  Sparkles,
+  HeartHandshake
 } from 'lucide-react';
-import { useNavigate } from "react-router-dom";
-import styles from "./Gastroenterologia.module.css";
+import styles from './MedicinaGeneral.module.css';
 
-const Gastroenterologia: React.FC = () => {
+const MedicinaGeneral: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -26,73 +25,73 @@ const Gastroenterologia: React.FC = () => {
 
   const teamFeatures = [
     { 
-      icon: TestTube,
-      title: "Diagnóstico Avanzado",
-      desc: "Endoscopía, ultrasonografía y análisis especializados para diagnóstico preciso del sistema digestivo.",
-      colorClass: "gastroenterologia"
+      icon: Stethoscope,
+      title: "Consultas Integrales",
+      desc: "Exámenes físicos completos y evaluaciones de salud general para el bienestar óptimo de tu mascota.",
+      colorClass: "medicinaGeneral"
     },
     {
-      icon: Pill,
-      title: "Tratamiento Especializado",
-      desc: "Terapias médicas y quirúrgicas para trastornos gastrointestinales complejos.",
-      colorClass: "gastroenterologia"
+      icon: Shield,
+      title: "Medicina Preventiva",
+      desc: "Vacunaciones, desparasitaciones y programas de prevención adaptados a cada etapa de vida.",
+      colorClass: "medicinaGeneral"
     },
     {
-      icon: ShieldCheck,
-      title: "Manejo Nutricional",
-      desc: "Planes dietéticos terapéuticos y seguimiento continuo de la salud digestiva.",
-      colorClass: "gastroenterologia"
+      icon: Heart,
+      title: "Cuidado Integral",
+      desc: "Atención personalizada considerando todos los aspectos de la salud y bienestar animal.",
+      colorClass: "medicinaGeneral"
     },
   ];
 
   const diseases = [
     {
-      title: "Enfermedad Inflamatoria Intestinal",
-      description: "Trastornos crónicos que afectan el tracto gastrointestinal con inflamación persistente y síntomas recurrentes.",
+      title: "Enfermedades Infecciosas",
+      description: "Diagnóstico y tratamiento de infecciones bacterianas, virales y parasitarias comunes en mascotas.",
+      icon: Shield,
+      colorClass: "medicinaGeneral"
+    },
+    {
+      title: "Problemas Digestivos", 
+      description: "Manejo de trastornos gastrointestinales, cambios alimentarios y problemas nutricionales.",
       icon: Activity,
-      colorClass: "gastroenterologia"
+      colorClass: "medicinaGeneral"
     },
     {
-      title: "Pancreatitis", 
-      description: "Inflamación del páncreas que puede ser aguda o crónica, requiriendo manejo especializado del dolor y dieta.",
-      icon: TestTube,
-      colorClass: "gastroenterologia"
+      title: "Enfermedades Respiratorias",
+      description: "Tratamiento de afecciones del sistema respiratorio, desde resfriados hasta patologías complejas.",
+      icon: Thermometer,
+      colorClass: "medicinaGeneral"
     },
     {
-      title: "Hepatopatías",
-      description: "Enfermedades hepáticas que afectan la función digestiva y requieren tratamiento integral.",
-      icon: ShieldCheck,
-      colorClass: "gastroenterologia"
-    },
-    {
-      title: "Obstrucción Intestinal",
-      description: "Bloqueo del tracto intestinal que requiere diagnóstico rápido y a menudo intervención quirúrgica urgente.",
-      icon: Heart,
-      colorClass: "gastroenterologia"
+      title: "Control de Salud Senior",
+      description: "Cuidados especializados para mascotas mayores, manejo de enfermedades geriátricas.",
+      icon: HeartHandshake,
+      colorClass: "medicinaGeneral"
     }
   ];
 
   const symptoms = [
-    "Vómitos frecuentes o persistentes",
-    "Diarrea crónica o sanguinolenta",
-    "Pérdida de apetito",
-    "Pérdida de peso progresiva",
-    "Distensión abdominal",
-    "Dolor abdominal",
-    "Cambios en las heces",
-    "Letargia y deshidratación"
+    "Cambios en el apetito",
+    "Letargo o falta de energía",
+    "Vómitos o diarrea",
+    "Tos o dificultad respiratoria",
+    "Cambios en los hábitos urinarios",
+    "Pérdida o ganancia de peso",
+    "Cambios de comportamiento",
+    "Fiebre o temperatura anormal"
   ];
 
-  const diagnosticMethods = [
-    "Endoscopía digestiva",
-    "Ultrasonografía abdominal",
-    "Análisis coprológicos",
-    "Biopsias intestinales",
-    "Estudios radiológicos contrastados"
+  const preventiveCare = [
+    "Vacunación según calendario",
+    "Desparasitación interna y externa",
+    "Control de peso y nutrición",
+    "Exámenes de salud regulares",
+    "Cuidado dental básico"
   ];
 
   return (
-    <div className={styles.gastroenterologiaContainer}>
+    <div className={styles.medicinaGeneralContainer}>
       {/* Decorative Background Elements */}
       <div className={styles.decorativeBg}>
         <div className={`${styles.bgDecoration} ${styles.bgDecoration1}`}>
@@ -106,14 +105,14 @@ const Gastroenterologia: React.FC = () => {
         </div>
       </div>
 
-      <div className={styles.gastroenterologiaContent}>
+      <div className={styles.medicinaGeneralContent}>
         {/* Header Section */}
-        <div className={`${styles.gastroenterologiaHeader} ${isVisible ? styles.visible : ''}`}>
+        <div className={`${styles.medicinaGeneralHeader} ${isVisible ? styles.visible : ''}`}>
           <div className={styles.headerTitleContainer}>
             <div className={styles.headerIconContainer}>
-              <FlaskConical className={styles.headerIcon} />
+              <Stethoscope className={styles.headerIcon} />
             </div>
-            <h1 className={styles.gastroenterologiaTitle}>Gastroenterología Veterinaria</h1>
+            <h1 className={styles.medicinaGeneralTitle}>Medicina General Veterinaria</h1>
             <div className={styles.headerIconContainer}>
               <Sparkles className={styles.headerIcon} />
             </div>
@@ -121,10 +120,10 @@ const Gastroenterologia: React.FC = () => {
           
           <div className={styles.titleDivider}></div>
           
-          <p className={styles.gastroenterologiaSubtitle}>
-            Especialistas en el <span className={styles.highlightText}>diagnóstico y tratamiento integral</span> de 
-            enfermedades del sistema digestivo, mejorando la salud gastrointestinal de tu mascota con 
-            tecnología avanzada y cuidado personalizado.
+          <p className={styles.medicinaGeneralSubtitle}>
+            Tu <span className={styles.highlightText}>primera línea de atención veterinaria</span>, 
+            brindando cuidado integral y medicina preventiva para mantener a tu mascota 
+            saludable en todas las etapas de su vida.
           </p>
         </div>
 
@@ -132,18 +131,18 @@ const Gastroenterologia: React.FC = () => {
         <div className={`${styles.introSection} ${isVisible ? styles.visible : ''}`}>
           <div className={styles.introCard}>
             <div className={styles.introIconContainer}>
-              <FlaskConical className={styles.introMainIcon} />
+              <HeartHandshake className={styles.introMainIcon} />
             </div>
             <div className={styles.introContent}>
-              <h3 className={styles.introTitle}>Especialistas en Gastroenterología Veterinaria</h3>
+              <h3 className={styles.introTitle}>Atención Integral y Personalizada</h3>
               <p className={styles.introDescription}>
-                La gastroenterología veterinaria se enfoca en el diagnóstico y tratamiento de enfermedades del 
-                sistema digestivo. Nuestro equipo utiliza tecnología de vanguardia para ofrecer soluciones 
-                efectivas y personalizadas para cada paciente.
+                Nuestro equipo de medicina general está comprometido con la salud y bienestar de tu mascota, 
+                ofreciendo desde consultas preventivas hasta el manejo de enfermedades comunes, 
+                siempre con un enfoque cálido y profesional.
               </p>
             </div>
             <div className={styles.introDecoration}>
-              <Sparkles className={styles.introDecorationIcon} />
+              <Heart className={styles.introDecorationIcon} />
             </div>
           </div>
         </div>
@@ -153,14 +152,17 @@ const Gastroenterologia: React.FC = () => {
           {teamFeatures.map((feature, index) => (
             <div key={index} className={`${styles.teamCard} ${styles[`teamCard-${index}`]}`}>
               <div className={styles.teamCardBg}></div>
+              
               <div className={styles.teamCardContent}>
                 <div className={styles.teamIconContainer}>
                   <feature.icon className={styles.teamMainIcon} />
                 </div>
+                
                 <h3 className={styles.teamTitle}>{feature.title}</h3>
                 <p className={styles.teamDescription}>{feature.desc}</p>
+                
                 <div className={styles.teamDecoration}>
-                  <PawPrint className={styles.teamDecorationIcon} />
+                  <Heart className={styles.teamDecorationIcon} />
                 </div>
               </div>
             </div>
@@ -171,14 +173,15 @@ const Gastroenterologia: React.FC = () => {
         <div className={`${styles.clinicalGrid} ${isVisible ? styles.visible : ''}`}>
           <div className={`${styles.clinicalCard} ${styles.symptomsCard}`}>
             <div className={styles.clinicalCardBg}></div>
+            
             <div className={styles.clinicalCardContent}>
               <div className={styles.clinicalHeader}>
                 <div className={styles.clinicalIconContainer}>
                   <Activity className={styles.clinicalMainIcon} />
                 </div>
-                <h3 className={styles.clinicalTitle}>Síntomas Gastrointestinales</h3>
+                <h3 className={styles.clinicalTitle}>Síntomas de Alerta</h3>
                 <p className={styles.clinicalDescription}>
-                  Señales que pueden indicar problemas digestivos en tu mascota
+                  Signos que indican que tu mascota necesita atención veterinaria
                 </p>
               </div>
               
@@ -191,34 +194,37 @@ const Gastroenterologia: React.FC = () => {
                 ))}
               </ul>
             </div>
+            
             <div className={styles.clinicalDecoration}>
-              <Heart className={styles.clinicalDecorationIcon} />
+              <Thermometer className={styles.clinicalDecorationIcon} />
             </div>
           </div>
 
-          <div className={`${styles.clinicalCard} ${styles.diagnosticCard}`}>
+          <div className={`${styles.clinicalCard} ${styles.preventiveCard}`}>
             <div className={styles.clinicalCardBg}></div>
+            
             <div className={styles.clinicalCardContent}>
               <div className={styles.clinicalHeader}>
                 <div className={styles.clinicalIconContainer}>
-                  <TestTube className={styles.clinicalMainIcon} />
+                  <Shield className={styles.clinicalMainIcon} />
                 </div>
-                <h3 className={styles.clinicalTitle}>Métodos Diagnósticos</h3>
+                <h3 className={styles.clinicalTitle}>Cuidados Preventivos</h3>
                 <p className={styles.clinicalDescription}>
-                  Técnicas avanzadas para el diagnóstico preciso de enfermedades digestivas
+                  Medidas esenciales para mantener la salud de tu mascota
                 </p>
               </div>
               
-              <ul className={styles.diagnosticList}>
-                {diagnosticMethods.map((method, index) => (
-                  <li key={index} className={styles.diagnosticItem}>
-                    <h4 className={styles.diagnosticTitle}>{method}</h4>
+              <ul className={styles.preventiveList}>
+                {preventiveCare.map((care, index) => (
+                  <li key={index} className={styles.preventiveItem}>
+                    <h4 className={styles.preventiveTitle}>{care}</h4>
                   </li>
                 ))}
               </ul>
             </div>
+            
             <div className={styles.clinicalDecoration}>
-              <Pill className={styles.clinicalDecorationIcon} />
+              <Shield className={styles.clinicalDecorationIcon} />
             </div>
           </div>
         </div>
@@ -228,14 +234,17 @@ const Gastroenterologia: React.FC = () => {
           {diseases.map((disease, index) => (
             <div key={index} className={`${styles.diseaseCard} ${styles[`diseaseCard-${index}`]}`}>
               <div className={styles.diseaseCardBg}></div>
+              
               <div className={styles.diseaseCardContent}>
                 <div className={styles.diseaseIconContainer}>
                   <disease.icon className={styles.diseaseMainIcon} />
                 </div>
+                
                 <h3 className={styles.diseaseTitle}>{disease.title}</h3>
                 <p className={styles.diseaseDescription}>{disease.description}</p>
+                
                 <div className={styles.diseaseDecoration}>
-                  <Sparkles className={styles.diseaseDecorationIcon} />
+                  <Heart className={styles.diseaseDecorationIcon} />
                 </div>
               </div>
             </div>
@@ -245,10 +254,12 @@ const Gastroenterologia: React.FC = () => {
         {/* Call to Action Section */}
         <div className={`${styles.ctaSection} ${isVisible ? styles.visible : ''}`}>
           <div className={styles.ctaContent}>
-            <h2 className={styles.ctaTitle}>¿Tu mascota tiene problemas digestivos?</h2>
+            <h3 className={styles.ctaTitle}>
+              ¿Tu mascota necesita una revisión general?
+            </h3>
             <p className={styles.ctaDescription}>
-              No esperes más. Nuestros especialistas en gastroenterología veterinaria pueden ayudar a 
-              diagnosticar y tratar los trastornos digestivos de tu mascota con precisión y cuidado.
+              La medicina preventiva es la clave para una vida larga y saludable. 
+              Agenda una consulta con nuestros veterinarios generalistas para un chequeo integral.
             </p>
           </div>
    
@@ -258,25 +269,35 @@ const Gastroenterologia: React.FC = () => {
               className={`${styles.ctaButton} ${styles.ctaPrimary}`}
             >
               <Calendar className={styles.ctaButtonIcon} />
-              Agendar Consulta Digestiva
-              <ArrowRight className={styles.ctaButtonIcon} />
+              Agendar Consulta
             </button>
 
             <button 
-              onClick={() => navigate("/videoconsulta")}
+              onClick={() => navigate("/videoConsulta")}
               className={`${styles.ctaButton} ${styles.ctaSecondary}`}
             >
-              <Clock className={styles.ctaButtonIcon} />
-              Consulta de Urgencia
+              <Video className={styles.ctaButtonIcon} />
+              Video Consulta
             </button> 
           </div> 
+        </div>
+
+        {/* Navigation */}
+        <div className={styles.navigationSection}>
+          <button 
+            onClick={() => navigate("/especialidadespage")}
+            className={styles.backButton}
+          >
+            <ArrowLeft className={styles.backButtonIcon} />
+            Volver a Especialidades
+          </button>
         </div>
 
         {/* Additional Info */}
         <div className={styles.footerInfo}>
           <p>
-            Nuestros especialistas en gastroenterología cuentan con certificaciones internacionales y experiencia 
-            en medicina digestiva avanzada para brindar el mejor cuidado a tu mascota
+            Nuestro equipo de medicina general cuenta con amplia experiencia en el cuidado integral 
+            de mascotas de todas las edades, desde cachorros hasta animales senior
           </p>
         </div>
       </div>
@@ -284,4 +305,4 @@ const Gastroenterologia: React.FC = () => {
   );
 };
 
-export default Gastroenterologia;
+export default MedicinaGeneral;
