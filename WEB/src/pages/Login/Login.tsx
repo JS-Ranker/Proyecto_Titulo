@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { FaArrowLeft, FaIdCard, FaLock, FaPaw, FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaArrowLeft, FaIdCard, FaLock, FaPaw, FaCheckCircle, FaEye, FaEyeSlash, FaUserMd, FaUser } from "react-icons/fa";
 import { useAuth } from "../../utils/AuthContext";
 import styles from "./Login.module.css";
 import { apiService } from "../../services/duenos";
@@ -171,6 +171,28 @@ const Login = () => {
               <FaArrowLeft /> <span>   </span>
             </Link>
             <h2 className={styles.formTitle}>Iniciar Sesión</h2>
+          </div>
+
+          {/* Selector de tipo de usuario */}
+          <div className={styles.userTypeSelector}>
+            <p className={styles.selectorLabel}>Selecciona tu tipo de acceso:</p>
+            <div className={styles.userTypeButtons}>
+              <button
+                type="button"
+                className={`${styles.userTypeButton} ${styles.duenoButton}`}
+                onClick={() => window.location.href = '/login'}
+              >
+                <FaUser className={styles.userTypeIcon} />
+                <span>Soy Dueño</span>
+              </button>
+              <Link 
+                to="/login/veterinario"
+                className={`${styles.userTypeButton} ${styles.veterinarioButton}`}
+              >
+                <FaUserMd className={styles.userTypeIcon} />
+                <span>Soy Veterinario</span>
+              </Link>
+            </div>
           </div>
           
           <form id="loginForm" className={styles.loginForm} onSubmit={handleLogin}>

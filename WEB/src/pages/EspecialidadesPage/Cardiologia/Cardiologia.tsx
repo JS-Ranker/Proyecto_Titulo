@@ -55,7 +55,7 @@ const Cardiologia: React.FC = () => {
       icon: Heart,
       colorClass: "cardiologia"
     },
-    {
+    { 
       title: "Cardiomiopatía Dilatada",
       description: "Dilatación del corazón que reduce su capacidad de contracción, común en razas grandes y gigantes.",
       icon: Activity,
