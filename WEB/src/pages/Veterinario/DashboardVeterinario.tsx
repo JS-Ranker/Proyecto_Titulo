@@ -168,7 +168,12 @@ const DashboardVeterinario = () => {
               <FaPrescriptionBottle className={styles.actionIcon} />
               <h3>Historial Médico</h3>
               <p>Consultar historiales de pacientes</p>
-              <button className={styles.actionButton}>Ver Historiales</button>
+              <button 
+                className={styles.actionButton}
+                onClick={() => navigate('/veterinario/historial')}
+              >
+                Ver Historiales
+              </button>
             </div>
             <div className={styles.actionCard}>
               <FaUserMd className={styles.actionIcon} />

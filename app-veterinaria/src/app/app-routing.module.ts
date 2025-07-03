@@ -70,7 +70,11 @@ const routes: Routes = [
   {
     path: 'videollamada',
     loadChildren: () => import('./pages/videollamada/videollamada.module').then( m => m.VideollamadaPageModule)
+  },  {
+    path: 'historial-clinico-veterinario',
+    loadChildren: () => import('./pages/historial-clinico-veterinario/historial-clinico-veterinario.module').then( m => m.HistorialClinicoVeterinarioPageModule)
   }
+
 ];
 
 @NgModule({
