@@ -11,7 +11,8 @@ import {
   FaUser, 
   FaPhone,
   FaFilter,
-  FaSearch
+  FaSearch,
+  FaFileAlt
 } from 'react-icons/fa';
 import { citasVeterinarioService, CitaVeterinario, EstadisticasVeterinario } from '../../services/citasVeterinario';
 import styles from './CitasVeterinario.module.css';
@@ -156,12 +157,37 @@ const CitasVeterinario = () => {
 
     try {
       await citasVeterinarioService.completarCita(citaSeleccionada.id, notasAtencion);
-      await cargarDatos();
-      cerrarModal();
+      
+      // Redirigir al formulario de historial clínico con los datos de la cita
+      navigate(`/veterinario/historial/nuevo/${citaSeleccionada.mascota_id}`, {
+        state: {
+          citaInfo: {
+            fecha: citaSeleccionada.fecha_hora,
+            tipo: 'consulta',
+            descripcionInicial: notasAtencion,
+            mascotaNombre: citaSeleccionada.nombre_mascota
+          }
+        }
+      });
     } catch (err) {
       setError('Error al completar la cita');
       console.error('Error:', err);
     }
+  };
+
+  const irAHistorialClinico = () => {
+    if (!citaSeleccionada) return;
+    
+    navigate(`/veterinario/historial/nuevo/${citaSeleccionada.mascota_id}`, {
+      state: {
+        citaInfo: {
+          fecha: citaSeleccionada.fecha_hora,
+          tipo: 'consulta',
+          descripcionInicial: notasAtencion,
+          mascotaNombre: citaSeleccionada.nombre_mascota
+        }
+      }
+    });
   };
 
   const actualizarEstadoCita = async (citaId: number, nuevoEstado: 'cancelada') => {
@@ -496,11 +522,26 @@ const CitasVeterinario = () => {
                   rows={4}
                 />
               </div>
+              
+              <div className={styles.infoAyuda}>
+                <p><strong>💡 Opciones disponibles:</strong></p>
+                <ul>
+                  <li><strong>Historial Médico:</strong> Crear registro médico detallado con las notas</li>
+                  <li><strong>Completar Cita:</strong> Marcar como completada y crear registro médico</li>
+                </ul>
+              </div>
             </div>
 
             <div className={styles.modalFooter}>
               <button className={styles.botonCancelarModal} onClick={cerrarModal}>
                 Cancelar
+              </button>
+              <button 
+                className={styles.botonHistorialModal} 
+                onClick={irAHistorialClinico}
+                title="Agregar al historial clínico"
+              >
+                <FaFileAlt /> Historial Médico
               </button>
               {citaSeleccionada.estado === 'pendiente' && (
                 <button className={styles.botonCompletarModal} onClick={completarCita}>

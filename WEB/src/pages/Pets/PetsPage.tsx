@@ -128,6 +128,15 @@ const PetsPage: React.FC = () => {
                     )}
                   </div>
                 </div>
+                <div className={styles.petActions}>
+                  <button
+                    onClick={() => navigate(`/pets/historial/${pet.id_mascota}`)}
+                    className={`${styles.animatedButton} ${styles.historialButton}`}
+                  >
+                    <span className={styles.icon}>📋</span>
+                    Ver Historial Médico
+                  </button>
+                </div>
               </div>
             ))}
           </div>

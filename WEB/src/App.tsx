@@ -22,8 +22,12 @@ import Dermatologia from "./pages/EspecialidadesPage/Dermatologia/Dermatologia";
 import Oftalmologia from "./pages/EspecialidadesPage/Oftalmologia/Oftalmologia";
 import MedicinaGeneral from "./pages/EspecialidadesPage/MedicinaGeneral/MedicinaGeneral";
 import PetsPage from "./pages/Pets/PetsPage";
+import HistorialMascotaDueno from "./pages/Pets/HistorialMascotaDueno";
 import DashboardVeterinario from "./pages/Veterinario/DashboardVeterinario";
 import CitasVeterinario from "./pages/Veterinario/CitasVeterinario";
+import HistorialVeterinario from "./pages/Veterinario/HistorialVeterinario";
+import DetalleHistorial from "./pages/Veterinario/DetalleHistorial";
+import FormularioHistorial from "./pages/Veterinario/FormularioHistorial";
 import "./App.css";
 import 'animate.css';
 import { AuthProvider, useAuth } from "./utils/AuthContext";
@@ -109,6 +113,32 @@ const AppContent = () => {
           <ProtectedVeterinarioRoute>
             <CitasVeterinario />
           </ProtectedVeterinarioRoute>
+        } />
+        <Route path="/veterinario/historial" element={
+          <ProtectedVeterinarioRoute>
+            <HistorialVeterinario />
+          </ProtectedVeterinarioRoute>
+        } />
+        <Route path="/veterinario/historial/mascota/:mascota_id" element={
+          <ProtectedVeterinarioRoute>
+            <DetalleHistorial />
+          </ProtectedVeterinarioRoute>
+        } />
+        <Route path="/veterinario/historial/nuevo/:mascota_id" element={
+          <ProtectedVeterinarioRoute>
+            <FormularioHistorial />
+          </ProtectedVeterinarioRoute>
+        } />
+        <Route path="/veterinario/historial/editar/:registro_id" element={
+          <ProtectedVeterinarioRoute>
+            <FormularioHistorial />
+          </ProtectedVeterinarioRoute>
+        } />
+        <Route path="/pets" element={<ProtectedRoute><PetsPage /></ProtectedRoute>} />
+        <Route path="/pets/historial/:mascota_id" element={
+          <ProtectedRoute>
+            <HistorialMascotaDueno />
+          </ProtectedRoute>
         } />
         <Route path="/especialidadespage" element={<EspecialidadesPage />} />
         <Route path="/cardiologia" element={<Cardiologia />} />
