@@ -168,6 +168,44 @@ const Mascota = {
     const sql = `UPDATE mascotas SET estado_activo = 1 WHERE id_mascota = ?`;
     db.query(sql, [id_mascota], callback);
   },
+
+  // Obtener datos completos de mascota para historial médico
+  obtenerDatosCompletos: (id, callback) => {
+    const sql = `
+      SELECT 
+        m.id_mascota,
+        m.nombre_mascota,
+        m.id_especie,
+        e.nombre as nombre_especie,
+        m.id_raza,
+        r.nombre as nombre_raza,
+        m.fecha_nac_mascota,
+        m.peso_kg,
+        m.sexo_mascota,
+        m.esta_esterilizado,
+        m.color_mascota,
+        m.codigo_microchip,
+        m.url_imagen_mascota,
+        m.id_dueno,
+        m.fecha_registro_mascota,
+        m.estado_activo,
+        d.rut,
+        d.nombre as dueno_nombre,
+        d.apellido as dueno_apellido,
+        d.email as dueno_email,
+        d.telefono as dueno_telefono
+      FROM mascotas m
+      LEFT JOIN duenos d ON m.id_dueno = d.rut
+      LEFT JOIN especies e ON m.id_especie = e.id
+      LEFT JOIN razas r ON m.id_raza = r.id
+      WHERE m.id_mascota = ?
+    `;
+    db.query(sql, [id], (err, result) => {
+      if (err) return callback(err, null);
+      if (result.length === 0) return callback(null, null);
+      return callback(null, result[0]);
+    });
+  },
 };
 
 export default Mascota;

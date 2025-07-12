@@ -30,14 +30,55 @@ const Veterinario = {
     db.query(sql, callback);
   },
 
-  // Obtener veterinario por ID
-  obtenerPorId: (id, callback) => {
+  // Obtener veterinario por ID con información de especialidad
+  obtenerPerfilCompleto: (id, callback) => {
     const sql = `
-      SELECT id, nombre, email, telefono, especialidad_id, numero_licencia, fecha_registro, activo
-      FROM veterinarios
-      WHERE id = ?
+      SELECT 
+        v.id, 
+        v.nombre, 
+        v.email, 
+        v.telefono, 
+        v.password,
+        v.especialidad_id, 
+        v.numero_licencia, 
+        v.fecha_registro, 
+        v.activo,
+        e.nombre as nombre_especialidad,
+        e.descripcion as descripcion_especialidad
+      FROM veterinarios v
+      LEFT JOIN especialidades e ON v.especialidad_id = e.id
+      WHERE v.id = ?
     `;
     db.query(sql, [id], callback);
+  },
+
+  // Actualizar perfil de veterinario (solo campos editables)
+  actualizarPerfil: (id, veterinarioData, callback) => {
+    const sql = `
+      UPDATE veterinarios
+      SET email = ?, telefono = ?
+      WHERE id = ?
+    `;
+    const { email, telefono } = veterinarioData;
+    db.query(sql, [email, telefono, id], callback);
+  },
+
+  // Actualizar contraseña de veterinario
+  actualizarPassword: (id, hashedPassword, callback) => {
+    const sql = `
+      UPDATE veterinarios
+      SET password = ?
+      WHERE id = ?
+    `;
+    db.query(sql, [hashedPassword, id], callback);
+  },
+
+  // Verificar si el email existe (excluyendo el veterinario actual)
+  verificarEmailExistente: (email, veterinarioId, callback) => {
+    const sql = `
+      SELECT id FROM veterinarios WHERE email = ? AND id != ?
+    `;
+    db.query(sql, [email, veterinarioId], callback);
   },
 
   // Crear nuevo veterinario

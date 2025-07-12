@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../utils/AuthContext';
-import { FaArrowLeft, FaCalendarAlt, FaStethoscope, FaFileAlt, FaPlus, FaEdit, FaTrash, FaDownload } from 'react-icons/fa';
+import { FaArrowLeft, FaCalendarAlt, FaStethoscope, FaFileAlt, FaPlus, FaEdit, FaTrash, FaDownload, FaPaw, FaUser, FaPhone, FaEnvelope, FaVenusMars, FaWeight, FaBirthdayCake, FaPalette, FaMicrochip, FaCut } from 'react-icons/fa';
 import { historialClinicoService, RegistroHistorial } from '../../services/historialClinico';
-import { mascotasService } from '../../services/mascotas';
+import { mascotasService, MascotaData } from '../../services/mascotas';
 import styles from './DetalleHistorial.module.css';
 
 interface Mascota {
   id_mascota: number;
   nombre_mascota: string;
+  nombre_especie?: string;
+  nombre_raza?: string;
+  fecha_nac_mascota?: string | null;
+  peso_kg?: number | null;
+  sexo_mascota?: string;
+  esta_esterilizado?: boolean | number;
+  color_mascota?: string | null;
+  codigo_microchip?: string | null;
   url_imagen_mascota?: string;
+  rut?: string;
   dueno_nombre: string;
   dueno_apellido: string;
+  dueno_email?: string;
+  dueno_telefono?: string;
 }
 
 const DetalleHistorial: React.FC = () => {
@@ -40,22 +51,14 @@ const DetalleHistorial: React.FC = () => {
     try {
       setLoading(true);
       
-      // Cargar historial y datos de la mascota
+      // Cargar historial y datos completos de la mascota
       const [historialResponse, mascotaResponse] = await Promise.all([
         historialClinicoService.obtenerHistorialPorMascota(Number(mascota_id)),
-        mascotasService.obtenerMascotaPorId(Number(mascota_id))
+        mascotasService.obtenerDatosCompletos(Number(mascota_id))
       ]);
 
       setHistorial(historialResponse.data);
-      // Adaptamos los datos de la mascota al formato esperado
-      const mascotaData = mascotaResponse.data;
-      setMascota({
-        id_mascota: mascotaData.id_mascota,
-        nombre_mascota: mascotaData.nombre_mascota,
-        url_imagen_mascota: mascotaData.url_imagen_mascota,
-        dueno_nombre: mascotaData.dueno_nombre || '',
-        dueno_apellido: mascotaData.dueno_apellido || ''
-      });
+      setMascota(mascotaResponse.data);
     } catch (error) {
       console.error('Error al cargar datos:', error);
     } finally {
@@ -83,6 +86,34 @@ const DetalleHistorial: React.FC = () => {
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  const formatearFechaNacimiento = (fecha: string | null) => {
+    if (!fecha) return 'No especificada';
+    return new Date(fecha).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const calcularEdad = (fechaNacimiento: string | null) => {
+    if (!fechaNacimiento) return 'Desconocida';
+    const hoy = new Date();
+    const nacimiento = new Date(fechaNacimiento);
+    const edadEnMeses = (hoy.getFullYear() - nacimiento.getFullYear()) * 12 + (hoy.getMonth() - nacimiento.getMonth());
+    
+    if (edadEnMeses < 12) {
+      return `${edadEnMeses} ${edadEnMeses === 1 ? 'mes' : 'meses'}`;
+    } else {
+      const años = Math.floor(edadEnMeses / 12);
+      const mesesRestantes = edadEnMeses % 12;
+      if (mesesRestantes === 0) {
+        return `${años} ${años === 1 ? 'año' : 'años'}`;
+      } else {
+        return `${años} ${años === 1 ? 'año' : 'años'} y ${mesesRestantes} ${mesesRestantes === 1 ? 'mes' : 'meses'}`;
+      }
+    }
   };
 
   const getTipoIcon = (tipo: string) => {
@@ -158,6 +189,86 @@ const DetalleHistorial: React.FC = () => {
           <FaPlus /> Nuevo Registro
         </button>
       </div>
+
+      {/* Información Detallada de la Mascota */}
+      {mascota && (
+        <div className={styles.mascotaDetailsSection}>
+          <div className={styles.detailsGrid}>
+            <div className={styles.detailsColumn}>
+              <h3><FaPaw /> Información de la Mascota</h3>
+              <div className={styles.detailItem}>
+                <FaPaw />
+                <span className={styles.detailLabel}>Especie:</span>
+                <span>{mascota.nombre_especie || 'No especificada'}</span>
+              </div>
+              <div className={styles.detailItem}>
+                <FaPaw />
+                <span className={styles.detailLabel}>Raza:</span>
+                <span>{mascota.nombre_raza || 'No especificada'}</span>
+              </div>
+              <div className={styles.detailItem}>
+                <FaBirthdayCake />
+                <span className={styles.detailLabel}>Fecha de Nacimiento:</span>
+                <span>{formatearFechaNacimiento(mascota.fecha_nac_mascota || null)}</span>
+              </div>
+              <div className={styles.detailItem}>
+                <FaCalendarAlt />
+                <span className={styles.detailLabel}>Edad:</span>
+                <span>{calcularEdad(mascota.fecha_nac_mascota || null)}</span>
+              </div>
+              <div className={styles.detailItem}>
+                <FaVenusMars />
+                <span className={styles.detailLabel}>Sexo:</span>
+                <span>{mascota.sexo_mascota || 'No especificado'}</span>
+              </div>
+              <div className={styles.detailItem}>
+                <FaWeight />
+                <span className={styles.detailLabel}>Peso:</span>
+                <span>{mascota.peso_kg ? `${mascota.peso_kg} kg` : 'No especificado'}</span>
+              </div>
+              <div className={styles.detailItem}>
+                <FaCut />
+                <span className={styles.detailLabel}>Esterilizado:</span>
+                <span>{mascota.esta_esterilizado ? 'Sí' : 'No'}</span>
+              </div>
+              <div className={styles.detailItem}>
+                <FaPalette />
+                <span className={styles.detailLabel}>Color:</span>
+                <span>{mascota.color_mascota || 'No especificado'}</span>
+              </div>
+              <div className={styles.detailItem}>
+                <FaMicrochip />
+                <span className={styles.detailLabel}>Microchip:</span>
+                <span>{mascota.codigo_microchip || 'No registrado'}</span>
+              </div>
+            </div>
+            
+            <div className={styles.detailsColumn}>
+              <h3><FaUser /> Información del Dueño</h3>
+              <div className={styles.detailItem}>
+                <FaUser />
+                <span className={styles.detailLabel}>RUT:</span>
+                <span>{mascota.rut}</span>
+              </div>
+              <div className={styles.detailItem}>
+                <FaUser />
+                <span className={styles.detailLabel}>Nombre:</span>
+                <span>{mascota.dueno_nombre} {mascota.dueno_apellido}</span>
+              </div>
+              <div className={styles.detailItem}>
+                <FaEnvelope />
+                <span className={styles.detailLabel}>Email:</span>
+                <span>{mascota.dueno_email || 'No registrado'}</span>
+              </div>
+              <div className={styles.detailItem}>
+                <FaPhone />
+                <span className={styles.detailLabel}>Teléfono:</span>
+                <span>{mascota.dueno_telefono || 'No registrado'}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Content */}
       <div className={styles.content}>

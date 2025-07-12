@@ -129,6 +129,87 @@ export const actualizarVeterinario = (req, res) => {
   });
 };
 
+// Obtener perfil completo del veterinario
+export const obtenerPerfilCompleto = (req, res) => {
+  const { id } = req.params;
+  Veterinario.obtenerPerfilCompleto(id, (err, veterinario) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener perfil del veterinario', detalle: err });
+    if (veterinario.length === 0) {
+      return res.status(404).json({ error: 'Veterinario no encontrado' });
+    }
+    res.json(veterinario[0]);
+  });
+};
+
+// Actualizar perfil del veterinario (solo campos editables)
+export const actualizarPerfil = (req, res) => {
+  const { id } = req.params;
+  const { email, telefono } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: 'El email es requerido' });
+  }
+
+  // Verificar si el nuevo email ya existe (excluyendo el veterinario actual)
+  Veterinario.verificarEmailExistente(email, id, (err, results) => {
+    if (err) return res.status(500).json({ error: 'Error al verificar email', detalle: err });
+    
+    if (results.length > 0) {
+      return res.status(409).json({ error: 'El email ya está registrado por otro veterinario' });
+    }
+
+    const veterinarioData = { email, telefono };
+
+    Veterinario.actualizarPerfil(id, veterinarioData, (err, result) => {
+      if (err) return res.status(500).json({ error: 'Error al actualizar perfil', detalle: err });
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Veterinario no encontrado' });
+      }
+      res.json({ message: 'Perfil actualizado exitosamente' });
+    });
+  });
+};
+
+// Actualizar contraseña del veterinario
+export const actualizarPassword = async (req, res) => {
+  const { id } = req.params;
+  const { passwordActual, nuevaPassword } = req.body;
+
+  if (!passwordActual || !nuevaPassword) {
+    return res.status(400).json({ error: 'Contraseña actual y nueva contraseña son requeridas' });
+  }
+
+  // Buscar el veterinario para verificar la contraseña actual
+  Veterinario.obtenerPerfilCompleto(id, async (err, veterinarioResults) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener veterinario', detalle: err });
+    if (veterinarioResults.length === 0) {
+      return res.status(404).json({ error: 'Veterinario no encontrado' });
+    }
+
+    const veterinario = veterinarioResults[0];
+
+    try {
+      // Verificar contraseña actual (asumiendo que no están hasheadas)
+      if (passwordActual !== veterinario.password) {
+        return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+      }
+
+      // En producción, deberías hashear la nueva contraseña
+      // const hashedPassword = await bcrypt.hash(nuevaPassword, 10);
+      
+      Veterinario.actualizarPassword(id, nuevaPassword, (err, result) => {
+        if (err) return res.status(500).json({ error: 'Error al actualizar contraseña', detalle: err });
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ error: 'Veterinario no encontrado' });
+        }
+        res.json({ message: 'Contraseña actualizada exitosamente' });
+      });
+    } catch (error) {
+      res.status(500).json({ error: 'Error al verificar contraseña', detalle: error });
+    }
+  });
+};
+
 // Eliminar (desactivar) veterinario
 export const eliminarVeterinario = (req, res) => {
   const { id } = req.params;

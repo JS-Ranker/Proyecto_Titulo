@@ -9,7 +9,8 @@ import {
   buscarMascotaPorId,
   buscarMascotasPorDueno,
   desactivarMascotasPorDueno,
-  activarMascotasPorDueno
+  activarMascotasPorDueno,
+  obtenerDatosCompletos
 } from '../controllers/mascotas.controller.js';
 
 const router = express.Router();
@@ -32,6 +33,7 @@ router.post('/', upload.single('imagen'), crearMascota); // Crear nueva mascota 
 router.put('/:id', actualizarMascota); // Actualizar mascota por id
 router.patch('/desactivar/:id', desactivarMascota); // Desactivar mascota (estado_activo=0)
 router.patch('/activar/:id', activarMascota); // Activar mascota (estado_activo=1)
+router.get('/completos/:id', obtenerDatosCompletos); // Obtener datos completos de mascota con dueño
 router.get('/:id', buscarMascotaPorId); // Buscar mascota por id
 router.get('/dueno/:id_dueno', buscarMascotasPorDueno); // Buscar mascotas activas por id_dueno
 router.patch('/desactivar/dueno/:id_dueno', desactivarMascotasPorDueno); // Desactivar mascotas por id de dueño

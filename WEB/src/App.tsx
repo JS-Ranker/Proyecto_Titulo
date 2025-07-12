@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import Header from "./components/common/Header/Header";
 import Footer from "./components/common/Footer/Footer";
@@ -28,6 +29,7 @@ import CitasVeterinario from "./pages/Veterinario/CitasVeterinario";
 import HistorialVeterinario from "./pages/Veterinario/HistorialVeterinario";
 import DetalleHistorial from "./pages/Veterinario/DetalleHistorial";
 import FormularioHistorial from "./pages/Veterinario/FormularioHistorial";
+import EditarPerfil from "./pages/Veterinario/EditarPerfil";
 import "./App.css";
 import 'animate.css';
 import { AuthProvider, useAuth } from "./utils/AuthContext";
@@ -92,12 +94,16 @@ const ProtectedVeterinarioRoute = ({ children }: { children: JSX.Element }) => {
 // Componente interno que usa el contexto
 const AppContent = () => {
   const { isVeterinario } = useAuth();
+  const location = useLocation();
+  
+  // Rutas donde no se debe mostrar el navbar
+  const hideNavbarRoutes = ['/login', '/login/veterinario'];
+  const shouldShowNavbar = !isVeterinario() && !hideNavbarRoutes.includes(location.pathname);
   
   return (
-    <Router>
+    <>
       <Header />
-      {/* Solo mostrar Navbar si no es veterinario */}
-      {!isVeterinario() && <Navbar />}
+      {shouldShowNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<HomeRedirect />} />
         <Route path="/login" element={<Login />} />
@@ -134,6 +140,11 @@ const AppContent = () => {
             <FormularioHistorial />
           </ProtectedVeterinarioRoute>
         } />
+        <Route path="/veterinario/perfil" element={
+          <ProtectedVeterinarioRoute>
+            <EditarPerfil />
+          </ProtectedVeterinarioRoute>
+        } />
         <Route path="/pets" element={<ProtectedRoute><PetsPage /></ProtectedRoute>} />
         <Route path="/pets/historial/:mascota_id" element={
           <ProtectedRoute>
@@ -165,14 +176,16 @@ const AppContent = () => {
         <Route path="/medicina-general" element={<MedicinaGeneral />} />
       </Routes>
       <Footer />
-    </Router>
+    </>
   );
 };
 
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <Router>
+        <AppContent />
+      </Router>
     </AuthProvider>
   );
 }

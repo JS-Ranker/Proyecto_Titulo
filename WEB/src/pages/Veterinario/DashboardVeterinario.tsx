@@ -1,7 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../utils/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { FaUserMd, FaCalendarAlt, FaPrescriptionBottle, FaSignOutAlt, FaIdCard, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { 
+  FaUserMd, 
+  FaCalendarAlt, 
+  FaSignOutAlt, 
+  FaIdCard, 
+  FaPhone, 
+  FaEnvelope,
+  FaHistory,
+  FaClock,
+  FaCheckCircle,
+  FaHourglassHalf
+} from 'react-icons/fa';
 import { citasVeterinarioService, EstadisticasVeterinario } from '../../services/citasVeterinario';
 import styles from './DashboardVeterinario.module.css';
 
@@ -156,7 +167,7 @@ const DashboardVeterinario = () => {
             <div className={styles.actionCard}>
               <FaCalendarAlt className={styles.actionIcon} />
               <h3>Citas del Día</h3>
-              <p>Ver y gestionar citas programadas</p>
+              <p>Ver y gestionar citas programadas para el día de hoy</p>
               <button 
                 className={styles.actionButton}
                 onClick={() => navigate('/veterinario/citas')}
@@ -165,9 +176,9 @@ const DashboardVeterinario = () => {
               </button>
             </div>
             <div className={styles.actionCard}>
-              <FaPrescriptionBottle className={styles.actionIcon} />
+              <FaHistory className={styles.actionIcon} />
               <h3>Historial Médico</h3>
-              <p>Consultar historiales de pacientes</p>
+              <p>Consultar y actualizar historiales clínicos de pacientes</p>
               <button 
                 className={styles.actionButton}
                 onClick={() => navigate('/veterinario/historial')}
@@ -178,33 +189,59 @@ const DashboardVeterinario = () => {
             <div className={styles.actionCard}>
               <FaUserMd className={styles.actionIcon} />
               <h3>Mi Perfil</h3>
-              <p>Actualizar información profesional</p>
-              <button className={styles.actionButton}>Editar Perfil</button>
+              <p>Actualizar información profesional y preferencias</p>
+              <button 
+                className={styles.actionButton}
+                onClick={() => navigate('/veterinario/perfil')}
+              >
+                Editar Perfil
+              </button>
             </div>
           </div>
         </div>
 
         {/* Statistics */}
         <div className={styles.statsSection}>
-          <h2>Estadísticas</h2>
+          <h2>Estadísticas del Día</h2>
           {loading ? (
-            <div className={styles.statsLoading}>Cargando estadísticas...</div>
+            <div className={styles.statsLoading}>
+              <div className={styles.spinner}></div>
+              <p>Cargando estadísticas...</p>
+            </div>
           ) : (
             <div className={styles.statsGrid}>
               <div className={styles.statCard}>
+                <FaClock className={styles.statIcon} />
                 <div className={styles.statNumber}>{estadisticas?.citas_hoy || 0}</div>
                 <div className={styles.statLabel}>Citas Hoy</div>
               </div>
               <div className={styles.statCard}>
+                <FaHourglassHalf className={styles.statIcon} />
                 <div className={styles.statNumber}>{estadisticas?.citas_pendientes || 0}</div>
-                <div className={styles.statLabel}>Citas Pendientes</div>
+                <div className={styles.statLabel}>Pendientes</div>
               </div>
               <div className={styles.statCard}>
+                <FaCheckCircle className={styles.statIcon} />
                 <div className={styles.statNumber}>{estadisticas?.citas_completadas || 0}</div>
-                <div className={styles.statLabel}>Citas Completadas</div>
+                <div className={styles.statLabel}>Completadas</div>
               </div>
             </div>
           )}
+        </div>
+
+        {/* Welcome Message */}
+        <div className={styles.welcomeMessage}>
+          <div className={styles.welcomeContent}>
+            <h2>¡Que tengas un excelente día profesional!</h2>
+            <p>
+              Como veterinario, cada día tienes la oportunidad de hacer la diferencia en la vida de las mascotas y sus familias. 
+              Tu dedicación y cuidado son fundamentales para el bienestar animal.
+            </p>
+            <div className={styles.dailyTip}>
+              <strong>💡 Consejo del día:</strong> 
+              <span>Recuerda mantener un ambiente tranquilo y cálido para reducir el estrés de los pacientes durante las consultas.</span>
+            </div>
+          </div>
         </div>
       </main>
     </div>

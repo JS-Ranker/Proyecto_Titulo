@@ -1,6 +1,20 @@
+/* Variables de color según la paleta especificada */
+:root {
+  --primary: #2FB8C6; /* Azul turquesa suave */
+  --primary-light: rgba(47, 184, 198, 0.1);
+  --primary-dark: #25959f;
+  --secondary: #A9E5BB; /* Verde menta claro */
+  --accent: #FF8C70; /* Naranja coral suave */
+  --background: #FAFAF9; /* Blanco cálido */
+  --text-primary: #333333; /* Gris oscuro */
+  --text-secondary: #666666; /* Gris medio */
+  --error: #ff6b6b;
+  --success: #4CAF50;
+}
+
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   padding: 20px;
 }
 
@@ -108,6 +122,64 @@
 
 .content {
   margin-top: 20px;
+}
+
+/* Sección de información detallada de la mascota */
+.mascotaDetailsSection {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 30px;
+  color: white;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.detailsColumn h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 10px;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detailItem:last-child {
+  border-bottom: none;
+}
+
+.detailItem svg {
+  color: var(--primary);
+  font-size: 1.1rem;
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.detailLabel {
+  min-width: 140px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.detailItem span:last-child {
+  color: white;
+  font-weight: 500;
 }
 
 .loading {
@@ -221,7 +293,7 @@
 }
 
 .veterinario {
-  color: #667eea;
+  color: var(--primary);
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -244,7 +316,7 @@
 }
 
 .editButton {
-  background: #667eea;
+  background: var(--primary);
   color: white;
 }
 
@@ -276,7 +348,7 @@
 }
 
 .descripcion svg {
-  color: #667eea;
+  color: var(--primary);
   margin-top: 2px;
   flex-shrink: 0;
 }
@@ -375,6 +447,27 @@
   .mascotaInfo {
     flex-direction: column;
     text-align: center;
+  }
+  
+  .mascotaDetailsSection {
+    padding: 20px 15px;
+  }
+  
+  .detailsGrid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .detailItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    text-align: left;
+  }
+  
+  .detailLabel {
+    min-width: auto;
+    margin-bottom: 4px;
   }
   
   .timeline {

@@ -12,7 +12,8 @@ import {
   FaPhone,
   FaFilter,
   FaSearch,
-  FaFileAlt
+  FaFileAlt,
+  FaArrowLeft
 } from 'react-icons/fa';
 import { citasVeterinarioService, CitaVeterinario, EstadisticasVeterinario } from '../../services/citasVeterinario';
 import styles from './CitasVeterinario.module.css';
@@ -214,7 +215,16 @@ const CitasVeterinario = () => {
       {/* Header con estadísticas */}
       <div className={styles.header}>
         <div className={styles.headerContent}>
-          <h1>Mis Citas</h1>
+          <div className={styles.headerLeft}>
+            <button 
+              className={styles.botonRetroceso}
+              onClick={() => navigate('/veterinario/dashboard')}
+              title="Volver al Dashboard"
+            >
+              <FaArrowLeft /> Volver
+            </button>
+            <h1>Mis Citas</h1>
+          </div>
           {estadisticas && (
             <div className={styles.estadisticas}>
               <div className={styles.estadistica}>
@@ -371,7 +381,7 @@ const CitasVeterinario = () => {
         <div className={styles.modalOverlay} onClick={cerrarModal}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHeader}>
-              <h2>Detalle de la Cita</h2>
+              <h2>📋 Detalle de la Cita</h2>
               <button className={styles.cerrarModal} onClick={cerrarModal}>
                 <FaTimes />
               </button>
@@ -394,7 +404,7 @@ const CitasVeterinario = () => {
                   </div>
                 )}
                 <div className={styles.infoMascotaPrincipal}>
-                  <h3>{citaSeleccionada.nombre_mascota}</h3>
+                  <h3>🐾 {citaSeleccionada.nombre_mascota}</h3>
                   <p>{citaSeleccionada.especie_nombre} - {citaSeleccionada.raza_nombre}</p>
                 </div>
               </div>
@@ -402,7 +412,7 @@ const CitasVeterinario = () => {
               <div className={styles.detalleGrid}>
                 {/* Información básica de la mascota */}
                 <div className={styles.seccionDetalle}>
-                  <h4>Información de la Mascota</h4>
+                  <h4>🐕 Información de la Mascota</h4>
                   <div className={styles.detalleItem}>
                     <strong>Nombre:</strong>
                     <span>{citaSeleccionada.nombre_mascota}</span>
@@ -451,7 +461,7 @@ const CitasVeterinario = () => {
 
                 {/* Información del dueño */}
                 <div className={styles.seccionDetalle}>
-                  <h4>Información del Dueño</h4>
+                  <h4>👤 Información del Dueño</h4>
                   <div className={styles.detalleItem}>
                     <strong>Nombre:</strong>
                     <span>{citaSeleccionada.dueno_nombre} {citaSeleccionada.dueno_apellido}</span>
@@ -474,7 +484,7 @@ const CitasVeterinario = () => {
 
                 {/* Información de la cita */}
                 <div className={styles.seccionDetalle}>
-                  <h4>Información de la Cita</h4>
+                  <h4>📅 Información de la Cita</h4>
                   <div className={styles.detalleItem}>
                     <strong>Fecha y Hora:</strong>
                     <span>{new Date(citaSeleccionada.fecha_hora).toLocaleString()}</span>
@@ -500,24 +510,24 @@ const CitasVeterinario = () => {
 
               {citaSeleccionada.motivo && (
                 <div className={styles.motivoCompleto}>
-                  <strong>Motivo de la consulta:</strong>
+                  <strong>📝 Motivo de la consulta:</strong>
                   <p>{citaSeleccionada.motivo}</p>
                 </div>
               )}
 
               {citaSeleccionada.notas_previas && (
                 <div className={styles.motivoCompleto}>
-                  <strong>Notas previas:</strong>
+                  <strong>📋 Notas previas:</strong>
                   <p>{citaSeleccionada.notas_previas}</p>
                 </div>
               )}
 
               <div className={styles.notasAtencion}>
-                <strong>Notas de atención:</strong>
+                <strong>✍️ Notas de atención:</strong>
                 <textarea
                   value={notasAtencion}
                   onChange={(e) => setNotasAtencion(e.target.value)}
-                  placeholder="Agregue notas sobre la atención brindada..."
+                  placeholder="Agregue notas sobre la atención brindada... (Ej: síntomas observados, diagnóstico preliminar, tratamiento recomendado)"
                   className={styles.textarea}
                   rows={4}
                 />
@@ -526,8 +536,9 @@ const CitasVeterinario = () => {
               <div className={styles.infoAyuda}>
                 <p><strong>💡 Opciones disponibles:</strong></p>
                 <ul>
-                  <li><strong>Historial Médico:</strong> Crear registro médico detallado con las notas</li>
-                  <li><strong>Completar Cita:</strong> Marcar como completada y crear registro médico</li>
+                  <li><strong>📋 Historial Médico:</strong> Crear registro médico detallado con las notas</li>
+                  <li><strong>✅ Completar Cita:</strong> Marcar como completada y crear registro médico automáticamente</li>
+                  <li><strong>📝 Notas:</strong> Agregue observaciones importantes para el historial clínico</li>
                 </ul>
               </div>
             </div>
