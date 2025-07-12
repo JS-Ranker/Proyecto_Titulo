@@ -409,6 +409,16 @@ export class UserProfilePage implements OnInit {
     this.router.navigate(['/video-consulta']);
   }
 
+  // Navegar a agendar cita
+  navigateToAgendarCita() {
+    this.router.navigate(['/agendar-cita']);
+  }
+
+  // Navegar a citas agendadas
+  navigateToCitasAgendadas() {
+    this.router.navigate(['/citas-agendadas']);
+  }
+
   // Métodos auxiliares para formatear datos de mascotas
   getPetAge(fechaNacimiento?: string | null): string {
     if (!fechaNacimiento) return 'Edad no especificada';

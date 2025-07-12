@@ -36,6 +36,31 @@
   font-weight: 500;
 }
 
+/* Botones de acceso rápido */
+.quick-actions {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.action-button {
+  --border-radius: 12px;
+  height: 50px;
+  font-weight: 600;
+  text-transform: none;
+  
+  ion-icon {
+    margin-right: 8px;
+    font-size: 1.2rem;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+}
+
 /* Cards del perfil */
 .profile-sections {
   margin-top: 20px;

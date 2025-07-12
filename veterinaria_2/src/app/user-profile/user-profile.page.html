@@ -42,6 +42,27 @@
       <p class="user-rut">{{userData.rut}}</p>
     </div>
 
+    <!-- Botones de acceso rápido -->
+    <div class="quick-actions">
+      <ion-button 
+        expand="block" 
+        color="primary" 
+        class="action-button"
+        (click)="navigateToAgendarCita()">
+        <ion-icon name="calendar" slot="start"></ion-icon>
+        Agendar Cita
+      </ion-button>
+      
+      <ion-button 
+        expand="block" 
+        color="secondary" 
+        class="action-button"
+        (click)="navigateToCitasAgendadas()">
+        <ion-icon name="list" slot="start"></ion-icon>
+        Citas Agendadas
+      </ion-button>
+    </div>
+
     <!-- Información del usuario -->
     <div class="profile-sections">
       
