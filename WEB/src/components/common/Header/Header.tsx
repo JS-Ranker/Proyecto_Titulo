@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { FaPaw, FaUserCircle, FaHome, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaTimes, FaCalendarAlt, FaHistory } from "react-icons/fa";
+import { FaPaw, FaUserCircle, FaHome, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaTimes, FaCalendarAlt, FaHistory, FaVideo } from "react-icons/fa";
 import { useAuth } from "../../../utils/AuthContext";
 import { productosService } from '../../../services/productos';
 import SearchBar from '../SearchBar/SearchBar';
@@ -184,6 +184,17 @@ const Header = () => {
                     >
                       <FaHistory className={styles.sidebarIcon} />
                       <span>Historial Médico</span>
+                    </NavLink>
+
+                    <NavLink
+                      to="/veterinario/videollamada"
+                      className={({ isActive }) =>
+                        isActive ? `${styles.sidebarMenuItem} ${styles.sidebarMenuItemActive}` : styles.sidebarMenuItem
+                      }
+                      onClick={handleMenuItemClick}
+                    >
+                      <FaVideo className={styles.sidebarIcon} />
+                      <span>Videollamada</span>
                     </NavLink>
 
                     <NavLink

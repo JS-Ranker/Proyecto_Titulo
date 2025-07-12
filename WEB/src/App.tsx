@@ -30,6 +30,7 @@ import HistorialVeterinario from "./pages/Veterinario/HistorialVeterinario";
 import DetalleHistorial from "./pages/Veterinario/DetalleHistorial";
 import FormularioHistorial from "./pages/Veterinario/FormularioHistorial";
 import EditarPerfil from "./pages/Veterinario/EditarPerfil";
+import VideollamadaVeterinario from "./pages/Veterinario/VideollamadaVeterinario";
 import "./App.css";
 import 'animate.css';
 import { AuthProvider, useAuth } from "./utils/AuthContext";
@@ -143,6 +144,11 @@ const AppContent = () => {
         <Route path="/veterinario/perfil" element={
           <ProtectedVeterinarioRoute>
             <EditarPerfil />
+          </ProtectedVeterinarioRoute>
+        } />
+        <Route path="/veterinario/videollamada" element={
+          <ProtectedVeterinarioRoute>
+            <VideollamadaVeterinario />
           </ProtectedVeterinarioRoute>
         } />
         <Route path="/pets" element={<ProtectedRoute><PetsPage /></ProtectedRoute>} />
