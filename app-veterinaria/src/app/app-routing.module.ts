@@ -48,6 +48,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/citas/citas.module').then( m => m.CitasPageModule)
   },
   {
+    path: 'video-consulta',
+    loadChildren: () => import('./pages/video-consulta/video-consulta.module').then( m => m.VideoConsultaPageModule)
+  },
+  {
     path: 'agendamiento-citas',
     loadChildren: () => import('./pages/agendamiento-citas/agendamiento-citas.module').then( m => m.AgendamientoCitasPageModule)
   },
@@ -70,11 +74,7 @@ const routes: Routes = [
   {
     path: 'videollamada',
     loadChildren: () => import('./pages/videollamada/videollamada.module').then( m => m.VideollamadaPageModule)
-  },  {
-    path: 'historial-clinico-veterinario',
-    loadChildren: () => import('./pages/historial-clinico-veterinario/historial-clinico-veterinario.module').then( m => m.HistorialClinicoVeterinarioPageModule)
   }
-
 ];
 
 @NgModule({

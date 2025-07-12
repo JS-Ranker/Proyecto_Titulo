@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MascotasService } from '../../service/mascotas.service';
 import { Router } from '@angular/router';
-import { IMG_BASE_URL } from 'src/app/service/api-config';
+import { IMG_BASE_URL } from '../../service/api-config';
+
 
 @Component({
   selector: 'app-pets',

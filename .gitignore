@@ -32,4 +32,16 @@ Thumbs.db
 !/app-veterinaria/capacitor.config.ts
 !/app-veterinaria/ionic.config.json
 !/app-veterinaria/tsconfig*.json
+
+# Permitir solo la carpeta src dentro de veterinaria_2
+/veterinaria_2/*
+!/veterinaria_2/src/
+!/veterinaria_2/src/**
+!/veterinaria_2/package.json
+!/veterinaria_2/angular.json
+!/veterinaria_2/capacitor.config.ts
+!/veterinaria_2/ionic.config.json
+!/veterinaria_2/tsconfig*.json
+!/veterinaria_2/VIDEO_CONSULTAS_README.md
+!/veterinaria_2/screen-sharing-example.ts
 node_modules

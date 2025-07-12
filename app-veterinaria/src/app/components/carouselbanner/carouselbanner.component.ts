@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router'; // Agrega esto
 
 interface SlideData {
   id: number;
@@ -18,13 +18,13 @@ interface SlideData {
   standalone: false,
 })
 export class CarouselbannerComponent implements OnInit, OnDestroy {
-
+  
   activeIndex: number = 0;
   isTransitioning: boolean = false;
   isHovered: boolean = false;
   private autoSlideInterval: any;
-
-  slides: SlideData[] = [
+  
+   slides: SlideData[] = [
     {
       id: 0,
       image: 'assets/images/veterinaria.jpg',
@@ -50,11 +50,11 @@ export class CarouselbannerComponent implements OnInit, OnDestroy {
       theme: 'adopcion',
       title: 'Adopta una vida, cambia dos destinos',
       description: 'En Happy Pet trabajamos para dar un nuevo hogar a mascotas rescatadas',
-      buttonText: 'Conoce nuestras mascotas'
+      buttonText: 'Conoce nuestros peludos'
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {} 
 
   ngOnInit() {
     this.startAutoSlide();
@@ -66,10 +66,10 @@ export class CarouselbannerComponent implements OnInit, OnDestroy {
 
   handleSlideChange(selectedIndex: number) {
     if (selectedIndex === this.activeIndex) return;
-
+    
     this.isTransitioning = true;
     this.activeIndex = selectedIndex;
-
+    
     setTimeout(() => {
       this.isTransitioning = false;
     }, 600);
@@ -95,22 +95,18 @@ export class CarouselbannerComponent implements OnInit, OnDestroy {
     this.startAutoSlide();
   }
 
-  onMainActionClick() {
+  onMainActionClick() { 
     const currentSlide = this.slides[this.activeIndex];
-
+    
     switch (currentSlide.theme) {
       case 'veterinaria':
-        this.router.navigate(['/especialidadespage']);
+        // Navegar a servicios veterinarios
+        this.router.navigate(['/especialidadespage']); 
         break;
       case 'ecommerce':
         this.router.navigate(['/shop']);
         break;
       case 'adopcion':
-        window.open(
-          'https://docs.google.com/forms/d/e/1FAIpQLScV0GtttMaoxsC-QAA0tQU0IYlwFlTQPiOOGK0NRGroD0LIGw/viewform',
-          '_blank',
-          'noopener,noreferrer'
-        );
         break;
     }
   }

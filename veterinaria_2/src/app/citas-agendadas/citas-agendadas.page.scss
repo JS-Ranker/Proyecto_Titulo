@@ -1,0 +1,282 @@
+/* Filtros */
+.filter-segment {
+  padding: 16px;
+  background-color: var(--ion-color-light);
+  
+  ion-segment {
+    --background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Contenedor principal */
+.citas-container {
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Loading */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  text-align: center;
+  
+  ion-spinner {
+    margin-bottom: 16px;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+    font-size: 14px;
+  }
+}
+
+/* Card de cita */
+.cita-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  ion-card-content {
+    padding: 16px;
+  }
+}
+
+/* Item de cita */
+.cita-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* Información de la cita */
+.cita-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cita-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 12px;
+  
+  h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+  }
+}
+
+.estado-badge {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+/* Detalles */
+.cita-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: var(--ion-color-medium);
+  
+  ion-icon {
+    margin-right: 8px;
+    font-size: 16px;
+    color: var(--ion-color-primary);
+    flex-shrink: 0;
+  }
+  
+  span {
+    font-weight: 500;
+    color: var(--ion-color-dark);
+  }
+  
+  .duration {
+    margin-left: 4px;
+    font-size: 12px;
+    color: var(--ion-color-medium);
+    font-style: italic;
+  }
+  
+  &.motivo {
+    margin-top: 4px;
+    
+    span {
+      font-style: italic;
+      line-height: 1.4;
+    }
+  }
+}
+
+/* Acciones */
+.cita-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  
+  .more-icon {
+    font-size: 20px;
+    color: var(--ion-color-medium);
+  }
+}
+
+/* Sin datos */
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  text-align: center;
+  padding: 40px 20px;
+  
+  ion-icon {
+    color: var(--ion-color-medium);
+    margin-bottom: 16px;
+  }
+  
+  h2 {
+    color: var(--ion-color-dark);
+    margin-bottom: 8px;
+    font-size: 20px;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+}
+
+/* FAB personalizado */
+ion-fab-button {
+  --box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.4);
+  
+  &:hover {
+    --box-shadow: 0 6px 20px rgba(var(--ion-color-primary-rgb), 0.6);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .citas-container {
+    padding: 12px;
+  }
+  
+  .cita-item {
+    gap: 12px;
+  }
+  
+  .cita-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    
+    h2 {
+      font-size: 16px;
+    }
+  }
+  
+  .detail-item {
+    font-size: 13px;
+  }
+  
+  .filter-segment {
+    padding: 12px;
+    
+    ion-segment-button {
+      min-height: 36px;
+      
+      ion-label {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+/* Mejoras del header */
+ion-toolbar {
+  --background: var(--ion-color-primary);
+  --color: white;
+}
+
+ion-back-button {
+  --color: white;
+}
+
+ion-title {
+  font-weight: 600;
+}
+
+/* Botones en el header */
+ion-buttons[slot="end"] ion-button {
+  --color: white;
+}
+
+/* Refresher */
+ion-refresher {
+  z-index: 1;
+}
+
+/* Estados específicos */
+.estado-badge {
+  &[color="warning"] {
+    --background: rgba(255, 193, 7, 0.2);
+    --color: #ff8f00;
+  }
+  
+  &[color="primary"] {
+    --background: rgba(56, 128, 255, 0.2);
+    --color: var(--ion-color-primary);
+  }
+  
+  &[color="success"] {
+    --background: rgba(22, 184, 78, 0.2);
+    --color: var(--ion-color-success);
+  }
+  
+  &[color="danger"] {
+    --background: rgba(245, 61, 61, 0.2);
+    --color: var(--ion-color-danger);
+  }
+  
+  &[color="medium"] {
+    --background: rgba(146, 148, 151, 0.2);
+    --color: var(--ion-color-medium);
+  }
+}

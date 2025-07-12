@@ -1,0 +1,282 @@
+// For information on how to create your own theme, please see:
+// http://ionicframework.com/docs/theming/
+
+// 🎨 Paleta de colores para Veterinaria HappyPet
+// Propósito	         Color	                 Código HEX
+// Color primario	     Azul turquesa suave	     #2FB8C6
+// Color secundario     Verde menta claro	     #A9E5BB
+// Color de acento      Naranja coral suave	     #FF8C70
+// Fondo claro	         Blanco cálido	         #FAFAF9
+// Texto principal	     Gris oscuro	             #333333
+// Texto secundario     Gris medio	             #666666
+
+:root {
+  /** Primary Colors **/
+  --ion-color-primary: #2FB8C6;
+  --ion-color-primary-rgb: 47, 184, 198;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #29a3af;
+  --ion-color-primary-tint: #44bfcc;
+
+  /** Secondary Colors **/
+  --ion-color-secondary: #A9E5BB;
+  --ion-color-secondary-rgb: 169, 229, 187;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #96caa5;
+  --ion-color-secondary-tint: #b2e8c2;
+
+  /** Tertiary - Naranja coral suave **/
+  --ion-color-tertiary: #FF8C70;
+  --ion-color-tertiary-rgb: 255, 140, 112;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #e07b63;
+  --ion-color-tertiary-tint: #ff987e;
+
+  /** Success - Verde más intenso **/
+  --ion-color-success: #7AC142;
+  --ion-color-success-rgb: 122, 193, 66;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #6baa3a;
+  --ion-color-success-tint: #88c755;
+
+  /** Warning - Naranja más intenso **/
+  --ion-color-warning: #FF9500;
+  --ion-color-warning-rgb: 255, 149, 0;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #e08300;
+  --ion-color-warning-tint: #ffa01a;
+
+  /** Danger - Rojo suave **/
+  --ion-color-danger: #E74C3C;
+  --ion-color-danger-rgb: 231, 76, 60;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #cb4335;
+  --ion-color-danger-tint: #ea6153;
+
+  /** Dark - Gris oscuro personalizado **/
+  --ion-color-dark: #333333;
+  --ion-color-dark-rgb: 51, 51, 51;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #2d2d2d;
+  --ion-color-dark-tint: #474747;
+
+  /** Medium - Gris medio personalizado **/
+  --ion-color-medium: #666666;
+  --ion-color-medium-rgb: 102, 102, 102;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #5a5a5a;
+  --ion-color-medium-tint: #757575;
+
+  /** Light - Blanco cálido **/
+  --ion-color-light: #FAFAF9;
+  --ion-color-light-rgb: 250, 250, 249;
+  --ion-color-light-contrast: #333333;
+  --ion-color-light-contrast-rgb: 51, 51, 51;
+  --ion-color-light-shade: #e6e6e5;
+  --ion-color-light-tint: #fbfbfa;
+
+  /** Colores custom adicionales para HappyPet **/
+  --happypet-primary: #2FB8C6;
+  --happypet-secondary: #A9E5BB;
+  --happypet-accent: #FF8C70;
+  --happypet-background: #FAFAF9;
+  --happypet-text-primary: #333333;
+  --happypet-text-secondary: #666666;
+  
+  /** Background y Surface **/
+  --ion-background-color: #FAFAF9;
+  --ion-background-color-rgb: 250, 250, 249;
+  
+  --ion-text-color: #333333;
+  --ion-text-color-rgb: 51, 51, 51;
+  
+  --ion-backdrop-color: #333333;
+  --ion-backdrop-opacity: 0.32;
+  
+  --ion-overlay-background-color: #FAFAF9;
+  --ion-border-color: rgba(51, 51, 51, 0.12);
+  --ion-box-shadow-color: rgba(51, 51, 51, 0.16);
+  
+  --ion-tab-bar-background: #FAFAF9;
+  --ion-tab-bar-background-focused: #ffffff;
+  --ion-tab-bar-border-color: rgba(51, 51, 51, 0.12);
+  --ion-tab-bar-color: #666666;
+  --ion-tab-bar-color-selected: #2FB8C6;
+  
+  --ion-toolbar-background: #2FB8C6;
+  --ion-toolbar-border-color: rgba(47, 184, 198, 0.2);
+  --ion-toolbar-color: #ffffff;
+}
+
+/*
+ * Dark Colors
+ * -------------------------------------------
+ */
+
+ body.dark {
+  --ion-color-primary: #2FB8C6;
+  --ion-color-primary-rgb: 47, 184, 198;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #29a3af;
+  --ion-color-primary-tint: #44bfcc;
+
+  --ion-color-secondary: #A9E5BB;
+  --ion-color-secondary-rgb: 169, 229, 187;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #96caa5;
+  --ion-color-secondary-tint: #b2e8c2;
+
+  --ion-color-tertiary: #FF8C70;
+  --ion-color-tertiary-rgb: 255, 140, 112;
+  --ion-color-tertiary-contrast: #000000;
+  --ion-color-tertiary-contrast-rgb: 0, 0, 0;
+  --ion-color-tertiary-shade: #e07b63;
+  --ion-color-tertiary-tint: #ff987e;
+
+  --ion-color-success: #7AC142;
+  --ion-color-success-rgb: 122, 193, 66;
+  --ion-color-success-contrast: #000000;
+  --ion-color-success-contrast-rgb: 0, 0, 0;
+  --ion-color-success-shade: #6baa3a;
+  --ion-color-success-tint: #88c755;
+
+  --ion-color-warning: #FF9500;
+  --ion-color-warning-rgb: 255, 149, 0;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e08300;
+  --ion-color-warning-tint: #ffa01a;
+
+  --ion-color-danger: #E74C3C;
+  --ion-color-danger-rgb: 231, 76, 60;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #cb4335;
+  --ion-color-danger-tint: #ea6153;
+
+  --ion-color-dark: #f4f5f8;
+  --ion-color-dark-rgb: 244, 245, 248;
+  --ion-color-dark-contrast: #000000;
+  --ion-color-dark-contrast-rgb: 0, 0, 0;
+  --ion-color-dark-shade: #d7d8da;
+  --ion-color-dark-tint: #f5f6f9;
+
+  --ion-color-medium: #989aa2;
+  --ion-color-medium-rgb: 152, 154, 162;
+  --ion-color-medium-contrast: #000000;
+  --ion-color-medium-contrast-rgb: 0, 0, 0;
+  --ion-color-medium-shade: #86888f;
+  --ion-color-medium-tint: #a2a4ab;
+
+  --ion-color-light: #222428;
+  --ion-color-light-rgb: 34, 36, 40;
+  --ion-color-light-contrast: #ffffff;
+  --ion-color-light-contrast-rgb: 255, 255, 255;
+  --ion-color-light-shade: #1e2023;
+  --ion-color-light-tint: #383a3e;
+}
+
+/*
+ * iOS Dark Theme
+ * -------------------------------------------
+ */
+
+.ios body.dark {
+  --ion-background-color: #000000;
+  --ion-background-color-rgb: 0, 0, 0;
+
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255, 255, 255;
+
+  --ion-color-step-50: #0d0d0d;
+  --ion-color-step-100: #1a1a1a;
+  --ion-color-step-150: #262626;
+  --ion-color-step-200: #333333;
+  --ion-color-step-250: #404040;
+  --ion-color-step-300: #4d4d4d;
+  --ion-color-step-350: #595959;
+  --ion-color-step-400: #666666;
+  --ion-color-step-450: #737373;
+  --ion-color-step-500: #808080;
+  --ion-color-step-550: #8c8c8c;
+  --ion-color-step-600: #999999;
+  --ion-color-step-650: #a6a6a6;
+  --ion-color-step-700: #b3b3b3;
+  --ion-color-step-750: #bfbfbf;
+  --ion-color-step-800: #cccccc;
+  --ion-color-step-850: #d9d9d9;
+  --ion-color-step-900: #e6e6e6;
+  --ion-color-step-950: #f2f2f2;
+
+  --ion-item-background: #000000;
+
+  --ion-card-background: #1c1c1d;
+}
+
+.ios ion-modal {
+  --ion-background-color: var(--ion-color-step-100);
+  --ion-toolbar-background: var(--ion-color-step-150);
+  --ion-toolbar-border-color: var(--ion-color-step-250);
+}
+
+/*
+ * Material Design Dark Theme
+ * -------------------------------------------
+ */
+
+.md body.dark {
+  --ion-background-color: #121212;
+  --ion-background-color-rgb: 18, 18, 18;
+
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255, 255, 255;
+
+  --ion-border-color: #222222;
+
+  --ion-color-step-50: #1e1e1e;
+  --ion-color-step-100: #2a2a2a;
+  --ion-color-step-150: #363636;
+  --ion-color-step-200: #414141;
+  --ion-color-step-250: #4d4d4d;
+  --ion-color-step-300: #595959;
+  --ion-color-step-350: #656565;
+  --ion-color-step-400: #717171;
+  --ion-color-step-450: #7d7d7d;
+  --ion-color-step-500: #898989;
+  --ion-color-step-550: #949494;
+  --ion-color-step-600: #a0a0a0;
+  --ion-color-step-650: #acacac;
+  --ion-color-step-700: #b8b8b8;
+  --ion-color-step-750: #c4c4c4;
+  --ion-color-step-800: #d0d0d0;
+  --ion-color-step-850: #dbdbdb;
+  --ion-color-step-900: #e7e7e7;
+  --ion-color-step-950: #f3f3f3;
+
+  --ion-item-background: #1e1e1e;
+
+  --ion-toolbar-background: #1f1f1f;
+
+  --ion-tab-bar-background: #1f1f1f;
+
+  --ion-card-background: #1e1e1e;
+}
+
+/* HappyPet específico para asegurar consistencia */
+.veterinaria-theme {
+  --ion-color-primary: var(--happypet-primary);
+  --ion-color-secondary: var(--happypet-secondary);
+  --ion-color-tertiary: var(--happypet-accent);
+  --ion-background-color: var(--happypet-background);
+  --ion-text-color: var(--happypet-text-primary);
+}

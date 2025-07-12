@@ -1,0 +1,198 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/citas-agendadas"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agendar Cita</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="navegarACitas()">
+        <ion-icon name="calendar-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando información...</p>
+  </div>
+
+  <!-- Formulario -->
+  <div *ngIf="!loading" class="form-container">
+    
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="paw-outline"></ion-icon>
+          Información de la Mascota
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-select 
+            [(ngModel)]="citaData.mascota_id" 
+            placeholder="Selecciona una mascota"
+            interface="popover">
+            <ion-select-option 
+              *ngFor="let mascota of mascotas" 
+              [value]="mascota.id_mascota">
+              {{ mascota.nombre_mascota }}
+              <span *ngIf="mascota.nombre_especie"> - {{ mascota.nombre_especie }}</span>
+            </ion-select-option>
+          </ion-select>
+          <ion-label slot="start">Mascota</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="calendar-outline"></ion-icon>
+          Fecha y Hora
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-datetime 
+            [(ngModel)]="citaData.fecha_hora"
+            [min]="minDate"
+            [max]="maxDate"
+            presentation="date-time"
+            display-format="DD/MM/YYYY HH:mm"
+            picker-format="DD/MM/YYYY HH:mm"
+            placeholder="Selecciona fecha y hora">
+          </ion-datetime>
+          <ion-label slot="start">Fecha y Hora</ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-input 
+            [(ngModel)]="citaData.duracion_minutos" 
+            type="number" 
+            min="15" 
+            max="120" 
+            placeholder="30">
+          </ion-input>
+          <ion-label slot="start">Duración (minutos)</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="medical-outline"></ion-icon>
+          Detalles de la Consulta
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item *ngIf="tiposConsulta.length > 0">
+          <ion-select 
+            [(ngModel)]="citaData.tipo_consulta_id" 
+            placeholder="Selecciona tipo de consulta (opcional)"
+            interface="popover"
+            (ionChange)="onTipoConsultaChange()">
+            <ion-select-option 
+              *ngFor="let tipo of tiposConsulta" 
+              [value]="tipo.id">
+              {{ tipo.nombre }}
+              <span *ngIf="tipo.precio"> - ${{ tipo.precio }}</span>
+            </ion-select-option>
+          </ion-select>
+          <ion-label slot="start">Tipo de Consulta</ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="veterinarios.length > 0">
+          <ion-select 
+            [(ngModel)]="citaData.veterinario_id" 
+            placeholder="Cualquier veterinario disponible"
+            interface="popover">
+            <ion-select-option 
+              *ngFor="let vet of veterinarios" 
+              [value]="vet.id">
+              Dr. {{ vet.nombre }} {{ vet.apellido }}
+              <span *ngIf="vet.especialidad"> - {{ vet.especialidad }}</span>
+            </ion-select-option>
+          </ion-select>
+          <ion-label slot="start">Veterinario</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-textarea 
+            [(ngModel)]="citaData.motivo" 
+            placeholder="Describe brevemente el motivo de la consulta..."
+            rows="3"
+            maxlength="500">
+          </ion-textarea>
+          <ion-label slot="start" position="stacked">Motivo de la Consulta</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-textarea 
+            [(ngModel)]="citaData.notas_previas" 
+            placeholder="Información adicional que el veterinario debería saber..."
+            rows="2"
+            maxlength="300">
+          </ion-textarea>
+          <ion-label slot="start" position="stacked">Notas Adicionales</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Información importante -->
+    <ion-card class="info-card">
+      <ion-card-content>
+        <div class="info-content">
+          <ion-icon name="information-circle-outline" color="primary"></ion-icon>
+          <div class="info-text">
+            <h3>Información Importante</h3>
+            <ul>
+              <li>Las citas se pueden agendar de 8:00 AM a 6:00 PM</li>
+              <li>Se recomienda llegar 10 minutos antes de la cita</li>
+              <li>Las cancelaciones deben hacerse con al menos 2 horas de anticipación</li>
+              <li>Traer libreta de vacunas y documentos de la mascota</li>
+            </ul>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+      <ion-button 
+        expand="block" 
+        size="large"
+        color="primary" 
+        (click)="agendarCita()"
+        [disabled]="!citaData.mascota_id || !citaData.fecha_hora">
+        <ion-icon name="calendar" slot="start"></ion-icon>
+        Agendar Cita
+      </ion-button>
+
+      <ion-button 
+        expand="block" 
+        size="large"
+        color="secondary" 
+        (click)="iniciarVideoConsultaInmediata()"
+        [disabled]="!citaData.mascota_id">
+        <ion-icon name="videocam" slot="start"></ion-icon>
+        Video Consulta Inmediata
+      </ion-button>
+      
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        color="medium" 
+        (click)="limpiarFormulario()">
+        <ion-icon name="refresh" slot="start"></ion-icon>
+        Limpiar Formulario
+      </ion-button>
+    </div>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,96 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/user-profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mascotas Registradas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="circles"
+      refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando mascotas...</p>
+  </div>
+
+  <!-- Lista de mascotas -->
+  <div *ngIf="!loading && mascotas.length > 0" class="mascotas-container">
+    
+    <ion-card *ngFor="let mascota of mascotas" class="mascota-card" (click)="verDetalles(mascota.id_mascota!)">
+      <ion-card-content>
+        <div class="mascota-item">
+          
+          <!-- Imagen de la mascota -->
+          <div class="imagen-container">
+            <img [src]="getImagenMascota(mascota)" [alt]="mascota.nombre_mascota" class="mascota-imagen" (error)="onImageError($event)">
+          </div>
+          
+          <!-- Información principal -->
+          <div class="info-container">
+            <div class="nombre-container">
+              <h2>{{ mascota.nombre_mascota }}</h2>
+              <span class="gender-badge" [ngClass]="'gender-' + mascota.sexo_mascota">
+                <ion-icon [name]="mascota.sexo_mascota === 'macho' ? 'male-outline' : 'female-outline'"></ion-icon>
+                {{ mascota.sexo_mascota | titlecase }}
+              </span>
+            </div>
+            
+            <div class="detalles">
+              <div class="detalle-item">
+                <ion-icon name="paw-outline"></ion-icon>
+                <span>{{ mascota.nombre_especie || 'Especie no especificada' }}</span>
+              </div>
+              
+              <div class="detalle-item" *ngIf="mascota.nombre_raza">
+                <ion-icon name="fitness-outline"></ion-icon>
+                <span>{{ mascota.nombre_raza }}</span>
+              </div>
+              
+              <div class="detalle-item">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>{{ calcularEdad(mascota.fecha_nac_mascota) }}</span>
+              </div>
+              
+              <div class="detalle-item" *ngIf="mascota.peso_kg">
+                <ion-icon name="scale-outline"></ion-icon>
+                <span>{{ mascota.peso_kg }} kg</span>
+              </div>
+            </div>
+            
+            <!-- Información del dueño -->
+            <div class="dueno-info" *ngIf="mascota.dueno_nombre">
+              <ion-icon name="person-outline"></ion-icon>
+              <span>{{ mascota.dueno_nombre }} {{ mascota.dueno_apellido }}</span>
+            </div>
+          </div>
+          
+          <!-- Flecha para indicar que es clickeable -->
+          <div class="arrow-container">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </div>
+          
+        </div>
+      </ion-card-content>
+    </ion-card>
+    
+  </div>
+
+  <!-- Mensaje cuando no hay mascotas -->
+  <div *ngIf="!loading && mascotas.length === 0" class="no-data">
+    <ion-icon name="paw-outline" size="large"></ion-icon>
+    <h2>No hay mascotas registradas</h2>
+    <p>Aún no se han registrado mascotas en el sistema.</p>
+  </div>
+
+</ion-content>

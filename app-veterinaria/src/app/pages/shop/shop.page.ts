@@ -38,7 +38,7 @@ export class ShopPage implements OnInit {
   cart: CartItem[] = [];
   isCartOpen = false;
 
-  readonly IMG_BASE_URL = 'http://192.168.1.17:3000/';
+  readonly IMG_BASE_URL = 'http://192.168.0.8:3006/';
 
   constructor(
     private productosService: ProductosService,

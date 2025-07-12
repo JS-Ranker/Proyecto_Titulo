@@ -1,0 +1,145 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/user-profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Citas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="navigateToAgendar()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="circles"
+      refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Filtros -->
+  <div class="filter-segment">
+    <ion-segment [(ngModel)]="filterType" (ionChange)="$event">
+      <ion-segment-button value="todas">
+        <ion-label>Todas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pendiente">
+        <ion-label>Pendientes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="confirmada">
+        <ion-label>Confirmadas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="completada">
+        <ion-label>Completadas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando citas...</p>
+  </div>
+
+  <!-- Lista de citas -->
+  <div *ngIf="!loading && citasFiltradas.length > 0" class="citas-container">
+    
+    <ion-card *ngFor="let cita of citasFiltradas" class="cita-card" (click)="mostrarOpcionesCita(cita)">
+      <ion-card-content>
+        <div class="cita-item">
+          
+          <!-- Información principal -->
+          <div class="cita-info">
+            <div class="cita-header">
+              <h2>{{ cita.nombre_mascota }}</h2>
+              <ion-badge [color]="getEstadoColor(cita.estado)" class="estado-badge">
+                {{ getEstadoTexto(cita.estado) }}
+              </ion-badge>
+            </div>
+            
+            <div class="cita-details">
+              <div class="detail-item">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>{{ formatearFecha(cita.fecha_hora) }}</span>
+              </div>
+              
+              <div class="detail-item">
+                <ion-icon name="time-outline"></ion-icon>
+                <span>{{ formatearHora(cita.fecha_hora) }}</span>
+                <span *ngIf="cita.duracion_minutos" class="duration">({{ cita.duracion_minutos }} min)</span>
+              </div>
+              
+              <div class="detail-item" *ngIf="cita.tipo_consulta">
+                <ion-icon name="medical-outline"></ion-icon>
+                <span>{{ cita.tipo_consulta }}</span>
+              </div>
+              
+              <div class="detail-item" *ngIf="cita.veterinario">
+                <ion-icon name="person-outline"></ion-icon>
+                <span>Dr. {{ cita.veterinario }}</span>
+              </div>
+              
+              <div class="detail-item motivo" *ngIf="cita.motivo">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <span>{{ cita.motivo }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Acciones -->
+          <div class="cita-actions">
+            <ion-button 
+              *ngIf="cita.estado === 'confirmada' || cita.estado === 'pendiente'" 
+              fill="clear" 
+              color="primary" 
+              size="small"
+              (click)="$event.stopPropagation(); iniciarVideoConsulta(cita)"
+              title="Iniciar Video Consulta">
+              <ion-icon name="videocam-outline"></ion-icon>
+            </ion-button>
+            <ion-button 
+              *ngIf="puedeSerCancelada(cita)" 
+              fill="clear" 
+              color="danger" 
+              size="small"
+              (click)="$event.stopPropagation(); confirmarCancelacion(cita)">
+              <ion-icon name="close-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-icon name="chevron-forward-outline" class="more-icon"></ion-icon>
+          </div>
+          
+        </div>
+      </ion-card-content>
+    </ion-card>
+    
+  </div>
+
+  <!-- Mensaje cuando no hay citas -->
+  <div *ngIf="!loading && citasFiltradas.length === 0" class="no-data">
+    <ion-icon name="calendar-outline" size="large"></ion-icon>
+    <h2>No hay citas {{ filterType === 'todas' ? 'registradas' : filterType + 's' }}</h2>
+    <p *ngIf="filterType === 'todas'">Aún no tienes citas agendadas.</p>
+    <p *ngIf="filterType !== 'todas'">No tienes citas {{ filterType + 's' }}.</p>
+    <ion-button 
+      color="primary" 
+      (click)="navigateToAgendar()"
+      *ngIf="filterType === 'todas'">
+      <ion-icon name="add" slot="start"></ion-icon>
+      Agendar Primera Cita
+    </ion-button>
+  </div>
+
+  <!-- FAB para agendar nueva cita -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="navigateToAgendar()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
