@@ -211,15 +211,15 @@
 }
 
 .veterinarioButton {
-  border-color: #667eea;
-  color: #667eea;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .veterinarioButton:hover {
-  background: #667eea;
+  background: var(--accent);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 5px 15px rgba(255, 140, 112, 0.3);
 }
 
 .userTypeButton span {

@@ -70,9 +70,8 @@ const HistorialVeterinario: React.FC = () => {
           <FaArrowLeft /> Volver
         </button>
         <div className={styles.headerContent}>
-          <FaHistory className={styles.headerIcon} />
           <div>
-            <h1>Historial Médico</h1>
+            <h1>📋 Historial Médico</h1>
             <p>Mascotas atendidas por Dr(a). {veterinario.nombre}</p>
           </div>
         </div>
@@ -84,7 +83,7 @@ const HistorialVeterinario: React.FC = () => {
           <FaSearch className={styles.searchIcon} />
           <input
             type="text"
-            placeholder="Buscar por nombre de mascota o dueño..."
+            placeholder="🔍 Buscar por nombre de mascota o dueño..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className={styles.searchInput}
@@ -116,18 +115,18 @@ const HistorialVeterinario: React.FC = () => {
                 <div className={styles.mascotaInfo}>
                   <h3>{mascota.nombre_mascota}</h3>
                   <p className={styles.dueno}>
-                    Dueño: {mascota.dueno_nombre} {mascota.dueno_apellido}
+                    👤 Dueño: {mascota.dueno_nombre} {mascota.dueno_apellido}
                   </p>
                   <div className={styles.estadisticas}>
                     <div className={styles.stat}>
                       <span className={styles.statNumber}>{mascota.total_consultas}</span>
-                      <span className={styles.statLabel}>Consultas</span>
+                      <span className={styles.statLabel}>📊 Consultas</span>
                     </div>
                     <div className={styles.stat}>
                       <span className={styles.statDate}>
                         {formatearFecha(mascota.ultima_consulta)}
                       </span>
-                      <span className={styles.statLabel}>Última visita</span>
+                      <span className={styles.statLabel}>📅 Última visita</span>
                     </div>
                   </div>
                   <div className={styles.actions}>
@@ -152,12 +151,12 @@ const HistorialVeterinario: React.FC = () => {
           <div className={styles.emptyState}>
             <FaHistory className={styles.emptyIcon} />
             <h3>
-              {searchTerm ? 'No se encontraron mascotas' : 'No has atendido mascotas aún'}
+              {searchTerm ? '🔍 No se encontraron mascotas' : '📝 No has atendido mascotas aún'}
             </h3>
             <p>
               {searchTerm 
-                ? 'Intenta con otro término de búsqueda'
-                : 'Las mascotas que atiendas aparecerán aquí'
+                ? 'Intenta con otro término de búsqueda o verifica la ortografía'
+                : 'Las mascotas que atiendas aparecerán aquí para su seguimiento médico'
               }
             </p>
           </div>

@@ -117,6 +117,20 @@ const activarMascotasPorDueno = (req, res) => {
   });
 };
 
+const obtenerDatosCompletos = (req, res) => {
+  const id = req.params.id;
+
+  Mascota.obtenerDatosCompletos(id, (err, mascota) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error al obtener datos completos de la mascota', detalle: err });
+    }
+    if (!mascota) {
+      return res.status(404).json({ error: 'Mascota no encontrada' });
+    }
+    res.json(mascota);
+  });
+};
+
 export {
   traerMascotas,
   crearMascota,
@@ -127,4 +141,5 @@ export {
   buscarMascotasPorDueno,
   desactivarMascotasPorDueno,
   activarMascotasPorDueno,
+  obtenerDatosCompletos,
 };

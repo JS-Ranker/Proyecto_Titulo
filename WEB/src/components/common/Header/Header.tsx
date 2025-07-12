@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { FaPaw, FaUserCircle, FaHome, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaTimes, FaCalendarAlt } from "react-icons/fa";
+import { FaPaw, FaUserCircle, FaHome, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaTimes, FaCalendarAlt, FaHistory } from "react-icons/fa";
 import { useAuth } from "../../../utils/AuthContext";
 import { productosService } from '../../../services/productos';
 import SearchBar from '../SearchBar/SearchBar';
@@ -165,17 +165,6 @@ const Header = () => {
                   // Menú específico para veterinarios
                   <>
                     <NavLink
-                      to="/veterinario/dashboard"
-                      className={({ isActive }) =>
-                        isActive ? `${styles.sidebarMenuItem} ${styles.sidebarMenuItemActive}` : styles.sidebarMenuItem
-                      }
-                      onClick={handleMenuItemClick}
-                    >
-                      <FaUserCircle className={styles.sidebarIcon} />
-                      <span>Mi Panel</span>
-                    </NavLink>
-
-                    <NavLink
                       to="/veterinario/citas"
                       className={({ isActive }) =>
                         isActive ? `${styles.sidebarMenuItem} ${styles.sidebarMenuItemActive}` : styles.sidebarMenuItem
@@ -183,18 +172,29 @@ const Header = () => {
                       onClick={handleMenuItemClick}
                     >
                       <FaCalendarAlt className={styles.sidebarIcon} />
-                      <span>Mis Citas</span>
+                      <span>Citas</span>
                     </NavLink>
 
                     <NavLink
-                      to="/veterinario/pacientes"
+                      to="/veterinario/historial"
                       className={({ isActive }) =>
                         isActive ? `${styles.sidebarMenuItem} ${styles.sidebarMenuItemActive}` : styles.sidebarMenuItem
                       }
                       onClick={handleMenuItemClick}
                     >
-                      <FaPaw className={styles.sidebarIcon} />
-                      <span>Pacientes</span>
+                      <FaHistory className={styles.sidebarIcon} />
+                      <span>Historial Médico</span>
+                    </NavLink>
+
+                    <NavLink
+                      to="/veterinario/perfil"
+                      className={({ isActive }) =>
+                        isActive ? `${styles.sidebarMenuItem} ${styles.sidebarMenuItemActive}` : styles.sidebarMenuItem
+                      }
+                      onClick={handleMenuItemClick}
+                    >
+                      <FaUserCircle className={styles.sidebarIcon} />
+                      <span>Mi Perfil</span>
                     </NavLink>
                     
                     <div className={styles.sidebarDivider}></div>

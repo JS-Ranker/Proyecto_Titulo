@@ -6,7 +6,9 @@ interface MascotaData {
     id_mascota?: number;
     nombre_mascota: string;
     id_especie?: number | null;
+    nombre_especie?: string;
     id_raza?: number | null;
+    nombre_raza?: string;
     fecha_nac_mascota?: string | null;
     peso_kg?: number | null;
     sexo_mascota?: string;
@@ -17,8 +19,11 @@ interface MascotaData {
     id_dueno: string;
     fecha_registro_mascota?: string;
     estado_activo?: boolean | number;
+    rut?: string;
     dueno_nombre?: string;
     dueno_apellido?: string;
+    dueno_email?: string;
+    dueno_telefono?: string;
 }
 
 interface CreateMascotaData {
@@ -64,6 +69,12 @@ export const mascotasService = {
   // Obtener mascota por ID
     obtenerMascotaPorId: async (id: number) => {
     const response = await axios.get(`${API_BASE_URL}/${id}`);
+    return response;
+    },
+
+  // Obtener datos completos de mascota con información del dueño
+    obtenerDatosCompletos: async (id: number) => {
+    const response = await axios.get(`${API_BASE_URL}/completos/${id}`);
     return response;
     },
 
