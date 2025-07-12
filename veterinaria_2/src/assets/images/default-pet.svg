@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
+  <circle cx="75" cy="75" r="75" fill="#f0f0f0"/>
+  <circle cx="50" cy="50" r="15" fill="#666"/>
+  <circle cx="100" cy="50" r="15" fill="#666"/>
+  <ellipse cx="75" cy="70" rx="8" ry="12" fill="#333"/>
+  <path d="M75,85 Q65,95 55,90 Q65,100 75,95 Q85,100 95,90 Q85,95 75,85" fill="#666"/>
+  <circle cx="30" cy="30" r="12" fill="#999"/>
+  <circle cx="120" cy="30" r="12" fill="#999"/>
+  <circle cx="25" cy="80" r="10" fill="#999"/>
+  <circle cx="125" cy="80" r="10" fill="#999"/>
+  <text x="75" y="130" text-anchor="middle" font-family="Arial" font-size="12" fill="#999">Mascota</text>
+</svg>

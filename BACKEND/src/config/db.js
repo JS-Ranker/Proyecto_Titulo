@@ -1,7 +1,9 @@
 import mysql from 'mysql2';
 import dotenv from 'dotenv';
+import path from 'path';
 
-dotenv.config();
+// Configurar dotenv para que busque el archivo .env en el directorio padre
+dotenv.config({ path: path.join(process.cwd(), '..', '.env') });
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,

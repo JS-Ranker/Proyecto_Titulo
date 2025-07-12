@@ -1,0 +1,132 @@
+<ion-content [fullscreen]="true" class="login-content">
+  <!-- Decorative background elements -->
+  <div class="background-decoration">
+    <div class="decoration-circle circle-1"></div>
+    <div class="decoration-circle circle-2"></div>
+    <div class="decoration-circle circle-3"></div>
+  </div>
+
+  <div class="login-container">
+    <!-- Header Section -->
+    <div class="header-section">
+      <div class="logo-container">
+        <div class="logo-wrapper">
+          <ion-icon name="paw" class="logo-icon"></ion-icon>
+        </div>
+        <h1 class="brand-name">HappyPet</h1>
+        <p class="brand-subtitle">Cuidado veterinario de calidad</p>
+      </div>
+    </div>
+
+    <!-- Welcome Card -->
+    <div class="welcome-card">
+      <div class="card-header">
+        <h2 class="welcome-title">¡Bienvenido!</h2>
+        <p class="welcome-description">Accede a los servicios de cuidado para tus mascotas</p>
+      </div>
+
+
+
+      <!-- Login Form -->
+      <form #loginForm="ngForm" (ngSubmit)="onLogin()" class="login-form">
+        <!-- RUT Input -->
+        <div class="input-group">
+          <div class="input-wrapper">
+            <ion-icon name="card-outline" class="input-icon"></ion-icon>
+            <div class="input-content">
+              <label for="rut" class="input-label">RUT</label>
+              <ion-input 
+                id="rut"
+                type="text"
+                name="rut"
+                [(ngModel)]="loginData.rut"
+                (ionInput)="formatRut($event)"
+                placeholder="12.345.678-9"
+                class="custom-input"
+                fill="outline"
+                required>
+              </ion-input>
+            </div>
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="input-group">
+          <div class="input-wrapper">
+            <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+            <div class="input-content">
+              <label for="password" class="input-label">Contraseña</label>
+              <ion-input 
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                name="password"
+                [(ngModel)]="loginData.password"
+                placeholder="Ingresa tu contraseña"
+                class="custom-input"
+                fill="outline"
+                required>
+              </ion-input>
+              <button 
+                type="button"
+                class="password-toggle"
+                (click)="togglePasswordVisibility()">
+                <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login Button -->
+        <ion-button 
+          expand="block" 
+          type="submit" 
+          class="login-button"
+          [disabled]="isLoading || !loginForm.valid">
+          <span *ngIf="!isLoading" class="button-content">
+            <ion-icon name="log-in-outline" slot="start"></ion-icon>
+            Iniciar Sesión
+          </span>
+          <span *ngIf="isLoading" class="button-loading">
+            <ion-spinner name="dots"></ion-spinner>
+            Verificando...
+          </span>
+        </ion-button>
+
+        <!-- Forgot Password -->
+        <div class="forgot-password">
+          <ion-button 
+            fill="clear" 
+            size="small"
+            class="forgot-link">
+            ¿Olvidaste tu contraseña?
+          </ion-button>
+        </div>
+      </form>
+
+      <!-- Register Section -->
+      <div class="register-section">
+        <div class="divider">
+          <span class="divider-text">o</span>
+        </div>
+        <p class="register-text">
+          ¿No tienes una cuenta?
+        </p>
+        <ion-button 
+          expand="block"
+          fill="outline"
+          class="register-button"
+          (click)="navigateToRegister()">
+          <ion-icon name="person-add-outline" slot="start"></ion-icon>
+          Crear cuenta nueva
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-section">
+      <p class="footer-text">
+        © 2025 HappyPet - Cuidado veterinario profesional
+      </p>
+    </div>
+  </div>
+</ion-content>

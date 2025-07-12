@@ -1,0 +1,454 @@
+.profile-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Header del perfil */
+.profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-secondary));
+  border-radius: 20px;
+  color: white;
+}
+
+.avatar-container {
+  margin-bottom: 15px;
+}
+
+.avatar-icon {
+  font-size: 80px;
+  opacity: 0.9;
+}
+
+.user-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 10px 0 5px 0;
+}
+
+.user-rut {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Cards del perfil */
+.profile-sections {
+  margin-top: 20px;
+}
+
+.profile-card {
+  margin-bottom: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+ion-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+}
+
+ion-card-title ion-icon {
+  font-size: 1.4rem;
+  color: var(--ion-color-primary);
+}
+
+/* Display de campos */
+.field-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.field-value {
+  flex: 1;
+  font-size: 1.1rem;
+  color: var(--ion-color-dark);
+  margin: 0;
+  font-weight: 500;
+}
+
+.edit-btn {
+  margin-left: 10px;
+  --color: var(--ion-color-primary);
+}
+
+.success-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ion-color-success);
+  font-size: 0.9rem;
+  font-weight: 600;
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Edición de campos */
+.field-edit {
+  padding: 10px 0;
+}
+
+.password-edit ion-item {
+  margin-bottom: 15px;
+}
+
+ion-item {
+  --background: var(--ion-color-light);
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+ion-item:focus-within {
+  --background: white;
+  box-shadow: 0 0 0 2px rgba(var(--ion-color-primary-rgb), 0.2);
+}
+
+ion-label {
+  font-weight: 600;
+  color: var(--ion-color-dark);
+  margin-bottom: 5px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.edit-actions ion-button {
+  --border-radius: 12px;
+  font-weight: 600;
+}
+
+/* Sección de mascotas */
+.pets-card {
+  background: linear-gradient(135deg, rgba(var(--ion-color-primary-rgb), 0.05), rgba(var(--ion-color-secondary-rgb), 0.05));
+}
+
+.loading-pets {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.loading-pets ion-spinner {
+  margin-bottom: 15px;
+}
+
+.loading-pets p {
+  color: var(--ion-color-medium);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.no-pets {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.no-pets-icon {
+  font-size: 60px;
+  color: var(--ion-color-medium);
+  margin-bottom: 15px;
+}
+
+.no-pets p {
+  color: var(--ion-color-medium);
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.pets-list {
+  padding: 10px 0;
+}
+
+.pet-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px 15px;
+  background: white;
+  border-radius: 16px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pet-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.pet-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--ion-color-primary), var(--ion-color-secondary));
+}
+
+.pet-avatar {
+  flex-shrink: 0;
+  margin-right: 15px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--ion-color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pet-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pet-icon-placeholder {
+  font-size: 28px;
+  color: var(--ion-color-medium);
+}
+
+.pet-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pet-info h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ion-color-dark);
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pet-type {
+  font-size: 1rem;
+  color: var(--ion-color-primary);
+  font-weight: 600;
+  margin: 0 0 12px 0;
+}
+
+.pet-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.pet-detail {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: var(--ion-color-dark);
+  background: var(--ion-color-light);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.pet-detail ion-icon {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+}
+
+.pet-extra-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.pet-color,
+.pet-sterilized {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--ion-color-medium);
+  font-weight: 500;
+}
+
+.pet-sterilized ion-icon {
+  font-size: 1rem;
+}
+
+.pet-microchip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: rgba(var(--ion-color-primary-rgb), 0.1);
+  border-radius: 8px;
+  border-left: 3px solid var(--ion-color-primary);
+}
+
+.pet-microchip ion-icon {
+  color: var(--ion-color-primary);
+  font-size: 1rem;
+}
+
+.pet-microchip small {
+  color: var(--ion-color-dark);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.pet-action-btn {
+  flex-shrink: 0;
+  margin-left: 10px;
+  --color: var(--ion-color-medium);
+}
+
+.add-pet-btn {
+  margin-top: 20px;
+  --border-radius: 12px;
+  font-weight: 600;
+}
+
+/* Estados de carga y error */
+.loading-container, .error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  min-height: 300px;
+}
+
+.loading-container {
+  ion-spinner {
+    margin-bottom: 20px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+    font-size: 1.1rem;
+  }
+}
+
+.error-container {
+  ion-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    color: var(--ion-color-danger);
+    margin: 10px 0;
+    font-weight: 600;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+    margin-bottom: 30px;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
+
+.profile-container {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.profile-card {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.profile-card:nth-child(1) { animation-delay: 0.1s; }
+.profile-card:nth-child(2) { animation-delay: 0.2s; }
+.profile-card:nth-child(3) { animation-delay: 0.3s; }
+.profile-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .profile-container {
+    padding: 40px;
+  }
+  
+  .profile-header {
+    padding: 30px;
+  }
+  
+  .user-name {
+    font-size: 2.2rem;
+  }
+  
+  .edit-actions {
+    justify-content: flex-start;
+  }
+}
+
+/* Mejoras para la visualización de contraseñas */
+.password-edit .edit-actions {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid var(--ion-color-light-shade);
+}
+
+/* Efectos de hover para botones */
+ion-button:not([disabled]):hover {
+  transform: translateY(-1px);
+}
+
+ion-button[disabled] {
+  opacity: 0.6;
+}
+
+/* Indicadores de estado */
+.success-indicator ion-icon {
+  font-size: 1.2rem;
+}
+
+/* Mejoras de accesibilidad */
+.edit-btn:focus,
+ion-button:focus {
+  outline: 2px solid var(--ion-color-primary);
+  outline-offset: 2px;
+}
+
+/* Espaciado mejorado para dispositivos móviles */
+@media (max-width: 767px) {
+  .profile-container {
+    padding: 15px;
+  }
+  
+  .edit-actions {
+    flex-direction: column;
+  }
+  
+  .edit-actions ion-button {
+    margin: 5px 0;
+  }
+}

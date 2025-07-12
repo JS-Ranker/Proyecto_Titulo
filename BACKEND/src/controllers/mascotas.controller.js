@@ -127,7 +127,7 @@ const obtenerDatosCompletos = (req, res) => {
     if (!mascota) {
       return res.status(404).json({ error: 'Mascota no encontrada' });
     }
-    res.json(mascota);
+    res.json({ data: mascota, message: 'Datos completos obtenidos exitosamente' });
   });
 };
 

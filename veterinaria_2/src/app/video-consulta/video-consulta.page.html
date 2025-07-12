@@ -1,0 +1,303 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/citas-agendadas"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Video Consulta</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="showConnectionInfo()" *ngIf="inCall">
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </ion-button>
+      
+      <!-- Botón de debug para video local -->
+      <ion-button fill="clear" (click)="checkLocalVideo()" *ngIf="inCall" color="warning">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+      
+      <!-- Botón para verificar permisos -->
+      <ion-button fill="clear" (click)="checkEnvironmentAndPermissions()" color="secondary">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <!-- Formulario para unirse a la llamada -->
+  <div *ngIf="!inCall" class="join-form">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="videocam-outline"></ion-icon>
+          Unirse a Video Consulta
+        </ion-card-title>
+        <ion-card-subtitle>
+          Ingresa el nombre del canal para iniciar la consulta
+        </ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-item>
+          <ion-input 
+            [(ngModel)]="channelName" 
+            placeholder="Nombre del canal"
+            [disabled]="isConnecting">
+          </ion-input>
+          <ion-label slot="start">Canal</ion-label>
+        </ion-item>
+        
+        <div class="error-message" *ngIf="connectionError">
+          <ion-icon name="alert-circle"></ion-icon>
+          {{ connectionError }}
+        </div>
+        
+        <ion-button 
+          expand="block" 
+          size="large"
+          color="primary" 
+          (click)="startCall()"
+          [disabled]="!channelName.trim() || isConnecting">
+          <ion-icon name="videocam" slot="start"></ion-icon>
+          <span *ngIf="!isConnecting">Iniciar Video Consulta</span>
+          <span *ngIf="isConnecting">Conectando...</span>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Información de optimización -->
+    <ion-card class="info-card">
+      <ion-card-content>
+        <div class="optimization-info">
+          <ion-icon name="settings-outline" color="primary"></ion-icon>
+          <div>
+            <h3>Optimización Automática</h3>
+            <p>El sistema detectará automáticamente las capacidades de tu dispositivo para optimizar la calidad de video.</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Interface de video llamada -->
+  <div *ngIf="inCall" class="video-call-interface">
+    
+    <!-- Contenedor de videos en modo split -->
+    <div class="video-grid">
+      
+      <!-- Video del Veterinario (Remoto) -->
+      <div class="video-section veterinario-section">
+        <div class="video-header">
+          <ion-chip color="primary">
+            <ion-icon name="medical"></ion-icon>
+            <ion-label>Veterinario</ion-label>
+          </ion-chip>
+          <ion-badge [color]="mediaState.remoteUserCount > 0 ? 'success' : 'warning'">
+            {{ mediaState.remoteUserCount > 0 ? 'Conectado' : 'Esperando...' }}
+          </ion-badge>
+        </div>
+        
+        <div id="remote-player" class="video-player remote">
+          <div class="no-video" *ngIf="mediaState.remoteUserCount === 0">
+            <ion-icon name="person-outline"></ion-icon>
+            <p>Esperando que el veterinario se conecte...</p>
+          </div>
+        </div>
+        
+        <div class="video-info" *ngIf="mediaState.remoteUserCount > 0">
+          <ion-chip color="success" size="small">
+            <ion-icon name="checkmark-circle"></ion-icon>
+            <ion-label>En línea</ion-label>
+          </ion-chip>
+        </div>
+      </div>
+
+      <!-- Video Tuyo (Local) -->
+      <div class="video-section cliente-section">
+        <div class="video-header">
+          <ion-chip color="secondary">
+            <ion-icon name="person"></ion-icon>
+            <ion-label>Tu Video</ion-label>
+          </ion-chip>
+          <ion-badge [color]="isCameraOff ? 'danger' : 'success'">
+            {{ isCameraOff ? 'Cámara Off' : 'Cámara On' }}
+          </ion-badge>
+        </div>
+        
+        <div id="local-player" class="video-player local">
+          <!-- Indicador de compartir pantalla -->
+          <div class="screen-sharing-indicator" *ngIf="mediaState.isScreenSharing">
+            <ion-icon name="desktop"></ion-icon>
+            Compartiendo pantalla
+          </div>
+          
+          <div class="camera-off-overlay" *ngIf="isCameraOff">
+            <ion-icon name="videocam-off"></ion-icon>
+            <p>Cámara desactivada</p>
+          </div>
+        </div>
+        
+        <div class="video-info">
+          <ion-chip [color]="isMuted ? 'danger' : 'success'" size="small">
+            <ion-icon [name]="isMuted ? 'mic-off' : 'mic'"></ion-icon>
+            <ion-label>{{ isMuted ? 'Silenciado' : 'Audio On' }}</ion-label>
+          </ion-chip>
+        </div>
+      </div>
+    </div>
+
+    <!-- Información de la consulta -->
+    <div class="consultation-info">
+      <ion-card>
+        <ion-card-content>
+          <div class="info-row">
+            <ion-chip color="tertiary">
+              <ion-icon name="wifi"></ion-icon>
+              <ion-label>Canal: {{ channelName }}</ion-label>
+            </ion-chip>
+            
+            <ion-chip [color]="mediaState.currentVideoQuality === 'high' ? 'success' : mediaState.currentVideoQuality === 'medium' ? 'warning' : 'medium'">
+              <ion-icon name="videocam"></ion-icon>
+              <ion-label>{{ mediaState.currentVideoQuality.toUpperCase() }}</ion-label>
+            </ion-chip>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Controles de video -->
+    <div class="video-controls">
+      <div class="controls-row">
+        <!-- Control de micrófono -->
+        <ion-button 
+          [color]="isMuted ? 'danger' : 'success'"
+          shape="round"
+          size="large"
+          (click)="toggleMic()"
+          class="control-button">
+          <ion-icon [name]="isMuted ? 'mic-off' : 'mic'"></ion-icon>
+        </ion-button>
+
+        <!-- Control de cámara -->
+        <ion-button 
+          [color]="isCameraOff ? 'danger' : 'success'"
+          shape="round"
+          size="large"
+          (click)="toggleVideo()"
+          class="control-button">
+          <ion-icon [name]="isCameraOff ? 'videocam-off' : 'videocam'"></ion-icon>
+        </ion-button>
+
+        <!-- Compartir pantalla -->
+        <ion-button 
+          [color]="mediaState.isScreenSharing ? 'warning' : 'medium'"
+          shape="round"
+          size="large"
+          (click)="shareScreen()"
+          class="control-button">
+          <ion-icon [name]="mediaState.isScreenSharing ? 'stop-circle' : 'desktop'"></ion-icon>
+        </ion-button>
+
+        <!-- Intercambiar vista -->
+        <ion-button 
+          fill="outline"
+          shape="round"
+          size="large"
+          (click)="toggleViewMode()"
+          class="control-button">
+          <ion-icon name="swap-horizontal"></ion-icon>
+        </ion-button>
+
+        <!-- Controles de calidad -->
+        <ion-button 
+          fill="outline"
+          shape="round"
+          size="large"
+          id="quality-trigger"
+          class="control-button">
+          <ion-icon name="settings"></ion-icon>
+        </ion-button>
+
+        <!-- Colgar llamada -->
+        <ion-button 
+          color="danger"
+          shape="round"
+          size="large"
+          (click)="leaveCall()"
+          [disabled]="isConnecting"
+          class="control-button hang-up">
+          <ion-icon name="call"></ion-icon>
+        </ion-button>
+      </div>
+
+      <!-- Indicadores de estado -->
+      <div class="status-indicators">
+        <div class="connection-status">
+          <ion-icon name="wifi" [color]="inCall ? 'success' : 'danger'"></ion-icon>
+          <span>{{ inCall ? 'Conectado' : 'Desconectado' }}</span>
+        </div>
+        
+        <div class="participants-count">
+          <ion-icon name="people"></ion-icon>
+          <span>{{ mediaState.remoteUserCount + 1 }} participante(s)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popover para controles de calidad -->
+    <ion-popover trigger="quality-trigger" trigger-action="click">
+      <ng-template>
+        <ion-content>
+          <ion-list>
+            <ion-list-header>
+              <ion-label>Calidad de Video</ion-label>
+            </ion-list-header>
+            
+            <ion-item button (click)="changeVideoQuality('high')">
+              <ion-icon name="videocam" color="success" slot="start"></ion-icon>
+              <ion-label>
+                <h3>Alta (HD)</h3>
+                <p>1280x720, 60fps</p>
+              </ion-label>
+              <ion-icon 
+                *ngIf="mediaState.currentVideoQuality === 'high'" 
+                name="checkmark-circle" 
+                color="success" 
+                slot="end">
+              </ion-icon>
+            </ion-item>
+            
+            <ion-item button (click)="changeVideoQuality('medium')">
+              <ion-icon name="videocam" color="warning" slot="start"></ion-icon>
+              <ion-label>
+                <h3>Media (SD)</h3>
+                <p>640x480, 30fps</p>
+              </ion-label>
+              <ion-icon 
+                *ngIf="mediaState.currentVideoQuality === 'medium'" 
+                name="checkmark-circle" 
+                color="success" 
+                slot="end">
+              </ion-icon>
+            </ion-item>
+            
+            <ion-item button (click)="changeVideoQuality('low')">
+              <ion-icon name="videocam" color="medium" slot="start"></ion-icon>
+              <ion-label>
+                <h3>Baja</h3>
+                <p>320x240, 15fps</p>
+              </ion-label>
+              <ion-icon 
+                *ngIf="mediaState.currentVideoQuality === 'low'" 
+                name="checkmark-circle" 
+                color="success" 
+                slot="end">
+              </ion-icon>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+  </div>
+
+</ion-content>

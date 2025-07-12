@@ -1,0 +1,47 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true" class="video-consulta-container">
+  <div class="video-consulta-header">
+    <ion-icon name="videocam" class="video-icon"></ion-icon>
+    <h1>Videollamada Veterinaria</h1>
+  </div>
+
+  <div class="video-controls">
+    <ion-item>
+      <ion-label position="floating">Nombre del canal</ion-label>
+      <ion-input [(ngModel)]="channelName" [disabled]="inCall"></ion-input>
+    </ion-item>
+    <ion-button expand="block" color="success" (click)="startCall()" [disabled]="inCall || !channelName.trim()">
+      Iniciar
+    </ion-button>
+    <ion-button expand="block" color="danger" (click)="leaveCall()" [disabled]="!inCall">
+      Salir
+    </ion-button>
+  </div>
+
+  <div class="video-container">
+    <div class="participant">
+      <div id="local-player" class="video-box"></div>
+      <div class="participant-footer">
+        <span>Yo</span>
+      </div>
+    </div>
+    <div class="participant">
+      <div id="remote-player" class="video-box"></div>
+      <div class="participant-footer">
+        <span>Veterinario</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="secondary-buttons">
+    <ion-button (click)="toggleMic()" [disabled]="!inCall" color="medium">
+      <ion-icon [name]="isMuted ? 'mic-off' : 'mic'"></ion-icon>
+      {{ isMuted ? 'Activar micrófono' : 'Silenciar micrófono' }}
+    </ion-button>
+    <ion-button (click)="toggleVideo()" [disabled]="!inCall" color="medium">
+      <ion-icon [name]="isCameraOff ? 'videocam-off' : 'videocam'"></ion-icon>
+      {{ isCameraOff ? 'Activar cámara' : 'Apagar cámara' }}
+    </ion-button>
+  </div>
+  <app-footer></app-footer>
+</ion-content>

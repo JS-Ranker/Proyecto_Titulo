@@ -18,7 +18,8 @@ import adopcionesRoutes from './routes/adopciones.routes.js';
 import historialClinicoRoutes from './routes/historialClinico.routes.js';
 import testRoutes from './routes/test.routes.js';
 
-dotenv.config();
+// Configurar dotenv para que busque el archivo .env en el directorio padre
+dotenv.config({ path: path.join(process.cwd(), '..', '.env') });
 
 const app = express();
 

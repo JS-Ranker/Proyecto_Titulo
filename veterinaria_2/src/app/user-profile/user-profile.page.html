@@ -1,0 +1,362 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Mi Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="navigateToVideoConsulta()" title="Video Consulta">
+        <ion-icon name="videocam"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <!-- Estado de carga -->
+  <div class="loading-container" *ngIf="loading">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando perfil...</p>
+  </div>
+  
+  <!-- Estado de error -->
+  <div class="error-container" *ngIf="error && !loading">
+    <ion-icon name="alert-circle" color="danger"></ion-icon>
+    <h2>Error al cargar perfil</h2>
+    <p>{{error}}</p>
+    <ion-button color="primary" (click)="loadUserData()">
+      <ion-icon name="refresh" slot="start"></ion-icon>
+      Reintentar
+    </ion-button>
+  </div>
+
+  <div class="profile-container" *ngIf="!loading && !error && userData">
+    
+    <!-- Header del perfil -->
+    <div class="profile-header">
+      <div class="avatar-container">
+        <ion-icon name="person-circle" class="avatar-icon"></ion-icon>
+      </div>
+      <h1 class="user-name">{{userData.nombre}} {{userData.apellido}}</h1>
+      <p class="user-rut">{{userData.rut}}</p>
+    </div>
+
+    <!-- Información del usuario -->
+    <div class="profile-sections">
+      
+      <!-- Sección Email -->
+      <ion-card class="profile-card">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="mail"></ion-icon>
+            Email
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngIf="!emailState.isEditing" class="field-display">
+            <p class="field-value">{{userData.email || 'No especificado'}}</p>
+            <ion-button 
+              fill="clear" 
+              color="primary" 
+              (click)="startEditingEmail()"
+              class="edit-btn">
+              <ion-icon name="create" slot="icon-only"></ion-icon>
+            </ion-button>
+            <div *ngIf="emailState.showSuccess" class="success-indicator">
+              <ion-icon name="checkmark-circle" color="success"></ion-icon>
+              <span>Actualizado</span>
+            </div>
+          </div>
+          
+          <div *ngIf="emailState.isEditing" class="field-edit">
+            <ion-item>
+              <ion-input
+                type="email"
+                [(ngModel)]="emailState.value"
+                placeholder="Ingresa tu email"
+                required>
+              </ion-input>
+            </ion-item>
+            <div class="edit-actions">
+              <ion-button 
+                fill="clear" 
+                color="medium" 
+                (click)="cancelEmailEdit()">
+                <ion-icon name="close" slot="start"></ion-icon>
+                Cancelar
+              </ion-button>
+              <ion-button 
+                color="primary" 
+                (click)="saveEmail()"
+                [disabled]="emailState.isUpdating">
+                <ion-spinner name="crescent" *ngIf="emailState.isUpdating"></ion-spinner>
+                <ion-icon name="save" slot="start" *ngIf="!emailState.isUpdating"></ion-icon>
+                {{emailState.isUpdating ? 'Guardando...' : 'Guardar'}}
+              </ion-button>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Sección Teléfono -->
+      <ion-card class="profile-card">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="call"></ion-icon>
+            Teléfono
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngIf="!telefonoState.isEditing" class="field-display">
+            <p class="field-value">{{userData.telefono || 'No especificado'}}</p>
+            <ion-button 
+              fill="clear" 
+              color="primary" 
+              (click)="startEditingTelefono()"
+              class="edit-btn">
+              <ion-icon name="create" slot="icon-only"></ion-icon>
+            </ion-button>
+            <div *ngIf="telefonoState.showSuccess" class="success-indicator">
+              <ion-icon name="checkmark-circle" color="success"></ion-icon>
+              <span>Actualizado</span>
+            </div>
+          </div>
+          
+          <div *ngIf="telefonoState.isEditing" class="field-edit">
+            <ion-item>
+              <ion-input
+                type="tel"
+                [(ngModel)]="telefonoState.value"
+                placeholder="Ingresa tu teléfono"
+                required>
+              </ion-input>
+            </ion-item>
+            <div class="edit-actions">
+              <ion-button 
+                fill="clear" 
+                color="medium" 
+                (click)="cancelTelefonoEdit()">
+                <ion-icon name="close" slot="start"></ion-icon>
+                Cancelar
+              </ion-button>
+              <ion-button 
+                color="primary" 
+                (click)="saveTelefono()"
+                [disabled]="telefonoState.isUpdating">
+                <ion-spinner name="crescent" *ngIf="telefonoState.isUpdating"></ion-spinner>
+                <ion-icon name="save" slot="start" *ngIf="!telefonoState.isUpdating"></ion-icon>
+                {{telefonoState.isUpdating ? 'Guardando...' : 'Guardar'}}
+              </ion-button>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Sección Contraseña -->
+      <ion-card class="profile-card">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="lock-closed"></ion-icon>
+            Contraseña
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngIf="!passwordState.isEditing" class="field-display">
+            <p class="field-value">••••••••</p>
+            <ion-button 
+              fill="clear" 
+              color="primary" 
+              (click)="startEditingPassword()"
+              class="edit-btn">
+              <ion-icon name="create" slot="icon-only"></ion-icon>
+            </ion-button>
+            <div *ngIf="passwordState.showSuccess" class="success-indicator">
+              <ion-icon name="checkmark-circle" color="success"></ion-icon>
+              <span>Actualizada</span>
+            </div>
+          </div>
+          
+          <div *ngIf="passwordState.isEditing" class="field-edit password-edit">
+            <!-- Contraseña actual -->
+            <ion-item>
+              <ion-label position="stacked">Contraseña actual</ion-label>
+              <ion-input
+                [type]="passwordState.showCurrentPassword ? 'text' : 'password'"
+                [(ngModel)]="passwordState.currentPassword"
+                placeholder="Ingresa tu contraseña actual"
+                required>
+                <ion-button 
+                  fill="clear" 
+                  slot="end" 
+                  (click)="togglePasswordVisibility('current')">
+                  <ion-icon [name]="passwordState.showCurrentPassword ? 'eye-off' : 'eye'"></ion-icon>
+                </ion-button>
+              </ion-input>
+            </ion-item>
+
+            <!-- Nueva contraseña -->
+            <ion-item>
+              <ion-label position="stacked">Nueva contraseña</ion-label>
+              <ion-input
+                [type]="passwordState.showPassword ? 'text' : 'password'"
+                [(ngModel)]="passwordState.value"
+                placeholder="Ingresa la nueva contraseña"
+                required>
+                <ion-button 
+                  fill="clear" 
+                  slot="end" 
+                  (click)="togglePasswordVisibility('new')">
+                  <ion-icon [name]="passwordState.showPassword ? 'eye-off' : 'eye'"></ion-icon>
+                </ion-button>
+              </ion-input>
+            </ion-item>
+
+            <!-- Confirmar contraseña -->
+            <ion-item>
+              <ion-label position="stacked">Confirmar nueva contraseña</ion-label>
+              <ion-input
+                [type]="passwordState.showConfirmPassword ? 'text' : 'password'"
+                [(ngModel)]="passwordState.confirmPassword"
+                placeholder="Confirma la nueva contraseña"
+                required>
+                <ion-button 
+                  fill="clear" 
+                  slot="end" 
+                  (click)="togglePasswordVisibility('confirm')">
+                  <ion-icon [name]="passwordState.showConfirmPassword ? 'eye-off' : 'eye'"></ion-icon>
+                </ion-button>
+              </ion-input>
+            </ion-item>
+
+            <div class="edit-actions">
+              <ion-button 
+                fill="clear" 
+                color="medium" 
+                (click)="cancelPasswordEdit()">
+                <ion-icon name="close" slot="start"></ion-icon>
+                Cancelar
+              </ion-button>
+              <ion-button 
+                color="primary" 
+                (click)="savePassword()"
+                [disabled]="passwordState.isUpdating">
+                <ion-spinner name="crescent" *ngIf="passwordState.isUpdating"></ion-spinner>
+                <ion-icon name="save" slot="start" *ngIf="!passwordState.isUpdating"></ion-icon>
+                {{passwordState.isUpdating ? 'Guardando...' : 'Guardar'}}
+              </ion-button>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Sección Mascotas -->
+      <ion-card class="profile-card pets-card">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="paw"></ion-icon>
+            Mis Mascotas
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          
+          <!-- Estado de carga de mascotas -->
+          <div *ngIf="loadingPets" class="loading-pets">
+            <ion-spinner name="crescent" color="primary"></ion-spinner>
+            <p>Cargando mascotas...</p>
+          </div>
+
+          <!-- Sin mascotas -->
+          <div *ngIf="!loadingPets && pets.length === 0" class="no-pets">
+            <ion-icon name="paw" class="no-pets-icon"></ion-icon>
+            <p>No tienes mascotas registradas</p>
+            <ion-button 
+              color="primary" 
+              (click)="navigateToAddPet()">
+              <ion-icon name="add" slot="start"></ion-icon>
+              Agregar mascota
+            </ion-button>
+          </div>
+          
+          <!-- Lista de mascotas -->
+          <div *ngIf="!loadingPets && pets.length > 0" class="pets-list">
+            <div *ngFor="let pet of pets; trackBy: trackByPetId" class="pet-item">
+              <div class="pet-avatar">
+                <img 
+                  *ngIf="getPetImageUrl(pet)" 
+                  [src]="getPetImageUrl(pet)" 
+                  [alt]="pet.nombre_mascota"
+                  class="pet-image"
+                  (error)="onImageError($event)">
+                <ion-icon 
+                  *ngIf="!getPetImageUrl(pet)" 
+                  name="paw" 
+                  class="pet-icon-placeholder"></ion-icon>
+              </div>
+              
+              <div class="pet-info">
+                <h3>{{pet.nombre_mascota}}</h3>
+                <p class="pet-type">{{getPetType(pet)}}</p>
+                <div class="pet-details">
+                  <span class="pet-detail">
+                    <ion-icon name="calendar"></ion-icon>
+                    {{getPetAge(pet.fecha_nac_mascota)}}
+                  </span>
+                  <span class="pet-detail" *ngIf="pet.peso_kg">
+                    <ion-icon name="scale"></ion-icon>
+                    {{getPetWeight(pet.peso_kg)}}
+                  </span>
+                  <span class="pet-detail">
+                    <ion-icon name="male-female"></ion-icon>
+                    {{getPetSex(pet.sexo_mascota)}}
+                  </span>
+                </div>
+                <div class="pet-extra-info" *ngIf="pet.color_mascota || pet.esta_esterilizado !== undefined">
+                  <span *ngIf="pet.color_mascota" class="pet-color">
+                    <ion-icon name="color-palette"></ion-icon>
+                    {{pet.color_mascota}}
+                  </span>
+                  <span class="pet-sterilized">
+                    <ion-icon [name]="(pet.esta_esterilizado === true || pet.esta_esterilizado === 1) ? 'checkmark-circle' : 'close-circle'"></ion-icon>
+                    {{isPetSterilized(pet.esta_esterilizado)}}
+                  </span>
+                </div>
+                <div class="pet-microchip" *ngIf="pet.codigo_microchip">
+                  <ion-icon name="barcode"></ion-icon>
+                  <small>Microchip: {{pet.codigo_microchip}}</small>
+                </div>
+              </div>
+              
+              <ion-button 
+                fill="clear" 
+                color="primary"
+                class="pet-action-btn"
+                (click)="navigateToPetDetail(pet)">
+                <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+              </ion-button>
+            </div>
+            
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+  </div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando perfil...</p>
+  </div>
+
+  <!-- Estado de error -->
+  <div *ngIf="error && !loading" class="error-container">
+    <ion-icon name="alert-circle" color="danger"></ion-icon>
+    <p>{{error}}</p>
+    <ion-button color="primary" (click)="loadUserData()">
+      <ion-icon name="refresh" slot="start"></ion-icon>
+      Reintentar
+    </ion-button>
+  </div>
+
+</ion-content>
