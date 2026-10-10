@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom"; // <-- importa useNavigate
 import { mascotasService } from "../../services/mascotas";
 import styles from "./PetsPage.module.css";
 
+import { urlArchivo } from '../../services/api';
 const ESPECIES_MAP: Record<number, string> = {
   1: "Perro",
   2: "Gato",
@@ -74,7 +75,7 @@ const PetsPage: React.FC = () => {
                 <div className={styles.petImageContainer}>
                   {pet.url_imagen_mascota ? (
                     <img
-                      src={`http://localhost:3000/${pet.url_imagen_mascota}`}
+                      src={urlArchivo(pet.url_imagen_mascota)}
                       alt={pet.nombre_mascota}
                       className={styles.petImage}
                     />

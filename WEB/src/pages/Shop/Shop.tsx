@@ -5,6 +5,7 @@ import { productosService } from "../../services/productos";
 import { categoriasService } from "../../services/categorias"; // Asegúrate de tener este servicio
 import styles from "./Shop.module.css";
 
+import { urlArchivo } from '../../services/api';
 interface Product {
   id: number;
   codigo_sku?: string;
@@ -212,7 +213,7 @@ const Shop = () => {
             <div key={product.id} className={styles.productCard}>
               <div className={styles.productImageContainer}>
                 <img
-                  src={`http://localhost:3000/${product.imagen_url}`}
+                  src={urlArchivo(product.imagen_url)}
                   alt={product.nombre}
                   className={styles.productImage}
                 />
@@ -291,7 +292,7 @@ const Shop = () => {
                   <img
                     src={
                       item.imagen_url
-                        ? `http://localhost:3000/${item.imagen_url}`
+                        ? urlArchivo(item.imagen_url)
                         : "/images/default-product.png"
                     }
                     alt={item.nombre}

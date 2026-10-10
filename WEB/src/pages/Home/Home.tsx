@@ -1,6 +1,6 @@
 import { FaPaw } from "react-icons/fa";
 import CarouselBanner from "../../components/common/CarouselBanner/CarouselBanner";
-import styles from "./home.module.css";
+import styles from "./Home.module.css";
 
 const Home = () => {
   return (

@@ -28,9 +28,9 @@ INSERT INTO `productos` VALUES (9,'SKU001','Alimento Premium para Perros 10kg','
 
 -- Veterinarios demo
 INSERT INTO `veterinarios` (id, nombre, email, telefono, password, especialidad_id, numero_licencia, activo) VALUES
-  (1, 'Dra. Camila Rojas', 'camila.rojas@happypet.cl', '912345601', '$2b$10$fUIe/NC3YTL7oA.ki9WMdO/U1yXazIUs.NaBtvCT6iLm/0N3.nx6a', 7, 'VET-1001', 1),
-  (2, 'Dr. Matías Fuentes', 'matias.fuentes@happypet.cl', '912345602', '$2b$10$fUIe/NC3YTL7oA.ki9WMdO/U1yXazIUs.NaBtvCT6iLm/0N3.nx6a', 1, 'VET-1002', 1),
-  (3, 'Dra. Valentina Soto', 'valentina.soto@happypet.cl', '912345603', '$2b$10$fUIe/NC3YTL7oA.ki9WMdO/U1yXazIUs.NaBtvCT6iLm/0N3.nx6a', 5, 'VET-1003', 1);
+  (1, 'Camila Rojas', 'camila.rojas@happypet.cl', '912345601', '$2b$10$fUIe/NC3YTL7oA.ki9WMdO/U1yXazIUs.NaBtvCT6iLm/0N3.nx6a', 7, 'VET-1001', 1),
+  (2, 'Matías Fuentes', 'matias.fuentes@happypet.cl', '912345602', '$2b$10$fUIe/NC3YTL7oA.ki9WMdO/U1yXazIUs.NaBtvCT6iLm/0N3.nx6a', 1, 'VET-1002', 1),
+  (3, 'Valentina Soto', 'valentina.soto@happypet.cl', '912345603', '$2b$10$fUIe/NC3YTL7oA.ki9WMdO/U1yXazIUs.NaBtvCT6iLm/0N3.nx6a', 5, 'VET-1003', 1);
 
 -- Dueños demo
 INSERT INTO `duenos` (rut, nombre, apellido, email, telefono, password, activo) VALUES

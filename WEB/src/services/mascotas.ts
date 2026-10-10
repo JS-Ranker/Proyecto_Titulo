@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3000/api/mascotas';
+import { API_BASE } from './api';
+const API_BASE_URL = `${API_BASE}/api/mascotas`;
 
 interface MascotaData {
     id_mascota?: number;

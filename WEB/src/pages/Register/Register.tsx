@@ -231,7 +231,7 @@ const Register = () => {
     setIsSubmitting(true);
   
  try {
-  const response = await apiService.crearDueno(formData);
+  await apiService.crearDueno(formData);
   setRegistrationSuccess(true);
   setIsSubmitting(false);
 } catch (error: any) {

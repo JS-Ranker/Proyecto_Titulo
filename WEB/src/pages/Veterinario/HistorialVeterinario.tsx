@@ -5,6 +5,7 @@ import { FaHistory, FaSearch, FaPlus, FaEye, FaArrowLeft } from 'react-icons/fa'
 import { historialClinicoService, MascotaAtendida } from '../../services/historialClinico';
 import styles from './HistorialVeterinario.module.css';
 
+import { urlArchivo } from '../../services/api';
 const HistorialVeterinario: React.FC = () => {
   const { veterinario, isVeterinario, isLoading } = useAuth();
   const navigate = useNavigate();
@@ -105,7 +106,7 @@ const HistorialVeterinario: React.FC = () => {
                 <div className={styles.mascotaImage}>
                   {mascota.url_imagen_mascota ? (
                     <img
-                      src={`http://localhost:3000/${mascota.url_imagen_mascota}`}
+                      src={urlArchivo(mascota.url_imagen_mascota)}
                       alt={mascota.nombre_mascota}
                     />
                   ) : (

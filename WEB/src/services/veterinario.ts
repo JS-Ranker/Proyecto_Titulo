@@ -1,5 +1,6 @@
 import axios from "axios";
-const API_BASE_URL = "http://localhost:3000/api/veterinarios";
+import { API_BASE } from './api';
+const API_BASE_URL = `${API_BASE}/api/veterinarios`;
 
 export interface Veterinario {
   id: number;

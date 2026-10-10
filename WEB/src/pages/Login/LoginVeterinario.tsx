@@ -86,8 +86,8 @@ const LoginVeterinario = () => {
       setLoadingSuccess(true);
       
       setTimeout(() => {
-        // The response structure is: { data: { message: 'Login exitoso', data: veterinarioData } }
-        loginVeterinario(response.data.data);
+        // La respuesta es: { data: { message, data: veterinario, token } }
+        loginVeterinario(response.data.data, response.data.token);
         setLoadingSuccess(false);
         setSuccess(true);
         setIsSubmitting(false);

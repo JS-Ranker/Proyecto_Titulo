@@ -8,6 +8,7 @@ import { apiService } from "../../services/duenos";
 interface LoginResponse {
   data: {
     rut: string;
+    token: string;
     // Otros campos que pueda tener la respuesta
   }
 }
@@ -129,10 +130,11 @@ const Login = () => {
       
       setTimeout(() => {
         // Usar el AuthContext para manejar el login con datos completos
-        login(response.data);
+        const { token, ...dueno } = response.data;
+        login(dueno, token);
 
-        // Guarda el usuario en localStorage para compatibilidad
-        localStorage.setItem("currentUser", JSON.stringify(response.data));
+        // Guarda el usuario en localStorage para compatibilidad (sin el token)
+        localStorage.setItem("currentUser", JSON.stringify(dueno));
 
         // Mostrar modal de éxito
         setLoadingSuccess(false);

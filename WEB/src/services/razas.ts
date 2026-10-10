@@ -1,5 +1,6 @@
 import axios from "axios";
-const API_BASE_URL = "http://localhost:3000/api/razas";
+import { API_BASE } from './api';
+const API_BASE_URL = `${API_BASE}/api/razas`;
 
 export const razasService = {
   getAll: () => axios.get(API_BASE_URL),

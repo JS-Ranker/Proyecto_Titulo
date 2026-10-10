@@ -3,9 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../utils/AuthContext';
 import { FaArrowLeft, FaCalendarAlt, FaStethoscope, FaFileAlt, FaPlus, FaEdit, FaTrash, FaDownload, FaPaw, FaUser, FaPhone, FaEnvelope, FaVenusMars, FaWeight, FaBirthdayCake, FaPalette, FaMicrochip, FaCut } from 'react-icons/fa';
 import { historialClinicoService, RegistroHistorial } from '../../services/historialClinico';
-import { mascotasService, MascotaData } from '../../services/mascotas';
+import { mascotasService } from '../../services/mascotas';
 import styles from './DetalleHistorial.module.css';
 
+import { urlArchivo } from '../../services/api';
 interface Mascota {
   id_mascota: number;
   nombre_mascota: string;
@@ -27,7 +28,7 @@ interface Mascota {
 
 const DetalleHistorial: React.FC = () => {
   const { mascota_id } = useParams<{ mascota_id: string }>();
-  const { veterinario, isVeterinario, isLoading } = useAuth();
+  const { isVeterinario, isLoading } = useAuth();
   const navigate = useNavigate();
   
   const [historial, setHistorial] = useState<RegistroHistorial[]>([]);
@@ -165,7 +166,7 @@ const DetalleHistorial: React.FC = () => {
             <div className={styles.mascotaImage}>
               {mascota.url_imagen_mascota ? (
                 <img
-                  src={`http://localhost:3000/${mascota.url_imagen_mascota}`}
+                  src={urlArchivo(mascota.url_imagen_mascota)}
                   alt={mascota.nombre_mascota}
                 />
               ) : (
@@ -325,7 +326,7 @@ const DetalleHistorial: React.FC = () => {
                         <div className={styles.archivo}>
                           <FaDownload />
                           <a 
-                            href={`http://localhost:3000/${registro.archivos_adjuntos}`}
+                            href={urlArchivo(registro.archivos_adjuntos)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className={styles.archivoLink}

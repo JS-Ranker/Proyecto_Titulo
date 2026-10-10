@@ -18,6 +18,7 @@ import { tiposConsultaService, TipoConsulta } from "../../services/tipos_consult
 import { veterinariosService, Veterinario } from "../../services/veterinario";
 import styles from "./AgendamientoCitas.module.css";
 
+import { urlArchivo } from '../../services/api';
 const AgendamientoCitas = () => {
   const [step, setStep] = useState<number>(1);
   const [currentMonth, setCurrentMonth] = useState<number>(
@@ -381,7 +382,7 @@ const AgendamientoCitas = () => {
               <div className={styles.mascotaHeader}>
                 {selectedMascota.url_imagen_mascota && (
                   <img
-                    src={`http://localhost:3000/${selectedMascota.url_imagen_mascota}`}
+                    src={urlArchivo(selectedMascota.url_imagen_mascota)}
                     alt={selectedMascota.nombre_mascota}
                     className={styles.mascotaAvatar}
                   />

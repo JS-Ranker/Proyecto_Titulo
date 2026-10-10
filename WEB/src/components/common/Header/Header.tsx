@@ -4,7 +4,7 @@ import { FaPaw, FaUserCircle, FaHome, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaT
 import { useAuth } from "../../../utils/AuthContext";
 import { productosService } from '../../../services/productos';
 import SearchBar from '../SearchBar/SearchBar';
-import styles from "./header.module.css";
+import styles from "./Header.module.css";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

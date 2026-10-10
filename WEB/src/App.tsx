@@ -43,8 +43,10 @@ import Adoptame from "./pages/adoptame/adoptame";
 
 // Componente para proteger rutas
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const { isLoggedIn } = useAuth();
-  return isLoggedIn ? children : <Navigate to="/login" replace />;
+  const { isLoggedIn, isDueno, isLoading } = useAuth();
+  // Esperar a que se restaure la sesión guardada; si no, al recargar la página se expulsaba al usuario
+  if (isLoading) return null;
+  return isLoggedIn && isDueno() ? children : <Navigate to="/login" replace />;
 };
 
 // Componente para proteger rutas de veterinarios

@@ -6,6 +6,7 @@ import { historialClinicoService } from '../../services/historialClinico';
 import { mascotasService } from '../../services/mascotas';
 import styles from './FormularioHistorial.module.css';
 
+import { urlArchivo } from '../../services/api';
 const FormularioHistorial: React.FC = () => {
   const { mascota_id, registro_id } = useParams<{ mascota_id: string; registro_id?: string }>();
   const { veterinario, isVeterinario, isLoading } = useAuth();
@@ -251,7 +252,7 @@ const FormularioHistorial: React.FC = () => {
               <div className={styles.currentFile}>
                 Archivo actual: 
                 <a 
-                  href={`http://localhost:3000/${formData.archivos_adjuntos}`}
+                  href={urlArchivo(formData.archivos_adjuntos)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.fileLink}

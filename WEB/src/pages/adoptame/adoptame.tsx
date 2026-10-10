@@ -4,6 +4,7 @@ import { MdPets } from 'react-icons/md';
 import './adoptame.css';
 import { getAdopciones, Adopcion } from '../../services/adopciones';
 
+import { urlArchivo } from '../../services/api';
 const Adoptame: React.FC = () => {
   const [adopciones, setAdopciones] = useState<Adopcion[]>([]);
   const [filteredAdopciones, setFilteredAdopciones] = useState<Adopcion[]>([]);
@@ -462,7 +463,7 @@ Email del contacto: ${selectedPet.contacto_email}
                           <div className="petImage loading" />
                         )}
                         <img 
-                          src={adopcion.imagen_url.startsWith('http') ? adopcion.imagen_url : `http://localhost:3000/${adopcion.imagen_url}`} 
+                          src={adopcion.imagen_url.startsWith('http') ? adopcion.imagen_url : urlArchivo(adopcion.imagen_url)} 
                           alt={adopcion.nombre_mascota} 
                           className={`petImage ${imageErrors[adopcion.id] ? 'error' : ''}`}
                           onLoad={() => handleImageLoad(adopcion.id)}
@@ -609,7 +610,7 @@ Email del contacto: ${selectedPet.contacto_email}
                           </div>
                         )}
                         <img 
-                          src={selectedPet.imagen_url.startsWith('http') ? selectedPet.imagen_url : `http://localhost:3000/${selectedPet.imagen_url}`} 
+                          src={selectedPet.imagen_url.startsWith('http') ? selectedPet.imagen_url : urlArchivo(selectedPet.imagen_url)} 
                           alt={selectedPet.nombre_mascota}
                           className={`petImage ${imageErrors[selectedPet.id] ? 'error' : ''}`}
                           onLoad={() => handleImageLoad(selectedPet.id)}

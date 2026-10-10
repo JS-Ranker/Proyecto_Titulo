@@ -1,5 +1,6 @@
 // WEB/src/utils/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { borrarToken, guardarToken, obtenerToken } from '../services/api';
 
 interface User {
   rut?: string;
@@ -23,8 +24,8 @@ interface AuthContextType {
   veterinario: Veterinario | null;
   userType: 'dueno' | 'veterinario' | null;
   isLoading: boolean;
-  login: (userData: User) => void;
-  loginVeterinario: (veterinarioData: Veterinario) => void;
+  login: (userData: User, token: string) => void;
+  loginVeterinario: (veterinarioData: Veterinario, token: string) => void;
   logout: () => void;
   getCurrentUserRut: () => string | null;
   getCurrentVeterinarioId: () => number | null;
@@ -45,6 +46,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const checkStoredSession = () => {
       try {
+        // Sin token no hay sesión válida (por ejemplo, sesiones guardadas antes del login con JWT)
+        if (!obtenerToken()) {
+          localStorage.removeItem('happypet_user');
+          localStorage.removeItem('happypet_veterinario');
+          localStorage.removeItem('currentUser');
+          setIsLoading(false);
+          return;
+        }
+
         // Verificar sesión de veterinario primero
         const savedVeterinario = localStorage.getItem('happypet_veterinario');
         
@@ -97,7 +107,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setTimeout(checkStoredSession, 100);
   }, []);
 
-  const login = (userData: User) => {
+  const login = (userData: User, token: string) => {
+    guardarToken(token);
     setUser(userData);
     setVeterinario(null);
     setUserType('dueno');
@@ -107,7 +118,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('happypet_veterinario');
   };
 
-  const loginVeterinario = (veterinarioData: Veterinario) => {
+  const loginVeterinario = (veterinarioData: Veterinario, token: string) => {
+    guardarToken(token);
     setVeterinario(veterinarioData);
     setUser(null);
     setUserType('veterinario');
@@ -125,6 +137,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUserType(null);
     setIsLoggedIn(false);
     // Limpiar localStorage
+    borrarToken();
     localStorage.removeItem('happypet_user');
     localStorage.removeItem('happypet_veterinario');
     localStorage.removeItem('currentUser');

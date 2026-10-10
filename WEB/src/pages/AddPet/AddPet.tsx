@@ -5,6 +5,7 @@ import { razasService } from "../../services/razas";
 import { especiesService } from "../../services/especies";
 import styles from "./AddPet.module.css";
 
+import { API_BASE, cabeceraAuth } from '../../services/api';
 interface PetData {
   nombre_mascota: string;
   id_especie: number | "";
@@ -109,9 +110,10 @@ const AddPet = () => {
 
     // Enviar al backend
     try {
-      const response = await fetch("http://localhost:3000/api/mascotas", {
+      const response = await fetch(`${API_BASE}/api/mascotas`, {
         method: "POST",
-        body: formData, 
+        headers: cabeceraAuth(),
+        body: formData,
       });
       if (!response.ok) {
         const errorData = await response.json();

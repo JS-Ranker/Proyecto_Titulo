@@ -1,7 +1,8 @@
 
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3000/api/duenos'; // Ajusta según tu configuración
+import { API_BASE } from './api';
+const API_BASE_URL = `${API_BASE}/api/duenos`; // Ajusta según tu configuración
 
 interface LoginData {
   rut: string;
@@ -22,7 +23,9 @@ interface UpdateDuenoData {
   apellido: string;
   email: string;
   telefono: string | null;
-  password: string;
+  // Solo al cambiar la contraseña: el backend verifica la actual antes de guardar la nueva
+  password_actual?: string;
+  password_nueva?: string;
 }
 
 export const apiService = {

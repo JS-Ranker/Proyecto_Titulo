@@ -5,6 +5,7 @@ import { historialClinicoService, RegistroHistorial } from '../../services/histo
 import { mascotasService } from '../../services/mascotas';
 import styles from './HistorialMascotaDueno.module.css';
 
+import { urlArchivo } from '../../services/api';
 interface Mascota {
   id_mascota: number;
   nombre_mascota: string;
@@ -107,7 +108,7 @@ const HistorialMascotaDueno: React.FC = () => {
             <div className={styles.mascotaImage}>
               {mascota.url_imagen_mascota ? (
                 <img
-                  src={`http://localhost:3000/${mascota.url_imagen_mascota}`}
+                  src={urlArchivo(mascota.url_imagen_mascota)}
                   alt={mascota.nombre_mascota}
                 />
               ) : (
@@ -165,7 +166,7 @@ const HistorialMascotaDueno: React.FC = () => {
                         <div className={styles.archivo}>
                           <FaDownload />
                           <a 
-                            href={`http://localhost:3000/${registro.archivos_adjuntos}`}
+                            href={urlArchivo(registro.archivos_adjuntos)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className={styles.archivoLink}

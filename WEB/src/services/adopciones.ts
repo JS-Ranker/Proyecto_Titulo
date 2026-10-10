@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { API_BASE } from './api';
 export interface Adopcion {
   id: number;
   titulo: string;
@@ -18,7 +19,7 @@ export interface Adopcion {
   imagen_url?: string;
 }
 
-const API_URL = 'http://localhost:3000/api/adopciones'; // Cambia el puerto si es necesario
+const API_URL = `${API_BASE}/api/adopciones`; // Cambia el puerto si es necesario
 
 export const getAdopciones = async (): Promise<Adopcion[]> => {
   const res = await axios.get<Adopcion[]>(API_URL);

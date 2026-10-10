@@ -1,5 +1,6 @@
 import axios from "axios";
-const API_BASE_URL = "http://localhost:3000/api/citas";
+import { API_BASE } from './api';
+const API_BASE_URL = `${API_BASE}/api/citas`;
 
 export interface CitaData {
   mascota_id: number;
@@ -18,7 +19,7 @@ export const citasService = {
     return response.data;
   },
   obtenerCitasPorDueno: async (rut: string) => {
-    const response = await axios.get(`http://localhost:3000/api/citas/dueno/${rut}`);
+    const response = await axios.get(`${API_BASE}/api/citas/dueno/${rut}`);
     return response.data;
   },
   cancelarCita: async (id: number) => {

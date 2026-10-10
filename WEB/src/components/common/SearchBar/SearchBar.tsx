@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./SearchBar.css";
 
+import { urlArchivo } from '../../../services/api';
 interface Producto {
   id: number;
   nombre: string;
@@ -53,7 +54,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ productos }) => {
             {resultados.map((producto) => (
               <li key={producto.id} className="resultado-item">
                 <img
-                  src={`http://localhost:3000/${producto.imagen_url}`}
+                  src={urlArchivo(producto.imagen_url)}
                   alt={producto.nombre}
                   className="img-producto"
                   onError={(e) => (e.currentTarget.src = "/default-product.png")}

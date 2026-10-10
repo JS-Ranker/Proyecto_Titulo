@@ -14,7 +14,6 @@ export class AgoraService {
   isConnected: boolean = false;
   remoteUsers: Map<UID, any> = new Map();
   currentVideoConfig: "high" | "medium" | "low" = "high";
-  private isJoining: boolean = false; // Flag to prevent multiple join attempts
 
   constructor() {
     // Prevenir múltiples instancias

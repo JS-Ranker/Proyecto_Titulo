@@ -18,6 +18,7 @@ import {
 import { citasVeterinarioService, CitaVeterinario, EstadisticasVeterinario } from '../../services/citasVeterinario';
 import styles from './CitasVeterinario.module.css';
 
+import { urlArchivo } from '../../services/api';
 const CitasVeterinario = () => {
   const { veterinario, isVeterinario } = useAuth();
   const navigate = useNavigate();
@@ -138,7 +139,7 @@ const CitasVeterinario = () => {
     // Si ya es una URL completa, la devolvemos tal como está
     if (rutaImagen.startsWith('http')) return rutaImagen;
     // Si es una ruta relativa, construimos la URL completa
-    return `http://localhost:3000/${rutaImagen}`;
+    return urlArchivo(rutaImagen);
   };
 
   const abrirModalDetalle = (cita: CitaVeterinario) => {

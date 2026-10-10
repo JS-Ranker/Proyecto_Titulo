@@ -6,6 +6,7 @@ import { apiService } from '../../services/duenos';
 import { mascotasService } from '../../services/mascotas'; // Asegúrate de importar el servicio
 import styles from './UserProfile.module.css';
 
+import { urlArchivo } from '../../services/api';
 // Tipos
 interface Pet {
   id: number;
@@ -514,7 +515,7 @@ const PetsSection: React.FC<{ pets: any[] }> = ({ pets }) => (
         <div key={pet.id} className={styles.petCard}>
           {pet.url_imagen_mascota ? (
             <img
-              src={`http://localhost:3000/${pet.url_imagen_mascota}`}
+              src={urlArchivo(pet.url_imagen_mascota)}
               alt={pet.nombre}
               className={styles.petImage}
             />
@@ -610,15 +611,11 @@ const UserProfile: React.FC = () => {
 
     setUpdating(true);
     try {
-      // CORRECCIÓN: Usar la contraseña actual del estado o una por defecto
-      const currentPassword = passwordState.currentPassword || userData.password || '';
-      
       const updateData = {
         nombre: userData.nombre,
         apellido: userData.apellido,
         email: userData.email,
         telefono: userData.telefono,
-        password: currentPassword, // Usar contraseña actual por defecto
       };
 
       // Actualizar solo el campo específico
@@ -629,15 +626,14 @@ const UserProfile: React.FC = () => {
         case 'telefono':
           updateData.telefono = telefonoState.value || '';
           break;
-        case 'password':
-          // Para contraseña, usar la nueva contraseña
-          updateData.password = passwordState.value;
-          break;
       }
 
-      console.log('Enviando datos:', updateData); // Para debug
+      // La contraseña solo viaja cuando se cambia, junto con la actual para que el backend la verifique
+      const passwordData = field === 'password'
+        ? { password_actual: passwordState.currentPassword, password_nueva: passwordState.value }
+        : {};
 
-      await apiService.actualizarDueno(userData.rut, updateData);
+      await apiService.actualizarDueno(userData.rut, { ...updateData, ...passwordData });
 
       // Actualizar userData local
       setUserData({ ...userData, ...updateData });
