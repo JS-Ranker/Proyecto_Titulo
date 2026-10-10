@@ -9,10 +9,18 @@ www/
 *.log
 *.tmp
 
-# Archivos de configuración del entorno
+# Archivos de configuración del entorno (se versionan solo los .env.example)
 .env
-.env.local
-.env.production
+.env.*
+!.env.example
+
+# Secretos y respaldos de base de datos: nunca al repositorio
+*.key
+*.pem
+*.crt
+*.sql
+!BACKEND/db/*.sql
+.vercel
 
 # Archivos del sistema
 .DS_Store
