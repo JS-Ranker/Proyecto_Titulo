@@ -1,5 +1,4 @@
 import express from 'express';
-import multer from 'multer';
 import {
   traerMascotas,
   crearMascota,
@@ -12,31 +11,24 @@ import {
   activarMascotasPorDueno,
   obtenerDatosCompletos
 } from '../controllers/mascotas.controller.js';
+import { crearSubida, IMAGENES } from '../config/uploads.js';
+import { requiereAuth, soloRol, mismoUsuario, mismoDuenoOVeterinario } from '../middlewares/auth.js';
+import { accesoMascota } from '../middlewares/propiedad.js';
 
 const router = express.Router();
+const subirImagen = crearSubida({ carpeta: 'mascotas', tipos: IMAGENES, maxMB: 5 });
 
-// Configuración de Multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/mascotas/');
-  },
-  filename: function (req, file, cb) {
-    // Nombre único: fecha + nombre original
-    const uniqueSuffix = Date.now() + '-' + file.originalname.replace(/\s/g, '');
-    cb(null, uniqueSuffix);
-  }
-});
-const upload = multer({ storage });
+router.use(requiereAuth);
 
-router.get('/', traerMascotas); // Obtener todas las mascotas activas
-router.post('/', upload.single('imagen'), crearMascota); // Crear nueva mascota con imagen
-router.put('/:id', actualizarMascota); // Actualizar mascota por id
-router.patch('/desactivar/:id', desactivarMascota); // Desactivar mascota (estado_activo=0)
-router.patch('/activar/:id', activarMascota); // Activar mascota (estado_activo=1)
-router.get('/completos/:id', obtenerDatosCompletos); // Obtener datos completos de mascota con dueño
-router.get('/:id', buscarMascotaPorId); // Buscar mascota por id
-router.get('/dueno/:id_dueno', buscarMascotasPorDueno); // Buscar mascotas activas por id_dueno
-router.patch('/desactivar/dueno/:id_dueno', desactivarMascotasPorDueno); // Desactivar mascotas por id de dueño
-router.patch('/activar/dueno/:id_dueno', activarMascotasPorDueno); // Activar mascotas por id de dueño
+router.get('/', soloRol('veterinario'), traerMascotas); // Todas las mascotas activas (personal de la clínica)
+router.post('/', soloRol('dueno'), subirImagen.single('imagen'), crearMascota); // El dueño se toma del token
+router.put('/:id', accesoMascota(), actualizarMascota);
+router.patch('/desactivar/:id', accesoMascota(), desactivarMascota);
+router.patch('/activar/:id', accesoMascota(), activarMascota);
+router.get('/completos/:id', accesoMascota({ veterinarios: true }), obtenerDatosCompletos);
+router.get('/dueno/:id_dueno', mismoDuenoOVeterinario('id_dueno'), buscarMascotasPorDueno);
+router.patch('/desactivar/dueno/:id_dueno', mismoUsuario('dueno', 'id_dueno'), desactivarMascotasPorDueno);
+router.patch('/activar/dueno/:id_dueno', mismoUsuario('dueno', 'id_dueno'), activarMascotasPorDueno);
+router.get('/:id', accesoMascota({ veterinarios: true }), buscarMascotaPorId);
 
 export default router;

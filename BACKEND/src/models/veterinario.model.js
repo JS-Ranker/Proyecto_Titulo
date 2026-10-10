@@ -37,9 +37,8 @@ const Veterinario = {
         v.id, 
         v.nombre, 
         v.email, 
-        v.telefono, 
-        v.password,
-        v.especialidad_id, 
+        v.telefono,
+        v.especialidad_id,
         v.numero_licencia, 
         v.fecha_registro, 
         v.activo,
@@ -49,6 +48,12 @@ const Veterinario = {
       LEFT JOIN especialidades e ON v.especialidad_id = e.id
       WHERE v.id = ?
     `;
+    db.query(sql, [id], callback);
+  },
+
+  // Uso interno para verificar la contraseña; el hash nunca se envía al cliente
+  obtenerPasswordPorId: (id, callback) => {
+    const sql = `SELECT password FROM veterinarios WHERE id = ?`;
     db.query(sql, [id], callback);
   },
 

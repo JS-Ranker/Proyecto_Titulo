@@ -1,57 +1,49 @@
 import Veterinario from '../models/veterinario.model.js';
-import bcrypt from 'bcrypt';
+import { errorServidor } from '../utils/errores.js';
+import { ejecutar } from '../utils/promesa.js';
+import { compararPassword, firmarToken, hashearPassword, HASH_FALSO } from '../auth/tokens.js';
+
+const PASSWORD_MINIMA = 6;
 
 export const traerVeterinariosPorEspecialidad = (req, res) => {
   const { especialidad_id } = req.params;
   Veterinario.traerPorEspecialidad(especialidad_id, (err, vets) => {
-    if (err) return res.status(500).json({ error: 'Error al obtener veterinarios', detalle: err });
+    if (err) return errorServidor(res, 'Error al obtener veterinarios', err);
     res.json(vets);
   });
 };
 
-// Login de veterinario
-export const loginVeterinario = (req, res) => {
-  const { email, password } = req.body;
+// Login de veterinario: responde sus datos y un token JWT
+export const loginVeterinario = async (req, res) => {
+  const { email, password } = req.body ?? {};
 
   if (!email || !password) {
     return res.status(400).json({ error: 'Email y contraseña son requeridos' });
   }
 
-  Veterinario.loginVeterinario(email, async (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: 'Error en el servidor', detalle: err });
-    }
-
-    if (results.length === 0) {
+  try {
+    const [veterinario] = await ejecutar(Veterinario.loginVeterinario, email);
+    // Se compara siempre (con un hash falso si no existe) para no revelar qué emails están registrados
+    const passwordValida = await compararPassword(password, veterinario?.password ?? HASH_FALSO);
+    if (!veterinario || !passwordValida) {
       return res.status(401).json({ error: 'Credenciales incorrectas' });
     }
 
-    const veterinario = results[0];
-
-    try {
-      // Comparar la contraseña (asumiendo que las contraseñas en la BD no están hasheadas actualmente)
-      // Si las contraseñas estuvieran hasheadas, usarías: await bcrypt.compare(password, veterinario.password)
-      if (password !== veterinario.password) {
-        return res.status(401).json({ error: 'Credenciales incorrectas' });
-      }
-
-      // No enviar la contraseña en la respuesta
-      const { password: _, ...veterinarioSinPassword } = veterinario;
-      
-      res.json({
-        message: 'Login exitoso',
-        data: veterinarioSinPassword
-      });
-    } catch (error) {
-      res.status(500).json({ error: 'Error al verificar contraseña', detalle: error });
-    }
-  });
+    const { password: _, ...veterinarioSinPassword } = veterinario;
+    res.json({
+      message: 'Login exitoso',
+      data: veterinarioSinPassword,
+      token: firmarToken({ sub: veterinario.id, rol: 'veterinario' }),
+    });
+  } catch (err) {
+    errorServidor(res, 'Error al iniciar sesión', err);
+  }
 };
 
 // Obtener todos los veterinarios
 export const obtenerVeterinarios = (req, res) => {
   Veterinario.obtenerTodos((err, veterinarios) => {
-    if (err) return res.status(500).json({ error: 'Error al obtener veterinarios', detalle: err });
+    if (err) return errorServidor(res, 'Error al obtener veterinarios', err);
     res.json(veterinarios);
   });
 };
@@ -60,7 +52,7 @@ export const obtenerVeterinarios = (req, res) => {
 export const obtenerVeterinarioPorId = (req, res) => {
   const { id } = req.params;
   Veterinario.obtenerPorId(id, (err, veterinario) => {
-    if (err) return res.status(500).json({ error: 'Error al obtener veterinario', detalle: err });
+    if (err) return errorServidor(res, 'Error al obtener veterinario', err);
     if (veterinario.length === 0) {
       return res.status(404).json({ error: 'Veterinario no encontrado' });
     }
@@ -69,38 +61,37 @@ export const obtenerVeterinarioPorId = (req, res) => {
 };
 
 // Crear nuevo veterinario
-export const crearVeterinario = (req, res) => {
-  const { nombre, email, telefono, password, especialidad_id, numero_licencia } = req.body;
+export const crearVeterinario = async (req, res) => {
+  const { nombre, email, telefono, password, especialidad_id, numero_licencia } = req.body ?? {};
 
   if (!nombre || !email || !password) {
     return res.status(400).json({ error: 'Nombre, email y contraseña son requeridos' });
   }
+  if (password.length < PASSWORD_MINIMA) {
+    return res.status(400).json({ error: `La contraseña debe tener al menos ${PASSWORD_MINIMA} caracteres` });
+  }
 
-  // Verificar si el email ya existe
-  Veterinario.verificarEmail(email, (err, results) => {
-    if (err) return res.status(500).json({ error: 'Error al verificar email', detalle: err });
-    
-    if (results.length > 0) {
+  try {
+    const existentes = await ejecutar(Veterinario.verificarEmail, email);
+    if (existentes.length > 0) {
       return res.status(409).json({ error: 'El email ya está registrado' });
     }
 
-    const veterinarioData = {
+    const result = await ejecutar(Veterinario.crear, {
       nombre,
       email,
       telefono,
-      password, // En producción, deberías hashear la contraseña
+      password: await hashearPassword(password),
       especialidad_id,
       numero_licencia
-    };
-
-    Veterinario.crear(veterinarioData, (err, result) => {
-      if (err) return res.status(500).json({ error: 'Error al crear veterinario', detalle: err });
-      res.status(201).json({ 
-        message: 'Veterinario creado exitosamente', 
-        id: result.insertId 
-      });
     });
-  });
+    res.status(201).json({
+      message: 'Veterinario creado exitosamente',
+      id: result.insertId
+    });
+  } catch (err) {
+    errorServidor(res, 'Error al crear veterinario', err);
+  }
 };
 
 // Actualizar veterinario
@@ -121,7 +112,7 @@ export const actualizarVeterinario = (req, res) => {
   };
 
   Veterinario.actualizar(id, veterinarioData, (err, result) => {
-    if (err) return res.status(500).json({ error: 'Error al actualizar veterinario', detalle: err });
+    if (err) return errorServidor(res, 'Error al actualizar veterinario', err);
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Veterinario no encontrado' });
     }
@@ -133,7 +124,7 @@ export const actualizarVeterinario = (req, res) => {
 export const obtenerPerfilCompleto = (req, res) => {
   const { id } = req.params;
   Veterinario.obtenerPerfilCompleto(id, (err, veterinario) => {
-    if (err) return res.status(500).json({ error: 'Error al obtener perfil del veterinario', detalle: err });
+    if (err) return errorServidor(res, 'Error al obtener perfil del veterinario', err);
     if (veterinario.length === 0) {
       return res.status(404).json({ error: 'Veterinario no encontrado' });
     }
@@ -152,7 +143,7 @@ export const actualizarPerfil = (req, res) => {
 
   // Verificar si el nuevo email ya existe (excluyendo el veterinario actual)
   Veterinario.verificarEmailExistente(email, id, (err, results) => {
-    if (err) return res.status(500).json({ error: 'Error al verificar email', detalle: err });
+    if (err) return errorServidor(res, 'Error al verificar email', err);
     
     if (results.length > 0) {
       return res.status(409).json({ error: 'El email ya está registrado por otro veterinario' });
@@ -161,7 +152,7 @@ export const actualizarPerfil = (req, res) => {
     const veterinarioData = { email, telefono };
 
     Veterinario.actualizarPerfil(id, veterinarioData, (err, result) => {
-      if (err) return res.status(500).json({ error: 'Error al actualizar perfil', detalle: err });
+      if (err) return errorServidor(res, 'Error al actualizar perfil', err);
       if (result.affectedRows === 0) {
         return res.status(404).json({ error: 'Veterinario no encontrado' });
       }
@@ -173,41 +164,29 @@ export const actualizarPerfil = (req, res) => {
 // Actualizar contraseña del veterinario
 export const actualizarPassword = async (req, res) => {
   const { id } = req.params;
-  const { passwordActual, nuevaPassword } = req.body;
+  const { passwordActual, nuevaPassword } = req.body ?? {};
 
   if (!passwordActual || !nuevaPassword) {
     return res.status(400).json({ error: 'Contraseña actual y nueva contraseña son requeridas' });
   }
+  if (nuevaPassword.length < PASSWORD_MINIMA) {
+    return res.status(400).json({ error: `La contraseña debe tener al menos ${PASSWORD_MINIMA} caracteres` });
+  }
 
-  // Buscar el veterinario para verificar la contraseña actual
-  Veterinario.obtenerPerfilCompleto(id, async (err, veterinarioResults) => {
-    if (err) return res.status(500).json({ error: 'Error al obtener veterinario', detalle: err });
-    if (veterinarioResults.length === 0) {
+  try {
+    const [veterinario] = await ejecutar(Veterinario.obtenerPasswordPorId, id);
+    if (!veterinario) {
       return res.status(404).json({ error: 'Veterinario no encontrado' });
     }
-
-    const veterinario = veterinarioResults[0];
-
-    try {
-      // Verificar contraseña actual (asumiendo que no están hasheadas)
-      if (passwordActual !== veterinario.password) {
-        return res.status(401).json({ error: 'Contraseña actual incorrecta' });
-      }
-
-      // En producción, deberías hashear la nueva contraseña
-      // const hashedPassword = await bcrypt.hash(nuevaPassword, 10);
-      
-      Veterinario.actualizarPassword(id, nuevaPassword, (err, result) => {
-        if (err) return res.status(500).json({ error: 'Error al actualizar contraseña', detalle: err });
-        if (result.affectedRows === 0) {
-          return res.status(404).json({ error: 'Veterinario no encontrado' });
-        }
-        res.json({ message: 'Contraseña actualizada exitosamente' });
-      });
-    } catch (error) {
-      res.status(500).json({ error: 'Error al verificar contraseña', detalle: error });
+    if (!(await compararPassword(passwordActual, veterinario.password))) {
+      return res.status(401).json({ error: 'Contraseña actual incorrecta' });
     }
-  });
+
+    await ejecutar(Veterinario.actualizarPassword, id, await hashearPassword(nuevaPassword));
+    res.json({ message: 'Contraseña actualizada exitosamente' });
+  } catch (err) {
+    errorServidor(res, 'Error al actualizar contraseña', err);
+  }
 };
 
 // Eliminar (desactivar) veterinario
@@ -215,7 +194,7 @@ export const eliminarVeterinario = (req, res) => {
   const { id } = req.params;
 
   Veterinario.eliminar(id, (err, result) => {
-    if (err) return res.status(500).json({ error: 'Error al eliminar veterinario', detalle: err });
+    if (err) return errorServidor(res, 'Error al eliminar veterinario', err);
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Veterinario no encontrado' });
     }

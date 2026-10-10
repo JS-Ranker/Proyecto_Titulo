@@ -1,5 +1,5 @@
 import express from 'express';
-import { 
+import {
   traerVeterinariosPorEspecialidad,
   loginVeterinario,
   obtenerVeterinarios,
@@ -11,25 +11,26 @@ import {
   actualizarPassword,
   eliminarVeterinario
 } from '../controllers/veterinario.controller.js';
+import { requiereAuth, soloRol, mismoUsuario } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-// Rutas existentes
+// Públicas: listados para agendar citas e inicio de sesión
 router.get('/especialidad/:especialidad_id', traerVeterinariosPorEspecialidad);
-
-// Rutas de autenticación
 router.post('/login', loginVeterinario);
-
-// Rutas CRUD básicas
 router.get('/', obtenerVeterinarios);
-router.get('/:id', obtenerVeterinarioPorId);
-router.post('/', crearVeterinario);
-router.put('/:id', actualizarVeterinario);
-router.delete('/:id', eliminarVeterinario);
 
-// Rutas específicas para perfil
-router.get('/perfil/:id', obtenerPerfilCompleto);
-router.put('/perfil/:id', actualizarPerfil);
-router.put('/password/:id', actualizarPassword);
+router.use(requiereAuth);
+
+// Perfil propio
+router.get('/perfil/:id', mismoUsuario('veterinario', 'id'), obtenerPerfilCompleto);
+router.put('/perfil/:id', mismoUsuario('veterinario', 'id'), actualizarPerfil);
+router.put('/password/:id', mismoUsuario('veterinario', 'id'), actualizarPassword);
+
+// Gestión del personal: solo veterinarios (no hay rol de administrador en el sistema)
+router.post('/', soloRol('veterinario'), crearVeterinario);
+router.get('/:id', soloRol('veterinario'), obtenerVeterinarioPorId);
+router.put('/:id', mismoUsuario('veterinario', 'id'), actualizarVeterinario);
+router.delete('/:id', mismoUsuario('veterinario', 'id'), eliminarVeterinario);
 
 export default router;

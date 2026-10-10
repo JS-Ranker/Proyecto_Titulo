@@ -53,3 +53,7 @@ Thumbs.db
 !/veterinaria_2/VIDEO_CONSULTAS_README.md
 !/veterinaria_2/screen-sharing-example.ts
 node_modules
+
+# Archivos subidos por los usuarios (las imágenes de ejemplo ya versionadas se mantienen)
+BACKEND/src/uploads/mascotas/*
+BACKEND/src/uploads/historial/

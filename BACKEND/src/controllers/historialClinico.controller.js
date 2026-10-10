@@ -1,4 +1,6 @@
 import HistorialClinico from '../models/historialClinico.model.js';
+import { errorServidor } from '../utils/errores.js';
+import { rutaPublica } from '../config/uploads.js';
 
 // Obtener historial de una mascota específica
 const obtenerHistorialPorMascota = (req, res) => {
@@ -6,10 +8,7 @@ const obtenerHistorialPorMascota = (req, res) => {
   
   HistorialClinico.obtenerPorMascota(mascota_id, (err, data) => {
     if (err) {
-      return res.status(500).json({ 
-        error: 'Error al obtener el historial clínico', 
-        detalle: err 
-      });
+      return errorServidor(res, 'Error al obtener el historial clínico', err);
     }
     res.json(data);
   });
@@ -21,10 +20,7 @@ const obtenerMascotasPorVeterinario = (req, res) => {
   
   HistorialClinico.obtenerPorVeterinario(veterinario_id, (err, data) => {
     if (err) {
-      return res.status(500).json({ 
-        error: 'Error al obtener las mascotas atendidas', 
-        detalle: err 
-      });
+      return errorServidor(res, 'Error al obtener las mascotas atendidas', err);
     }
     res.json(data);
   });
@@ -32,12 +28,13 @@ const obtenerMascotasPorVeterinario = (req, res) => {
 
 // Crear nuevo registro en el historial
 const crearRegistroHistorial = (req, res) => {
-  const datos = req.body;
-  
+  // El autor del registro es siempre el veterinario autenticado
+  const datos = { ...req.body, veterinario_id: req.usuario.sub };
+
   // Validaciones básicas
-  if (!datos.mascota_id || !datos.tipo || !datos.descripcion || !datos.veterinario_id) {
-    return res.status(400).json({ 
-      error: 'Faltan campos obligatorios: mascota_id, tipo, descripcion, veterinario_id' 
+  if (!datos.mascota_id || !datos.tipo || !datos.descripcion) {
+    return res.status(400).json({
+      error: 'Faltan campos obligatorios: mascota_id, tipo, descripcion'
     });
   }
 
@@ -51,15 +48,12 @@ const crearRegistroHistorial = (req, res) => {
 
   // Agregar archivo si se subió
   if (req.file) {
-    datos.archivos_adjuntos = req.file.path.replace(/\\/g, '/');
+    datos.archivos_adjuntos = rutaPublica(req.file);
   }
 
   HistorialClinico.crear(datos, (err, result) => {
     if (err) {
-      return res.status(500).json({ 
-        error: 'Error al crear el registro del historial', 
-        detalle: err 
-      });
+      return errorServidor(res, 'Error al crear el registro del historial', err);
     }
     res.status(201).json({ 
       mensaje: 'Registro creado correctamente', 
@@ -74,10 +68,7 @@ const obtenerRegistroPorId = (req, res) => {
   
   HistorialClinico.obtenerPorId(id, (err, data) => {
     if (err) {
-      return res.status(500).json({ 
-        error: 'Error al obtener el registro', 
-        detalle: err 
-      });
+      return errorServidor(res, 'Error al obtener el registro', err);
     }
     if (!data || data.length === 0) {
       return res.status(404).json({ 
@@ -110,15 +101,12 @@ const actualizarRegistroHistorial = (req, res) => {
 
   // Agregar archivo si se subió
   if (req.file) {
-    datos.archivos_adjuntos = req.file.path.replace(/\\/g, '/');
+    datos.archivos_adjuntos = rutaPublica(req.file);
   }
 
   HistorialClinico.actualizar(id, datos, (err, result) => {
     if (err) {
-      return res.status(500).json({ 
-        error: 'Error al actualizar el registro', 
-        detalle: err 
-      });
+      return errorServidor(res, 'Error al actualizar el registro', err);
     }
     if (result.affectedRows === 0) {
       return res.status(404).json({ 
@@ -137,10 +125,7 @@ const eliminarRegistroHistorial = (req, res) => {
   
   HistorialClinico.eliminar(id, (err, result) => {
     if (err) {
-      return res.status(500).json({ 
-        error: 'Error al eliminar el registro', 
-        detalle: err 
-      });
+      return errorServidor(res, 'Error al eliminar el registro', err);
     }
     if (result.affectedRows === 0) {
       return res.status(404).json({ 
@@ -159,10 +144,7 @@ const verificarAccesoVeterinario = (req, res) => {
   
   HistorialClinico.verificarAccesoVeterinario(veterinario_id, mascota_id, (err, data) => {
     if (err) {
-      return res.status(500).json({ 
-        error: 'Error al verificar acceso', 
-        detalle: err 
-      });
+      return errorServidor(res, 'Error al verificar acceso', err);
     }
     const tieneAcceso = data[0].count > 0;
     res.json({ tieneAcceso });

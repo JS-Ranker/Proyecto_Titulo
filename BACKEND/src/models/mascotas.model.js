@@ -66,21 +66,20 @@ const Mascota = {
         sexo_mascota = ?,
         esta_esterilizado = ?,
         color_mascota = ?,
-        codigo_microchip = ?,
-        url_imagen_mascota = ?
+        codigo_microchip = ?
       WHERE id_mascota = ?
     `;
+    // La imagen no se edita aquí: solo se asigna al subir un archivo (ver crear)
     const params = [
       datos.nombre_mascota,
       datos.id_especie || null,
       datos.id_raza || null,
       datos.fecha_nac_mascota || null,
       datos.peso_kg || null,
-      datos.sexo_mascota || 'desconocido',
-      datos.esta_esterilizado || 0,
+      ['macho', 'hembra', 'desconocido'].includes(datos.sexo_mascota) ? datos.sexo_mascota : 'desconocido',
+      datos.esta_esterilizado === '1' || datos.esta_esterilizado === 1 || datos.esta_esterilizado === true ? 1 : 0,
       datos.color_mascota || null,
       datos.codigo_microchip || null,
-      datos.url_imagen_mascota || null,
       id
     ];
     db.query(sql, params, callback);

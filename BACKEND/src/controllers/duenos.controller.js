@@ -1,84 +1,100 @@
 import Dueno from '../models/duenos.model.js';
+import { errorServidor } from '../utils/errores.js';
+import { ejecutar } from '../utils/promesa.js';
+import { compararPassword, firmarToken, hashearPassword, HASH_FALSO } from '../auth/tokens.js';
 
-// Traer todos los dueños
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const TELEFONO_REGEX = /^\d{8,12}$/;
+const PASSWORD_MINIMA = 6;
+
+// Valida los datos de contacto comunes a registro y actualización. Devuelve un mensaje de error o null.
+const validarContacto = (datos) => {
+  const faltantes = ['nombre', 'apellido', 'email'].filter((campo) => !datos[campo]);
+  if (faltantes.length > 0) return `Faltan campos requeridos: ${faltantes.join(', ')}`;
+  if (!EMAIL_REGEX.test(datos.email)) return 'El formato del email no es válido';
+  if (datos.telefono && String(datos.telefono).trim()
+      && !TELEFONO_REGEX.test(String(datos.telefono).replace(/\s/g, ''))) {
+    return 'El teléfono debe contener entre 8 y 12 dígitos';
+  }
+  return null;
+};
+
+// Traer todos los dueños (solo personal de la clínica; nunca incluye contraseñas)
 export const TraerDuenos = (req, res) => {
   Dueno.traer((err, duenos) => {
     if (err) {
-      return res.status(500).json({ error: 'Error al traer los dueños', detalle: err });
+      return errorServidor(res, 'Error al traer los dueños', err);
     }
     res.status(200).json(duenos);
   });
 };
 
-// Crear un dueño
-export const CrearDueno = (req, res) => {
-  const datos = req.body;
-  console.log('Datos recibidos:', datos);
-  Dueno.crear(datos, (err, result) => {
-    if (err) {
-      console.error('Error específico al crear dueño:', err);
-      return res.status(500).json({ error: 'Error al crear el dueño', detalle: err });
+// Registrar un dueño
+export const CrearDueno = async (req, res) => {
+  const datos = req.body ?? {};
+
+  const errorContacto = validarContacto(datos);
+  if (!datos.rut) return res.status(400).json({ error: 'El RUT es requerido' });
+  if (errorContacto) return res.status(400).json({ error: errorContacto });
+  if (!datos.password || datos.password.length < PASSWORD_MINIMA) {
+    return res.status(400).json({ error: `La contraseña debe tener al menos ${PASSWORD_MINIMA} caracteres` });
+  }
+
+  try {
+    const password = await hashearPassword(datos.password);
+    await ejecutar(Dueno.crear, { ...datos, password });
+    res.status(201).json({ mensaje: 'Dueño creado exitosamente', rut: datos.rut });
+  } catch (err) {
+    if (err.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ error: 'Ya existe una cuenta con ese RUT o email' });
     }
-    res.status(201).json({ mensaje: 'Dueño creado exitosamente', id: result.insertId });
-  });
+    errorServidor(res, 'Error al crear el dueño', err);
+  }
 };
 
-// Actualizar un dueño - SOLUCIÓN MEJORADA
-export const ActualizarDueno = (req, res) => {
+// Actualizar datos de contacto y, opcionalmente, la contraseña (exige la contraseña actual)
+export const ActualizarDueno = async (req, res) => {
   const { rut } = req.params;
-  const datos = req.body;
+  const datos = req.body ?? {};
 
-  // Validar que todos los campos requeridos estén presentes
-  const camposRequeridos = ['nombre', 'apellido', 'email', 'password'];
-  const camposFaltantes = camposRequeridos.filter(campo => !datos[campo]);
-  
-  if (camposFaltantes.length > 0) {
-    return res.status(400).json({ 
-      error: 'Faltan campos requeridos', 
-      camposFaltantes 
-    });
-  }
+  const errorContacto = validarContacto(datos);
+  if (errorContacto) return res.status(400).json({ error: errorContacto });
 
-  // Validar formato de email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(datos.email)) {
-    return res.status(400).json({ 
-      error: 'El formato del email no es válido' 
-    });
-  }
-
-  // Validar teléfono si se proporciona
-  if (datos.telefono && datos.telefono.trim()) {
-    const phoneRegex = /^\d{8,12}$/;
-    if (!phoneRegex.test(datos.telefono.replace(/\s/g, ''))) {
-      return res.status(400).json({ 
-        error: 'El teléfono debe contener entre 8 y 12 dígitos' 
-      });
+  const cambiaPassword = Boolean(datos.password_nueva);
+  if (cambiaPassword) {
+    if (!datos.password_actual) {
+      return res.status(400).json({ error: 'Debes ingresar tu contraseña actual' });
+    }
+    if (datos.password_nueva.length < PASSWORD_MINIMA) {
+      return res.status(400).json({ error: `La contraseña debe tener al menos ${PASSWORD_MINIMA} caracteres` });
     }
   }
 
-  // Validar contraseña solo si parece ser una nueva contraseña
-  // (asumiendo que las contraseñas hasheadas o existentes son más largas)
-  if (datos.password && datos.password.length < 6 && datos.password.length > 0) {
-    // Si es una contraseña corta, validar longitud mínima
-    return res.status(400).json({ 
-      error: 'La contraseña debe tener al menos 6 caracteres' 
-    });
-  }
-
-  Dueno.update(rut, datos, (err, result) => {
-    if (err) {
-      console.error('Error al actualizar dueño:', err);
-      return res.status(500).json({ error: 'Error al actualizar el dueño', detalle: err });
+  try {
+    if (cambiaPassword) {
+      const cuenta = await ejecutar(Dueno.buscarPorRut, rut);
+      if (!cuenta) return res.status(404).json({ error: 'Dueño no encontrado' });
+      if (!(await compararPassword(datos.password_actual, cuenta.password))) {
+        return res.status(401).json({ error: 'La contraseña actual no es correcta' });
+      }
     }
-    
-    // Verificar si se actualizó algún registro
-    if (result.affectedRows === 0) {
+
+    const resultado = await ejecutar(Dueno.update, rut, datos);
+    if (resultado.affectedRows === 0) {
       return res.status(404).json({ error: 'Dueño no encontrado' });
     }
-    
+
+    if (cambiaPassword) {
+      await ejecutar(Dueno.actualizarPassword, rut, await hashearPassword(datos.password_nueva));
+    }
+
     res.status(200).json({ mensaje: 'Dueño actualizado correctamente' });
-  });
+  } catch (err) {
+    if (err.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ error: 'Ese email ya está registrado' });
+    }
+    errorServidor(res, 'Error al actualizar el dueño', err);
+  }
 };
 
 // Desactivar un dueño
@@ -87,25 +103,23 @@ export const DesactivarDueno = (req, res) => {
 
   Dueno.desactivar(rut, (err) => {
     if (err) {
-      return res.status(500).json({ error: 'Error al desactivar el dueño', detalle: err });
+      return errorServidor(res, 'Error al desactivar el dueño', err);
     }
     res.status(200).json({ mensaje: 'Dueño desactivado' });
   });
 };
 
 // Activar un dueño
-
 export const activarDueno = (req, res) => {
   const { rut } = req.params;
 
-  Dueno.activar(rut, (err, result) => {
+  Dueno.activar(rut, (err) => {
     if (err) {
-      return res.status(500).json({ error: 'Error al activar al dueño', detalle: err });
+      return errorServidor(res, 'Error al activar al dueño', err);
     }
     res.status(200).json({ mensaje: 'Dueño activado exitosamente' });
   });
 };
-
 
 // Traer un dueño específico por rut
 export const TraerDuenoPorRut = (req, res) => {
@@ -113,48 +127,37 @@ export const TraerDuenoPorRut = (req, res) => {
 
   Dueno.buscarDatosPorRut(rut, (err, dueno) => {
     if (err) {
-      return res.status(500).json({ error: 'Error al buscar el dueño', detalle: err });
+      return errorServidor(res, 'Error al buscar el dueño', err);
     }
     if (!dueno) {
       return res.status(404).json({ error: 'Dueño no encontrado' });
     }
     res.status(200).json(dueno);
   });
-
-
 };
 
-export const loginDueno = (req, res) => {
-  const { rut, password } = req.body;
-  Dueno.buscarPorRut(rut, (err, dueno) => {
-    if (err) {
-      return res.status(500).json({ error: 'Error en el servidor', detalle: err });
-    }
+// Inicio de sesión: responde los datos del dueño y un token JWT
+export const loginDueno = async (req, res) => {
+  const { rut, password } = req.body ?? {};
+  if (!rut || !password) {
+    return res.status(400).json({ error: 'RUT y contraseña son requeridos' });
+  }
 
-    if (!dueno) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+  try {
+    const cuenta = await ejecutar(Dueno.buscarPorRut, rut);
+    // Se compara siempre (con un hash falso si no existe) para no revelar qué RUT están registrados
+    const passwordValida = await compararPassword(password, cuenta?.password ?? HASH_FALSO);
+    if (!cuenta || !passwordValida) {
+      return res.status(401).json({ error: 'RUT o contraseña incorrectos' });
     }
-
-    if (dueno.password !== password) {
-      return res.status(401).json({ error: 'Contraseña incorrecta' });
-    }
-
-    if (dueno.activo !== 1) {
+    if (cuenta.activo !== 1) {
       return res.status(403).json({ error: 'Usuario inactivo' });
     }
 
-    // Traer todos los datos del dueño (nombre, apellido, email, etc)
-    // Usar buscarDatosPorRut en vez de buscarPorRut
-    Dueno.buscarDatosPorRut(rut, (err2, datosDueno) => {
-      if (err2) {
-        return res.status(500).json({ error: 'Error al obtener datos del dueño', detalle: err2 });
-      }
-      if (!datosDueno) {
-        return res.status(404).json({ error: 'Datos del dueño no encontrados' });
-      }
-      res.status(200).json(datosDueno);
-    });
-  });
+    const datosDueno = await ejecutar(Dueno.buscarDatosPorRut, rut);
+    const token = firmarToken({ sub: cuenta.rut, rol: 'dueno' });
+    res.status(200).json({ ...datosDueno, token });
+  } catch (err) {
+    errorServidor(res, 'Error al iniciar sesión', err);
+  }
 };
-
-

@@ -1,12 +1,30 @@
 import Cita from '../models/citas.model.js';
+import { errorServidor } from '../utils/errores.js';
+import { ejecutar } from '../utils/promesa.js';
 import Mascota from '../models/mascotas.model.js';
 
 // Crear nueva cita
-export const crearCita = (req, res) => {
-  const datos = req.body;
+export const crearCita = async (req, res) => {
+  const { mascota_id, fecha_hora } = req.body ?? {};
+  if (!mascota_id || !fecha_hora) {
+    return res.status(400).json({ error: 'La mascota y la fecha son obligatorias' });
+  }
+
+  // Solo se puede agendar para una mascota propia
+  try {
+    const mascota = await ejecutar(Mascota.buscarPorId, mascota_id);
+    if (!mascota || mascota.id_dueno !== req.usuario.sub) {
+      return res.status(403).json({ error: 'Solo puedes agendar citas para tus mascotas' });
+    }
+  } catch (err) {
+    return errorServidor(res, 'Error al verificar la mascota', err);
+  }
+
+  // Una cita nueva siempre parte pendiente, sin importar lo que envíe el cliente
+  const datos = { ...req.body, estado: 'pendiente' };
   Cita.crear(datos, (err, result) => {
     if (err) {
-      return res.status(500).json({ error: 'Error al crear la cita', detalle: err });
+      return errorServidor(res, 'Error al crear la cita', err);
     }
     res.status(201).json({ mensaje: 'Cita creada correctamente', id: result.insertId });
   });
@@ -17,12 +35,12 @@ export const obtenerCitasPorDueno = (req, res) => {
   const { rut } = req.params;
   // Buscar mascotas del dueño
   Mascota.buscarPorDueno(rut, (err, mascotas) => {
-    if (err) return res.status(500).json({ error: 'Error al buscar mascotas', detalle: err });
+    if (err) return errorServidor(res, 'Error al buscar mascotas', err);
     if (!mascotas || mascotas.length === 0) return res.json([]);
     const ids = mascotas.map(m => m.id_mascota);
     // Buscar citas de esas mascotas
     Cita.obtenerPorMascotas(ids, (err2, citas) => {
-      if (err2) return res.status(500).json({ error: 'Error al buscar citas', detalle: err2 });
+      if (err2) return errorServidor(res, 'Error al buscar citas', err2);
       res.json(citas);
     });
   });
@@ -32,7 +50,7 @@ export const cancelarCita = (req, res) => {
   const { id } = req.params;
   Cita.actualizarEstado(id, 'cancelada', (err, result) => {
     if (err) {
-      return res.status(500).json({ error: 'Error al cancelar la cita', detalle: err });
+      return errorServidor(res, 'Error al cancelar la cita', err);
     }
     res.json({ mensaje: 'Cita cancelada correctamente' });
   });
@@ -51,7 +69,7 @@ export const obtenerCitasPorVeterinario = (req, res) => {
   Cita.obtenerPorVeterinario(veterinario_id, (err, citas) => {
     if (err) {
       console.error('Error en base de datos:', err);
-      return res.status(500).json({ error: 'Error al obtener citas del veterinario', detalle: err });
+      return errorServidor(res, 'Error al obtener citas del veterinario', err);
     }
     
     console.log('Citas encontradas:', citas.length);
@@ -68,7 +86,7 @@ export const obtenerCitasDelDia = (req, res) => {
   
   Cita.obtenerCitasDelDia(veterinario_id, fechaConsulta, (err, citas) => {
     if (err) {
-      return res.status(500).json({ error: 'Error al obtener citas del día', detalle: err });
+      return errorServidor(res, 'Error al obtener citas del día', err);
     }
     res.json(citas);
   });
@@ -87,7 +105,7 @@ export const obtenerEstadisticasVeterinario = (req, res) => {
   Cita.obtenerEstadisticasVeterinario(veterinario_id, (err, estadisticas) => {
     if (err) {
       console.error('Error en base de datos al obtener estadísticas:', err);
-      return res.status(500).json({ error: 'Error al obtener estadísticas', detalle: err });
+      return errorServidor(res, 'Error al obtener estadísticas', err);
     }
     
     console.log('Estadísticas obtenidas:', estadisticas[0]);
@@ -102,7 +120,7 @@ export const completarCita = (req, res) => {
   
   Cita.completarCita(id, notas_posteriores || '', (err, result) => {
     if (err) {
-      return res.status(500).json({ error: 'Error al completar la cita', detalle: err });
+      return errorServidor(res, 'Error al completar la cita', err);
     }
     
     if (result.affectedRows === 0) {
@@ -124,7 +142,7 @@ export const cancelarCitaConMotivo = (req, res) => {
   
   Cita.cancelarCita(id, motivo_cancelacion, (err, result) => {
     if (err) {
-      return res.status(500).json({ error: 'Error al cancelar la cita', detalle: err });
+      return errorServidor(res, 'Error al cancelar la cita', err);
     }
     
     if (result.affectedRows === 0) {
@@ -152,7 +170,7 @@ export const actualizarEstadoCita = (req, res) => {
   
   Cita.actualizarEstado(id, estado, (err, result) => {
     if (err) {
-      return res.status(500).json({ error: 'Error al actualizar estado de la cita', detalle: err });
+      return errorServidor(res, 'Error al actualizar estado de la cita', err);
     }
     
     if (result.affectedRows === 0) {

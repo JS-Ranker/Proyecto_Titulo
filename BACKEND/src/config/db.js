@@ -1,23 +1,17 @@
 import mysql from 'mysql2';
-import dotenv from 'dotenv';
-import path from 'path';
+import { env } from './env.js';
 
-// Configurar dotenv para que busque el archivo .env en el directorio padre
-dotenv.config({ path: path.join(process.cwd(), '..', '.env') });
-
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
+// Pool en lugar de una conexión única: se recupera solo si una conexión se cae
+// y funciona en entornos serverless, donde cada instancia abre las suyas.
+const pool = mysql.createPool({
+  host: env.db.host,
+  port: env.db.port,
+  user: env.db.user,
+  password: env.db.password,
+  database: env.db.database,
+  waitForConnections: true,
+  connectionLimit: 5,
+  ...(env.db.sslCa && { ssl: { ca: env.db.sslCa, rejectUnauthorized: true } }),
 });
 
-connection.connect(err => {
-  if (err) {
-    console.error('❌ Error al conectar con MySQL:', err.message);
-    process.exit(1);
-  }
-  console.log('✅ Conexión a MySQL establecida correctamente');
-});
-
-export default connection;
+export default pool;

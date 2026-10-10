@@ -89,14 +89,16 @@ const HistorialClinico = {
   actualizar: (id, datos, callback) => {
     const sql = `
       UPDATE historial_clinico 
-      SET fecha = ?, tipo = ?, descripcion = ?, archivos_adjuntos = ?
+      SET fecha = COALESCE(?, fecha), tipo = ?, descripcion = ?,
+          archivos_adjuntos = COALESCE(?, archivos_adjuntos)
       WHERE id = ?
     `;
     const params = [
-      datos.fecha,
+      datos.fecha || null,
       datos.tipo,
       datos.descripcion,
-      datos.archivos_adjuntos,
+      // Sin archivo nuevo se conserva el adjunto actual
+      datos.archivos_adjuntos || null,
       id
     ];
     db.query(sql, params, callback);
