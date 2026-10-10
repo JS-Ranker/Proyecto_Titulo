@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "db:hashear-passwords": "node scripts/hashear-passwords.js"
+    "db:hashear-passwords": "node scripts/hashear-passwords.js",
+    "db:cargar": "node scripts/cargar-base.js"
   },
   "keywords": [],
   "author": "",

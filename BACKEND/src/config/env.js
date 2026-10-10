@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -17,6 +18,14 @@ if (process.env.JWT_SECRET.length < 32) {
   throw new Error('JWT_SECRET debe tener al menos 32 caracteres');
 }
 
+// Certificado CA para TLS: en Vercel se pega el contenido en DB_SSL_CA;
+// en local es más cómodo apuntar al archivo descargado con DB_SSL_CA_FILE (ruta relativa a BACKEND/).
+const leerCertificadoCA = () => {
+  if (process.env.DB_SSL_CA) return process.env.DB_SSL_CA.replace(/\\n/g, '\n');
+  if (process.env.DB_SSL_CA_FILE) return fs.readFileSync(path.resolve(backendDir, process.env.DB_SSL_CA_FILE), 'utf8');
+  return null;
+};
+
 export const env = {
   port: Number(process.env.PORT) || 3000,
   db: {
@@ -26,7 +35,7 @@ export const env = {
     password: process.env.DB_PASSWORD ?? '',
     database: process.env.DB_NAME,
     // Certificado CA en PEM (Aiven y otros servicios en la nube exigen TLS).
-    sslCa: process.env.DB_SSL_CA || null,
+    sslCa: leerCertificadoCA(),
   },
   jwtSecret: process.env.JWT_SECRET,
   jwtExpiracion: process.env.JWT_EXPIRES_IN || '8h',
