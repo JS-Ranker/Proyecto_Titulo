@@ -8,6 +8,10 @@ import { fileURLToPath } from 'url';
 const backendDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 dotenv.config({ path: path.join(backendDir, '.env') });
 
+// La base guarda fechas sin zona horaria (hora de la clínica). Vercel corre en UTC, así que se fija
+// la zona de la clínica para que mysql2 interprete y entregue esas fechas en la hora correcta.
+process.env.TZ = process.env.APP_TIMEZONE || 'America/Santiago';
+
 const requeridas = ['DB_HOST', 'DB_USER', 'DB_NAME', 'JWT_SECRET'];
 const faltantes = requeridas.filter((nombre) => !process.env[nombre]);
 if (faltantes.length > 0) {

@@ -14,4 +14,17 @@ const pool = mysql.createPool({
   ...(env.db.sslCa && { ssl: { ca: env.db.sslCa, rejectUnauthorized: true } }),
 });
 
+// Desfase actual de la zona de la clínica, p. ej. "-03:00" (cambia con el horario de verano)
+const desfaseActual = () => {
+  const minutos = -new Date().getTimezoneOffset();
+  const signo = minutos >= 0 ? '+' : '-';
+  const abs = Math.abs(minutos);
+  return `${signo}${String(Math.floor(abs / 60)).padStart(2, '0')}:${String(abs % 60).padStart(2, '0')}`;
+};
+
+// Que NOW() y CURDATE() en MySQL usen la misma hora que la clínica (los servidores en la nube están en UTC)
+pool.on('connection', (conexion) => {
+  conexion.query('SET time_zone = ?', [desfaseActual()]);
+});
+
 export default pool;
