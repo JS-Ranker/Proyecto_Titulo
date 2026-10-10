@@ -16,7 +16,7 @@ import { requiereAuth, soloRol, mismoUsuario, mismoDuenoOVeterinario } from '../
 import { accesoMascota } from '../middlewares/propiedad.js';
 
 const router = express.Router();
-const subirImagen = crearSubida({ carpeta: 'mascotas', tipos: IMAGENES, maxMB: 5 });
+const subirImagen = crearSubida({ carpeta: 'mascotas', tipos: IMAGENES });
 
 router.use(requiereAuth);
 

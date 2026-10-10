@@ -13,7 +13,7 @@ import { requiereAuth, soloRol, mismoUsuario } from '../middlewares/auth.js';
 import { accesoMascota, accesoRegistroHistorial } from '../middlewares/propiedad.js';
 
 const router = express.Router();
-const subirAdjunto = crearSubida({ carpeta: 'historial', tipos: DOCUMENTOS, maxMB: 5 });
+const subirAdjunto = crearSubida({ carpeta: 'historial', tipos: DOCUMENTOS });
 
 router.use(requiereAuth);
 

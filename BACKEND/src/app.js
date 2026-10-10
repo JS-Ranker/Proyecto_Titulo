@@ -3,7 +3,7 @@ import cors from 'cors';
 import multer from 'multer';
 
 import { env } from './config/env.js';
-import { UPLOADS_DIR } from './config/uploads.js';
+import { PUBLIC_DIR } from './config/uploads.js';
 import duenosRoutes from './routes/duenos.routes.js';
 import mascotasRoutes from './routes/mascotas.routes.js';
 import razasRoutes from './routes/razas.routes.js';
@@ -21,7 +21,8 @@ const app = express();
 app.disable('x-powered-by');
 app.use(cors({ origin: env.corsOrigins }));
 app.use(express.json({ limit: '100kb' }));
-app.use('/uploads', express.static(UPLOADS_DIR));
+// En local Express sirve public/ (imágenes de ejemplo y subidas); en Vercel lo hace el CDN
+app.use(express.static(PUBLIC_DIR));
 
 app.use('/api/duenos', duenosRoutes);
 app.use('/api/mascotas', mascotasRoutes);

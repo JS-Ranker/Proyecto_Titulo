@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./CarouselBanner.module.css";
+// Importadas para que Vite las incluya en el build (las rutas /src/... solo existen en desarrollo)
+import imgVeterinaria from "../../../assets/images/veterinaria.jpg";
+import imgEcommerce from "../../../assets/images/ecommerce.jpg";
+import imgAdopcion from "../../../assets/images/adopcion.jpg";
 
 const CarouselBanner = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -51,7 +55,7 @@ const CarouselBanner = () => {
           <div className={styles.imageContainer}>
             <img
               className="d-block w-100"
-              src="/src/assets/images/veterinaria.jpg"
+              src={imgVeterinaria}
               alt="Servicios Veterinarios"
             />
           </div>
@@ -62,7 +66,7 @@ const CarouselBanner = () => {
           <div className={styles.imageContainer}>
             <img
               className="d-block w-100"
-              src="/src/assets/images/ecommerce.jpg"
+              src={imgEcommerce}
               alt="Tienda Online"
             />
           </div>
@@ -73,7 +77,7 @@ const CarouselBanner = () => {
           <div className={styles.imageContainer}>
             <img
               className="d-block w-100"
-              src="/src/assets/images/adopcion.jpg"
+              src={imgAdopcion}
               alt="Adopciones"
             />
           </div>

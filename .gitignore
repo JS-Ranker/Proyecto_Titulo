@@ -55,5 +55,5 @@ Thumbs.db
 node_modules
 
 # Archivos subidos por los usuarios (las imágenes de ejemplo ya versionadas se mantienen)
-BACKEND/src/uploads/mascotas/*
-BACKEND/src/uploads/historial/
+BACKEND/public/uploads/mascotas/*
+BACKEND/public/uploads/historial/
