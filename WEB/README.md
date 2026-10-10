@@ -1,59 +1,24 @@
-﻿# Rama Front
+# Happy Pet · Web
 
-├── node_modules
-├── public
-│   └── vite.svg
-├── src
-│   ├── assets
-│   │   ├── fonts
-│   │   ├── images
-│   │   │   ├── corgi-4415649_1280.jpg
-│   │   │   ├── dog-3344414_1280.jpg
-│   │   │   └── gato01.jpg
-│   │   └── styles
-│   │       └── global.css
-│   ├── components
-│   │   ├── common         # Componentes compartidos en toda la app
-│   │   │   ├── Header
-│   │   │   │   ├── Header.tsx
-│   │   │   │   └── Header.module.css
-│   │   │   ├── Footer
-│   │   │   │   ├── Footer.tsx
-│   │   │   │   └── Footer.module.css
-│   │   │   └── CarouselBanner
-│   │   │       ├── CarouselBanner.tsx
-│   │   │       └── CarouselBanner.module.css
-│   │   └── features      # Componentes específicos por característica
-│   │       └── pets      # Componentes específicos para mascotas
-│   ├── hooks             # Custom hooks reutilizables
-│   ├── services          # Servicios (API, autenticación, etc.)
-│   ├── utils             # Funciones de utilidad
-│   ├── types             # Definiciones de tipos de TypeScript
-│   ├── constants         # Constantes de la aplicación
-│   ├── pages
-│   │   ├── Home
-│   │   │   ├── Home.tsx
-│   │   │   └── Home.module.css
-│   │   ├── Login
-│   │   │   ├── Login.tsx
-│   │   │   └── Login.module.css
-│   │   ├── Register
-│   │   │   ├── Register.tsx
-│   │   │   └── Register.module.css
-│   │   ├── User
-│   │   │   ├── User.tsx
-│   │   │   └── User.module.css
-│   │   └── AddPet
-│   │       ├── AddPet.tsx
-│   │       └── AddPet.module.css
-│   ├── context           # Contextos de React si los usas
-│   ├── App.css
-│   ├── App.tsx
-│   ├── index.css
-│   └── main.tsx
-├── vite.config.ts
-├── package.json
-├── package-lock.json
-├── tsconfig.json
-├── .eslintrc.js
-└── README.md
+Aplicación web de Happy Pet (React 18 + TypeScript + Vite). La descripción general, la instalación y la demo están en el [README principal](../README.md).
+
+## Comandos
+
+| Comando | Qué hace |
+|---|---|
+| `npm run dev` | Servidor de desarrollo en `http://localhost:5173` |
+| `npm run build` | Verifica los tipos (`tsc`) y genera el sitio en `dist/` |
+| `npm run preview` | Sirve `dist/` para revisar la versión compilada |
+| `npm run lint` | ESLint |
+
+## Configuración
+
+Copia `.env.example` como `.env.local` y define `VITE_API_URL` con la URL del backend, sin barra final.
+
+## Puntos clave del código
+
+- `src/services/api.ts`: URL de la API, guardado del token y envío automático del encabezado `Authorization` en todas las llamadas (interceptores de axios). Si el token expira, vuelve al inicio de sesión.
+- `src/utils/AuthContext.tsx`: sesión del dueño o del veterinario.
+- `src/App.tsx`: rutas; las privadas usan `ProtectedRoute` (dueños) y `ProtectedVeterinarioRoute`.
+- `src/services/*.ts`: un archivo por recurso de la API.
+- `vercel.json`: redirige todas las rutas a `index.html` para que funcionen al recargar.

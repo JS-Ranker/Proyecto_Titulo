@@ -87,15 +87,15 @@ export const citasVeterinarioService = {
     return response;
   },
 
-  // Actualizar cita con notas
+  // Cambiar el estado de la cita (el backend expone PATCH /citas/:id/estado)
   actualizarCita: async (cita_id: number, datos: ActualizarCitaData) => {
-    const response = await axios.patch(`${API_BASE_URL}/${cita_id}/actualizar`, datos);
+    const response = await axios.patch(`${API_BASE_URL}/${cita_id}/estado`, { estado: datos.estado });
     return response;
   },
 
-  // Completar cita
+  // Completar cita: el backend guarda las notas en notas_posteriores
   completarCita: async (cita_id: number, notas_atencion?: string) => {
-    const response = await axios.patch(`${API_BASE_URL}/${cita_id}/completar`, { notas_atencion });
+    const response = await axios.patch(`${API_BASE_URL}/${cita_id}/completar`, { notas_posteriores: notas_atencion });
     return response;
   },
 
